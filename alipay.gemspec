@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Alipay::VERSION
   spec.authors       = ["Rei"]
   spec.email         = ["chloerei@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{An unofficial simple alipay gem}
+  spec.summary       = %q{An unofficial simple alipay gem}
   spec.homepage      = ""
   spec.license       = "MIT"
 

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Alipay::ServiceTest < Test::Unit::TestCase
-  def test_generatecreate_partner_trade_by_buyer_url
+  def test_generate_create_partner_trade_by_buyer_url
     options = {
       :out_trade_no      => '1',
       :subject           => 'test',
