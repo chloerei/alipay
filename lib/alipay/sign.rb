@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 module Alipay
   module Sign
     def self.generate(params)

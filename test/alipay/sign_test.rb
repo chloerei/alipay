@@ -16,4 +16,8 @@ class Alipay::SignTest < Test::Unit::TestCase
   def test_verify_sign
     assert Alipay::Sign.verify?(@params.merge(:sign => @sign))
   end
+
+  def test_verify_sign_when_fails
+    assert !Alipay::Sign.verify?(@params.merge(:danger => 'danger', :sign => @sign))
+  end
 end
