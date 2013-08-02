@@ -5,16 +5,21 @@ class Alipay::NotifyTest < Test::Unit::TestCase
     @options = {
       :notify_id => '1234'
     }
-    @options.merge!(:sign_type => 'MD5', :sign => Alipay::Sign.generate(@options))
+    @sign_options = @options.merge(:sign_type => 'MD5', :sign => Alipay::Sign.generate(@options))
+  end
+
+  def test_unsign_notify
+    FakeWeb.register_uri(:get, "http://notify.alipay.com/trade/notify_query.do?partner=#{Alipay.pid}&notify_id=1234", :body => "true")
+    assert !Alipay::Notify.verify?(@options)
   end
 
   def test_verify_notify_when_true
     FakeWeb.register_uri(:get, "http://notify.alipay.com/trade/notify_query.do?partner=#{Alipay.pid}&notify_id=1234", :body => "true")
-    assert Alipay::Notify.verify?(@options)
+    assert Alipay::Notify.verify?(@sign_options)
   end
 
   def test_verify_notify_when_false
     FakeWeb.register_uri(:get, "http://notify.alipay.com/trade/notify_query.do?partner=#{Alipay.pid}&notify_id=1234", :body => "false")
-    assert !Alipay::Notify.verify?(@options)
+    assert !Alipay::Notify.verify?(@sign_options)
   end
 end

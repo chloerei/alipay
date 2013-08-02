@@ -6,8 +6,7 @@ It contain this API:
 
 * Generate payment url
 * Send goods
-* Verify sign when receive alipay notify
-* Verify notify id when receive alipay notify
+* Verify when receive alipay notify
 
 Please read alipay official document first: https://b.alipay.com/order/techService.htm
 
@@ -76,23 +75,7 @@ Alipay::Service.send_goods_confirm_by_platform(options)
 # => '<!xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
 ```
 
-### Verify sign when receive alipay notify
-
-```ruby
-# example in rails app
-# The notify url MUST be set when generate payment url
-def alipay_notify
-  notify_params = params.except(*request.path_parameters.keys) # except :controller_name, :action_name, :host
-  if Alipay::Sign.verify?(notify_params)
-    # valid notify, code your business logic.
-    render :text => 'success'
-  else
-    render :text => 'error'
-  end
-end
-```
-
-### Verify notify id when receive alipay notify
+### Verify when receive alipay notify
 
 ```ruby
 # exxample in rails
@@ -106,17 +89,6 @@ def alipay_notify
     render :text => 'error'
   end
 end
-```
-
-You can combine sign verify:
-
-```ruby
-  if Alipay::Sign.verify?(notify_params) && Alipay::Notify.verify?(notify_params)
-    # valid notify, code your business logic.
-    render :text => 'success'
-  else
-    render :text => 'error'
-  end
 ```
 
 ## Contributing
