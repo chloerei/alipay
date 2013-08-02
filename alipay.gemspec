@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["chloerei@gmail.com"]
   spec.description   = %q{An unofficial simple alipay gem}
   spec.summary       = %q{An unofficial simple alipay gem}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/chloerei/alipay"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
