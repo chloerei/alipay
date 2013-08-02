@@ -14,7 +14,7 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     assert_not_nil Alipay::Service.create_partner_trade_by_buyer_url(options)
   end
 
-  def test_should_generate_trade_create_by_buyer_url
+  def test_generate_trade_create_by_buyer_url
     options = {
       :out_trade_no      => '1',
       :subject           => 'test',
@@ -26,6 +26,17 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     }
     assert_not_nil Alipay::Service.trade_create_by_buyer_url(options)
   end
+
+  def test_generate_create_direct_pay_by_user_url
+    options = {
+      :out_trade_no      => '1',
+      :subject           => 'test',
+      :price             => '0.01',
+      :quantity          => 1
+    }
+    assert_not_nil Alipay::Service.create_direct_pay_by_user_url(options)
+  end
+
 
   def test_should_send_goods_confirm_by_platform
     body = <<-EOF

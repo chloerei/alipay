@@ -57,12 +57,11 @@ Alipay::Service.create_partner_trade_by_buyer_url(options)
 
 You can redirect user to this payment url, and user will see a payment page for his/her order.
 
-Current support two payment type:
+Current support three payment type:
 
     Alipay::Service#create_partner_trade_by_buyer_url # 担保交易
-    Alipay::Service#trade_create_by_buyer_url # 标准双接口
-
-Please help to add `create_direct_pay_by_user` (即时到帐) api. I have no direct pay api permission, can not test it.
+    Alipay::Service#trade_create_by_buyer_url         # 标准双接口
+    Alipay::Service#create_direct_pay_by_user_url     # 即时到帐
 
 ### Send goods
 

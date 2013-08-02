@@ -37,6 +37,26 @@ module Alipay
       "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
+    CREATE_DIRECT_PAY_BY_USER_REQUIRED_OPTIONS = %w( service partner _input_charset out_trade_no subject payment_type seller_email )
+    # direct
+    def self.create_direct_pay_by_user_url(options)
+      options = {
+        :service        => 'create_direct_pay_by_user',
+        :_input_charset => 'utf-8',
+        :partner        => Alipay.pid,
+        :seller_email   => Alipay.seller_email,
+        :payment_type   => '1'
+      }.merge(Utils.symbolize_keys(options))
+
+      check_required_options(options, CREATE_DIRECT_PAY_BY_USER_REQUIRED_OPTIONS)
+
+      if options[:total_fee].nil? and (options[:price].nil? || options[:quantity].nil?)
+        warn("Ailpay Warn: total_fee or (price && quantiry) must have one")
+      end
+
+      "#{GATEWAY_URL}?#{query_string(options)}"
+    end
+
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS = %w( service partner _input_charset trade_no logistics_name )
     def self.send_goods_confirm_by_platform(options)
       options = {
@@ -47,7 +67,7 @@ module Alipay
 
       check_required_options(options, SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS)
 
-      if options[:transport_type].nil? && options[:create_transport_type].nil?
+      if options[:transport_type].nil? and options[:create_transport_type].nil?
         warn("Ailpay Warn: transport_type or create_transport_type must have one")
       end
 
