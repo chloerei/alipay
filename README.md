@@ -6,9 +6,9 @@ It contain this API:
 
 * Generate payment url
 * Send goods
-* Verify when receive alipay notify
+* Verify notify
 
-Please read alipay official document first: https://b.alipay.com/order/techService.htm
+Please read alipay official document first: https://b.alipay.com/order/techService.htm .
 
 ## Installation
 
@@ -18,7 +18,7 @@ Add this line to your application's Gemfile:
 gem 'alipay', '~> 0.0.1'
 ```
 
-Or
+or
 
 ```ruby
 gem 'alipay', :github => 'chloerei/alipay'
@@ -32,7 +32,7 @@ $ bundle
 
 ## Usage
 
-### Init
+### Config
 
 ```ruby
 Alipay.pid = 'YOUR_PID'
@@ -72,7 +72,7 @@ Current support three payment type:
 
 ```ruby
 options = {
-  :trade_no       => 'trade_no_id',
+  :trade_no       => 'TRADE_NO',
   :logistics_name => 'writings.io',
   :transport_type => 'DIRECT'
 }
@@ -81,13 +81,14 @@ Alipay::Service.send_goods_confirm_by_platform(options)
 # => '<!xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
 ```
 
-### Verify when receive alipay notify
+### Verify notify
 
 ```ruby
-# exxample in rails
+# example in rails
 # The notify url MUST be set when generate payment url
 def alipay_notify
-  notify_params = params.except(*request.path_parameters.keys) # except :controller_name, :action_name, :host
+  # except :controller_name, :action_name, :host, etc.
+  notify_params = params.except(*request.path_parameters.keys)
   if Alipay::Notify.verify?(notify_params)
     # valid notify, code your business logic.
     render :text => 'success'
@@ -99,7 +100,7 @@ end
 
 ## Contributing
 
-Bug report or pull request is welcome.
+Bug report or pull request are welcome.
 
 ### Make a pull request
 
