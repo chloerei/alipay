@@ -11,9 +11,9 @@ module Alipay
     end
 
     def self.verify?(params)
-      params = Utils.symbolize_keys(params)
-      params.delete(:sign_type)
-      sign = params.delete(:sign)
+      params = Utils.stringify_keys(params)
+      params.delete('sign_type')
+      sign = params.delete('sign')
 
       generate(params) == sign
     end
