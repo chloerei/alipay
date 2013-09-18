@@ -75,7 +75,7 @@ module Alipay
         'detail_data'    => detail_data                             # 转换后的单笔数据集字符串
       }.merge(options)
 
-      "#{GATEWAY_URL}#{query_string(options)}"
+      "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS = %w( service partner _input_charset trade_no logistics_name )
