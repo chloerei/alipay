@@ -63,7 +63,10 @@ module Alipay
       check_required_options(options, CREATE_REFUND_URL_REQUIRED_OPTIONS)
 
       data = options.delete('data')
-      detail_data = data.map{|item| "#{item['trade_no']}^#{item['amount']}^#{item['reason']}"}.join('#')
+      detail_data = data.map do|item|
+        item = Utils.stringify_keys(item)
+        "#{item['trade_no']}^#{item['amount']}^#{item['reason']}"
+      end.join('#')
 
       options = {
         'service'        => 'refund_fastpay_by_platform_pwd',  # 接口名称
