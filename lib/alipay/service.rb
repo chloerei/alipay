@@ -57,6 +57,31 @@ module Alipay
       "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
+    CREATE_REFUND_URL_REQUIRED_OPTIONS = %w( batch_no data notify_url )
+    # 支付宝即时到帐批量退款有密接口(此为异步接口，有密指通过此接口打开 url 后需要用户输入支付宝的支付密码进行退款)
+    def self.create_refund_url(options)
+      options = Utils.stringify_keys(options)
+      check_required_options(options, CREATE_REFUND_URL_REQUIRED_OPTIONS)
+
+      data = options.delete('data')
+      detail_data = data.map do|item|
+        item = Utils.stringify_keys(item)
+        "#{item['trade_no']}^#{item['amount']}^#{item['reason']}"
+      end.join('#')
+
+      options = {
+        'service'        => 'refund_fastpay_by_platform_pwd',  # 接口名称
+        '_input_charset' => 'utf-8',
+        'partner'        => Alipay.pid,
+        'seller_email'   => Alipay.seller_email,
+        'refund_date'    => Time.now.strftime('%Y-%m-%d %H:%M:%S'), # 申请退款时间
+        'batch_num'      => data.size,                              # 总笔数
+        'detail_data'    => detail_data                             # 转换后的单笔数据集字符串
+      }.merge(options)
+
+      "#{GATEWAY_URL}?#{query_string(options)}"
+    end
+
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS = %w( service partner _input_charset trade_no logistics_name )
     def self.send_goods_confirm_by_platform(options)
       options = {

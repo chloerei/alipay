@@ -37,6 +37,20 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     assert_not_nil Alipay::Service.create_direct_pay_by_user_url(options)
   end
 
+  def test_generate_create_refund_url
+    data = [{
+      :trade_no => '1',
+      :amount   => '0.01',
+      :reason   => 'test'
+    }]
+    options = {
+      :batch_no   =>  '123456789',
+      :data       =>  data,
+      :notify_url =>  '/some_url'
+    }
+    assert_not_nil Alipay::Service.create_refund_url(options)
+  end
+
 
   def test_should_send_goods_confirm_by_platform
     body = <<-EOF
