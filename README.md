@@ -81,6 +81,23 @@ Alipay::Service.send_goods_confirm_by_platform(options)
 # => '<!xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
 ```
 
+### Refund
+
+```ruby
+batch_no = Alipay::Utils.generate_batch_no # refund batch no, you SHOULD store it to db to avoid alipay duplicate refund
+options = {
+    batch_no:   batch_no,
+    data:       [{:trade_no => 'TRADE_NO', :amount => '10.0', :reason => 'REFUND_REASON'}],
+    notify_url: 'YOUR_ORDER_NOTIFY_URL'  # https://writings.io/orders/20130801000001/alipay_refund_notify
+}
+
+Alipay::Service.create_refund_url(options)
+
+```
+
+Batch No. Generate Demo: http://git.io/GcXKJw
+Notify Url Demo: http://git.io/pst4Tw
+
 ### Verify notify
 
 ```ruby
