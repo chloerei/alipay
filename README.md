@@ -51,7 +51,7 @@ options = {
   :logistics_payment => 'SELLER_PAY',
   :price             => '10.00',
   :quantity          => 12,
-  :discount          => '20.00'
+  :discount          => '20.00',
   :return_url        => 'YOUR_ORDER_RETURN_URL', # https://writings.io/orders/20130801000001
   :notify_url        => 'YOUR_ORDER_NOTIFY_URL'  # https://writings.io/orders/20130801000001/alipay_notify
 }
