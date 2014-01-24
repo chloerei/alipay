@@ -36,10 +36,13 @@ module Alipay
         open("#{GATEWAY_URL}?#{query_string(options)}").read
       end
 
-      AUTH_AND_EXECUTE_REQUIRED_OPTIONS = %w( service format v partner sec_id request_token )
+      AUTH_AND_EXECUTE_REQUIRED_OPTIONS = %w( service format v partner sec_id )
 
       def self.auth_and_execute(options)
         options = Utils.stringify_keys(options)
+
+        warn("Ailpay Warn: missing required option: request_token") unless options.has_key?('request_token')
+
         req_data_xml = "<auth_and_execute_req><request_token>#{options.delete('request_token')}</request_token></auth_and_execute_req>"
 
         options = {
