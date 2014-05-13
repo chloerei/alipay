@@ -16,7 +16,7 @@ module Alipay
         'payment_type'   => '1'
       }.merge(Utils.stringify_keys(options))
 
-      check_required_options(options, TRADE_CREATE_BY_BUYER_REQUIRED_OPTIONS)
+      check_required_options(options, CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_OPTIONS)
 
       "#{GATEWAY_URL}?#{query_string(options)}"
     end
