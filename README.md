@@ -132,4 +132,4 @@ Please write unit test with your code if necessary.
 
 Donate to maintainer let him make this gem better.
 
-Alipay donate link: https://me.alipay.com/chloerei .
+Alipay donate link: http://chloerei.com/donate/ .
