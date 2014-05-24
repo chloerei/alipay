@@ -68,6 +68,31 @@ Current support three payment type:
     Alipay::Service#trade_create_by_buyer_url         # 标准双接口
     Alipay::Service#create_direct_pay_by_user_url     # 即时到帐
 
+### Generate payment url for wap
+
+```ruby
+options = {
+  :req_data => {
+    :out_trade_no  => 'YOUR_ORDER_ID',         # 20130801000001
+    :subject       => 'YOUR_ORDER_SUBJECCT',   # Writings.io Base Account x 12
+    :total_fee     => 'TOTAL_FEE',
+    :notify_url    => 'YOUR_ORDER_NOTIFY_URL', # https://writings.io/orders/20130801000001/alipay_notify
+    :call_back_url => 'YOUR_ORDER_RETURN_URL'  # https://writings.io/orders/20130801000001
+  }
+}
+
+xml = Alipay::Service::Wap.trade_create_direct_token(options)
+token = CGI.unescape(xml).scan(/\<request_token\>(.*)\<\/request_token\>/).flatten.first
+Alipay::Service::Wap.auth_and_execute(request_token: token)
+# => 'http://wappaygw.alipay.com/service/rest.htm?req_data=...'
+```
+
+You can redirect user to this payment url, and user will see a payment page for his/her order.
+
+Current only support this payment type:
+
+    Alipay::Service::Wap.auth_and_execute # 即时到帐
+
 ### Send goods
 
 ```ruby
