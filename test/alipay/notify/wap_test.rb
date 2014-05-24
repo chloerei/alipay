@@ -7,7 +7,7 @@ class Alipay::Notify::WapTest < Test::Unit::TestCase
       :v => '1.0',
       :sec_id => 'MD5',
       :service => 'service',
-      :notify_data => 'test'
+      :notify_data => '<notify><notify_id>1234</notify_id></notify>'
     }
 
     query = [ :service, :v, :sec_id, :notify_data ].map {|key| "#{key}=#{@notify_params[key]}"}.join('&')

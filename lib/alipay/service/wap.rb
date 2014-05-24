@@ -1,4 +1,3 @@
-require 'gyoku'
 require 'open-uri'
 
 module Alipay
@@ -18,7 +17,8 @@ module Alipay
 
         Alipay::Service.check_required_options(req_data_options, REQ_DATA_REQUIRED_OPTIONS)
 
-        req_data_xml = Gyoku.xml({ :direct_trade_create_req => req_data_options }, { :key_converter => :none })
+        xml = req_data_options.map {|k, v| "<#{k}>#{v}</#{k}>" }.join
+        req_data_xml = "<direct_trade_create_req>#{xml}</direct_trade_create_req>"
 
         # About req_id: http://club.alipay.com/read-htm-tid-10078020-fpage-2.html
         options = {
