@@ -1,7 +1,8 @@
-require "alipay/version"
+require 'alipay/version'
 require 'alipay/utils'
 require 'alipay/sign'
 require 'alipay/service'
+require 'alipay/service/wap'
 require 'alipay/notify'
 
 module Alipay
