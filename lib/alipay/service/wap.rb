@@ -32,7 +32,8 @@ module Alipay
 
         Alipay::Service.check_required_options(options, WAP_TRADE_REQUIRED_OPTIONS)
 
-        open("#{GATEWAY_URL}?#{query_string(options)}").read
+        xml = open("#{GATEWAY_URL}?#{query_string(options)}").read
+        CGI.unescape(xml).scan(/\<request_token\>(.*)\<\/request_token\>/).flatten.first
       end
 
       AUTH_AND_EXECUTE_REQUIRED_OPTIONS = %w( service format v partner )

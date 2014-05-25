@@ -2,11 +2,12 @@ require 'test_helper'
 
 class Alipay::Service::WapTest < Test::Unit::TestCase
   def test_trade_create_direct_token
+    token = 'REQUEST_TOKEN'
     body = <<-EOS
       res_data=
         <?xmlversion="1.0" encoding="utf-8"?>
         <direct_trade_create_res>
-          <request_token>REQUEST_TOKEN</request_token>
+          <request_token>#{token}</request_token>
         </direct_trade_create_res>
       &partner=PID
       &req_id=REQ_ID
@@ -22,7 +23,7 @@ class Alipay::Service::WapTest < Test::Unit::TestCase
       :body => body
     )
 
-    assert_equal body, Alipay::Service::Wap.trade_create_direct_token(
+    assert_equal token, Alipay::Service::Wap.trade_create_direct_token(
       :req_data => {
         :out_trade_no  => '1',
         :subject       => 'subject',
