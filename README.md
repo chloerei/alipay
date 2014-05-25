@@ -81,8 +81,7 @@ options = {
   }
 }
 
-xml = Alipay::Service::Wap.trade_create_direct_token(options)
-token = CGI.unescape(xml).scan(/\<request_token\>(.*)\<\/request_token\>/).flatten.first
+token = Alipay::Service::Wap.trade_create_direct_token(options)
 Alipay::Service::Wap.auth_and_execute(request_token: token)
 # => 'http://wappaygw.alipay.com/service/rest.htm?req_data=...'
 ```
