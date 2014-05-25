@@ -124,13 +124,29 @@ Notify Url Demo: http://git.io/pst4Tw
 ### Verify notify
 
 ```ruby
-# example in rails
-# The notify url MUST be set when generate payment url
-def alipay_notify
+# Example in rails,
+# both notify url MUST be set when generate payment url
+
+def alipay_web_notify
   # except :controller_name, :action_name, :host, etc.
   notify_params = params.except(*request.path_parameters.keys)
+
   if Alipay::Notify.verify?(notify_params)
     # valid notify, code your business logic.
+    render :text => 'success'
+  else
+    render :text => 'error'
+  end
+end
+
+def alipay_wap_notify
+  # except :controller_name, :action_name, :host, etc.
+  notify_params = params.except(*request.path_parameters.keys)
+
+  if Alipay::Notify::Wap.verify?(notify_params)
+    # valid notify, code your business logic.
+    # you may want to get you order id:
+    #   order_id = Hash.from_xml(params[:notify_data])['notify']['out_trade_no']
     render :text => 'success'
   else
     render :text => 'error'

@@ -3,7 +3,9 @@ module Alipay
     module Wap
       def self.verify?(params)
         params = Utils.stringify_keys(params)
-        Sign::Wap.verify?(params) && Notify.verify_notify_id?(params['notify_id'])
+        notify_id = params['notify_data'].scan(/\<notify_id\>(.*)\<\/notify_id\>/).flatten.first
+
+        Sign::Wap.verify?(params) && Notify.verify_notify_id?(notify_id)
       end
     end
 
@@ -15,7 +17,7 @@ module Alipay
     private
 
     def self.verify_notify_id?(notify_id)
-      open("https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{CGI.escape notify_id.to_s}").read == 'true'
+      open("https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{CGI.escape(notify_id.to_s)}").read == 'true'
     end
   end
 end
