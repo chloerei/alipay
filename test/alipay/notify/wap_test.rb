@@ -2,12 +2,13 @@ require 'test_helper'
 
 class Alipay::Notify::WapTest < Test::Unit::TestCase
   def setup
+    @notify_id = 'notify_id_test'
+
     @notify_params = {
-      :notify_id => 1234,
+      :service => 'alipay.wap.trade.create.direct',
       :v => '1.0',
       :sec_id => 'MD5',
-      :service => 'service',
-      :notify_data => '<notify><notify_id>1234</notify_id></notify>'
+      :notify_data => "<notify><notify_id>#{@notify_id}</notify_id><other_key>other_value</other_key></notify>"
     }
 
     query = [ :service, :v, :sec_id, :notify_data ].map {|key| "#{key}=#{@notify_params[key]}"}.join('&')
@@ -15,17 +16,17 @@ class Alipay::Notify::WapTest < Test::Unit::TestCase
   end
 
   def test_unsign_notify
-    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=1234", :body => "true")
+    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", :body => "true")
     assert !Alipay::Notify::Wap.verify?(@notify_params)
   end
 
   def test_verify_notify_when_true
-    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=1234", :body => "true")
+    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", :body => "true")
     assert Alipay::Notify::Wap.verify?(@sign_params)
   end
 
   def test_verify_notify_when_false
-    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=1234", :body => "false")
+    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", :body => "false")
     assert !Alipay::Notify::Wap.verify?(@sign_params)
   end
 end
