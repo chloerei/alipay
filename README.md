@@ -4,9 +4,9 @@ A simple alipay ruby gem, without unnecessary magic or wraper, it's directly fac
 
 It contain this API:
 
-* Generate payment url
+* Generate payment url (web, wap)
 * Send goods
-* Verify notify
+* Verify notify (web, wap, app)
 
 Please read alipay official document first: https://b.alipay.com/order/techService.htm .
 
@@ -40,7 +40,7 @@ Alipay.key = 'YOUR_KEY'
 Alipay.seller_email = 'YOUR_SELLER_EMAIL'
 ```
 
-### Generate payment url
+### Generate payment url for web
 
 ```ruby
 options = {
@@ -125,7 +125,7 @@ Notify Url Demo: http://git.io/pst4Tw
 
 ```ruby
 # Example in rails,
-# both notify url MUST be set when generate payment url
+# notify url MUST be set when generate payment url
 
 def alipay_web_notify
   # except :controller_name, :action_name, :host, etc.
@@ -147,6 +147,18 @@ def alipay_wap_notify
     # valid notify, code your business logic.
     # you may want to get you order id:
     #   order_id = Hash.from_xml(params[:notify_data])['notify']['out_trade_no']
+    render :text => 'success'
+  else
+    render :text => 'error'
+  end
+end
+
+def alipay_app_notify
+  # except :controller_name, :action_name, :host, etc.
+  notify_params = params.except(*request.path_parameters.keys)
+
+  if Alipay::Notify::App.verify?(notify_params)
+    # valid notify, code your business logic.
     render :text => 'success'
   else
     render :text => 'error'
