@@ -18,7 +18,7 @@ module Alipay
 
     def self.verify?(params)
       params = Utils.stringify_keys(params)
-      Sign.verify?(params) && verify_notify_id?(params['notify_id'])
+      Sign.verify?(params)
     end
 
     private
