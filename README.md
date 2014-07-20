@@ -132,7 +132,16 @@ def alipay_web_notify
   notify_params = params.except(*request.path_parameters.keys)
 
   if Alipay::Notify.verify?(notify_params)
-    # valid notify, code your business logic.
+    # Valid notify, code your business logic.
+    # trade_status is base on your payment type
+    # Example:
+    #
+    # case params[:trade_status]
+    # when 'WAIT_BUYER_PAY'
+    # when 'WAIT_SELLER_SEND_GOODS'
+    # when 'TRADE_FINISHED'
+    # when 'TRADE_CLOSED'
+    # end
     render :text => 'success'
   else
     render :text => 'error'
