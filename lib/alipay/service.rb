@@ -9,11 +9,11 @@ module Alipay
     # alipayescow
     def self.create_partner_trade_by_buyer_url(options)
       options = {
-        'service'        => 'create_partner_trade_by_buyer',
-        '_input_charset' => 'utf-8',
-        'partner'        => Alipay.pid,
-        'seller_email'   => Alipay.seller_email,
-        'payment_type'   => '1'
+          'service' => 'create_partner_trade_by_buyer',
+          '_input_charset' => 'utf-8',
+          'partner' => Alipay.pid,
+          'seller_email' => Alipay.seller_email,
+          'payment_type' => '1'
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_OPTIONS)
@@ -25,11 +25,11 @@ module Alipay
     # alipaydualfun
     def self.trade_create_by_buyer_url(options = {})
       options = {
-        'service'        => 'trade_create_by_buyer',
-        '_input_charset' => 'utf-8',
-        'partner'        => Alipay.pid,
-        'seller_email'   => Alipay.seller_email,
-        'payment_type'   => '1'
+          'service' => 'trade_create_by_buyer',
+          '_input_charset' => 'utf-8',
+          'partner' => Alipay.pid,
+          'seller_email' => Alipay.seller_email,
+          'payment_type' => '1'
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, TRADE_CREATE_BY_BUYER_REQUIRED_OPTIONS)
@@ -41,11 +41,11 @@ module Alipay
     # direct
     def self.create_direct_pay_by_user_url(options)
       options = {
-        'service'        => 'create_direct_pay_by_user',
-        '_input_charset' => 'utf-8',
-        'partner'        => Alipay.pid,
-        'seller_email'   => Alipay.seller_email,
-        'payment_type'   => '1'
+          'service' => 'create_direct_pay_by_user',
+          '_input_charset' => 'utf-8',
+          'partner' => Alipay.pid,
+          'seller_email' => Alipay.seller_email,
+          'payment_type' => '1'
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, CREATE_DIRECT_PAY_BY_USER_REQUIRED_OPTIONS)
@@ -64,30 +64,31 @@ module Alipay
       check_required_options(options, CREATE_REFUND_URL_REQUIRED_OPTIONS)
 
       data = options.delete('data')
-      detail_data = data.map do|item|
+      detail_data = data.map do |item|
         item = Utils.stringify_keys(item)
         "#{item['trade_no']}^#{item['amount']}^#{item['reason']}"
       end.join('#')
 
       options = {
-        'service'        => 'refund_fastpay_by_platform_pwd',  # 接口名称
-        '_input_charset' => 'utf-8',
-        'partner'        => Alipay.pid,
-        'seller_email'   => Alipay.seller_email,
-        'refund_date'    => Time.now.strftime('%Y-%m-%d %H:%M:%S'), # 申请退款时间
-        'batch_num'      => data.size,                              # 总笔数
-        'detail_data'    => detail_data                             # 转换后的单笔数据集字符串
+          'service' => 'refund_fastpay_by_platform_pwd', # 接口名称
+          '_input_charset' => 'utf-8',
+          'partner' => Alipay.pid,
+          'seller_email' => Alipay.seller_email,
+          'refund_date' => Time.now.strftime('%Y-%m-%d %H:%M:%S'), # 申请退款时间
+          'batch_num' => data.size, # 总笔数
+          'detail_data' => detail_data # 转换后的单笔数据集字符串
       }.merge(options)
 
       "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS = %w( service partner _input_charset trade_no logistics_name )
+
     def self.send_goods_confirm_by_platform(options)
       options = {
-        'service'        => 'send_goods_confirm_by_platform',
-        'partner'        => Alipay.pid,
-        '_input_charset' => 'utf-8'
+          'service' => 'send_goods_confirm_by_platform',
+          'partner' => Alipay.pid,
+          '_input_charset' => 'utf-8'
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS)
@@ -97,6 +98,22 @@ module Alipay
       end
 
       open("#{GATEWAY_URL}?#{query_string(options)}").read
+    end
+
+
+    CREATE_FOREX_TRADE_REQUIRED_OPTIONS = %w(service partner _input_charset notify_url subject out_trade_no currency total_fee)
+
+    def self.create_forex_trade(options)
+      options = {
+          'service' => 'create_forex_trade',
+          '_input_charset' => 'utf-8',
+          'partner' => Alipay.pid,
+          'seller_email' => Alipay.seller_email
+      }.merge(Utils.stringify_keys(options))
+
+      check_required_options(options, CREATE_FOREX_TRADE_REQUIRED_OPTIONS)
+
+      "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
     def self.query_string(options)

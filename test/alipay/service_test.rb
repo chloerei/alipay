@@ -51,6 +51,18 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     assert_not_nil Alipay::Service.create_refund_url(options)
   end
 
+  def test_generate_create_forex_trade
+    options = {
+        :notify_url        => 'https://writings.io/orders/20130801000001/alipay_notify',
+        :return_url        => 'https://writings.io/orders/20130801000001',  
+        :subject           => 'test',
+        :out_trade_no      => '1',
+        :currency          => 'EUR',
+        :total_fee         => '0.0.1',
+    }
+    assert_not_nil Alipay::Service.create_forex_trade(options)
+  end
+
 
   def test_should_send_goods_confirm_by_platform
     body = <<-EOF
