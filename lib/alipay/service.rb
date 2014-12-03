@@ -99,6 +99,21 @@ module Alipay
       open("#{GATEWAY_URL}?#{query_string(options)}").read
     end
 
+
+    CREATE_FOREX_TRADE_REQUIRED_OPTIONS = %w(service partner _input_charset notify_url subject out_trade_no currency total_fee)
+    def self.create_forex_trade(options)
+      options = {
+        'service'         => 'create_forex_trade',
+        '_input_charset'  => 'utf-8',
+        'partner'         => Alipay.pid,
+        'seller_email'    => Alipay.seller_email
+      }.merge(Utils.stringify_keys(options))
+
+      check_required_options(options, CREATE_FOREX_TRADE_REQUIRED_OPTIONS)
+
+      "#{GATEWAY_URL}?#{query_string(options)}"
+    end
+
     def self.query_string(options)
       options.merge('sign_type' => 'MD5', 'sign' => Alipay::Sign.generate(options)).map do |key, value|
         "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"
