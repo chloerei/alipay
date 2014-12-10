@@ -6,6 +6,7 @@ It contain this API:
 
 * Generate payment url (web, wap)
 * Send goods
+* Close trade
 * Verify notify (web, wap, app)
 
 Please read alipay official document first: https://b.alipay.com/order/techService.htm .
@@ -103,6 +104,28 @@ options = {
 
 Alipay::Service.send_goods_confirm_by_platform(options)
 # => '<!xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
+```
+
+### Close trade
+
+```ruby
+Alipay::Service.close_trade(
+  :trade_no     => 'TRADE_NO',
+  :out_order_no => 'the-out-order-no'
+)
+# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
+```
+
+You must specify either `trade_no` or `out_order_no`.
+
+If Alipay fail to close trade, this method will return XML similar to:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<alipay>
+  <is_success>F</is_success>
+  <error>TRADE_STATUS_NOT_AVAILD</error>
+</alipay>
 ```
 
 ### Refund
