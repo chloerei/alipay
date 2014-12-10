@@ -63,6 +63,23 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     assert_not_nil Alipay::Service.create_forex_trade(options)
   end
 
+  def test_close_trade
+    response_body = <<-EOF
+      <?xml version="1.0" encoding="utf-8"?>
+      <alipay>
+        <is_success>T</is_success>
+      </alipay>
+    EOF
+    FakeWeb.register_uri(
+      :get,
+      %r|https://mapi\.alipay\.com/gateway\.do.*|,
+      :body => response_body
+    )
+
+    assert_equal response_body, Alipay::Service.close_trade(
+      :out_order_no => 'the-out-order-no'
+    )
+  end
 
   def test_should_send_goods_confirm_by_platform
     body = <<-EOF
