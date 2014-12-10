@@ -99,7 +99,6 @@ module Alipay
       open("#{GATEWAY_URL}?#{query_string(options)}").read
     end
 
-
     CREATE_FOREX_TRADE_REQUIRED_OPTIONS = %w(service partner _input_charset notify_url subject out_trade_no currency total_fee)
     def self.create_forex_trade(options)
       options = {
@@ -112,6 +111,23 @@ module Alipay
       check_required_options(options, CREATE_FOREX_TRADE_REQUIRED_OPTIONS)
 
       "#{GATEWAY_URL}?#{query_string(options)}"
+    end
+
+    CLOSE_TRADE_REQUIRED_OPTIONS = %w( service partner _input_charset)
+    def self.close_trade(options)
+      options = {
+        'service'        => 'close_trade',
+        '_input_charset' => 'utf-8',
+        'partner'        => Alipay.pid
+      }.merge(Utils.stringify_keys(options))
+
+      check_required_options(options, CLOSE_TRADE_REQUIRED_OPTIONS)
+
+      if options['trade_no'].nil? and options['out_order_no'].nil?
+        warn("Ailpay Warn: must specify either trade_no or out_order_no")
+      end
+
+      open("#{GATEWAY_URL}?#{query_string(options)}").read
     end
 
     def self.query_string(options)
