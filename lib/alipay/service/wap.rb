@@ -17,7 +17,7 @@ module Alipay
 
         Alipay::Service.check_required_options(req_data_options, REQ_DATA_REQUIRED_OPTIONS)
 
-        xml = req_data_options.map {|k, v| "<#{k}>#{v}</#{k}>" }.join
+        xml = req_data_options.map {|k, v| "<#{k}>#{v.encode(:xml => :text)}</#{k}>" }.join
         req_data_xml = "<direct_trade_create_req>#{xml}</direct_trade_create_req>"
 
         # About req_id: http://club.alipay.com/read-htm-tid-10078020-fpage-2.html
