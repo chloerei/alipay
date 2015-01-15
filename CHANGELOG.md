@@ -1,3 +1,7 @@
+## v0.3.1 (2015-01-15)
+
+- Fix xml encoding #18
+
 ## v0.3.0 (2014-12-10)
 
 - Add `close_trade` service. by @linjunpop #16
