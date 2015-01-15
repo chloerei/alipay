@@ -13,7 +13,7 @@ module Alipay
     def self.generate_batch_no
       t = Time.now
       batch_no = t.strftime('%Y%m%d%H%M%S') + t.nsec.to_s
-      batch_no.ljust(24, Random.new.rand(1..9).to_s)
+      batch_no.ljust(24, rand(10).to_s)
     end
   end
 end

@@ -26,7 +26,7 @@ class Alipay::Service::WapTest < Test::Unit::TestCase
     assert_equal token, Alipay::Service::Wap.trade_create_direct_token(
       :req_data => {
         :out_trade_no  => '1',
-        :subject       => 'subject',
+        :subject       => '<a&b>',
         :total_fee     => '0.01',
         :call_back_url => 'http://www.yoursite.com/call_back'
       }

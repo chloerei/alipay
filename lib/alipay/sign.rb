@@ -5,10 +5,7 @@ require 'base64'
 module Alipay
   module Sign
     def self.generate(params)
-      query = params.sort.map do |key, value|
-        "#{key}=#{value}"
-      end.join('&')
-
+      query = params.sort.map { |item| item.join('=') }.join('&')
       Digest::MD5.hexdigest("#{query}#{Alipay.key}")
     end
 
