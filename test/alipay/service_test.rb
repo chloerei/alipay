@@ -81,6 +81,58 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     )
   end
 
+  def test_single_trade_query
+    response_body = <<-EOF
+      <?xml version="1.0" encoding="utf-8"?>
+      <alipay>
+        <is_success>T</is_success>
+        <request>
+          <param name="trade_no">20150123123123</param>
+          <param name="_input_charset">utf-8</param>
+          <param name="service">single_trade_query</param>
+          <param name="partner">11111111111111</param>
+        </request>
+        <response>
+          <trade>
+            <additional_trade_status>DAEMON_CONFIRM_CLOSE</additional_trade_status>
+            <buyer_email>foo@gmail.com</buyer_email>
+            <buyer_id>222222222222222</buyer_id>
+            <discount>0.00</discount>
+            <flag_trade_locked>0</flag_trade_locked>
+            <gmt_close>2015-01-20 02:37:00</gmt_close>
+            <gmt_create>2015-01-20 02:17:00</gmt_create>
+            <gmt_last_modified_time>2015-01-20 02:37:00</gmt_last_modified_time>
+            <is_total_fee_adjust>F</is_total_fee_adjust>
+            <operator_role>B</operator_role>
+            <out_trade_no>abcdefg0123456789</out_trade_no>
+            <payment_type>1</payment_type>
+            <price>640.00</price>
+            <quantity>1</quantity>
+            <seller_email>bar@gmail.com</seller_email>
+            <seller_id>3333333333333</seller_id>
+            <subject>[LC希澈家族&amp;amp;百度金希澈吧] SJ六巡澳门 团票【含内场和看台】</subject>
+            <to_buyer_fee>0.00</to_buyer_fee>
+            <to_seller_fee>0.00</to_seller_fee>
+            <total_fee>640.00</total_fee>
+            <trade_no>20150123123123</trade_no>
+            <trade_status>TRADE_CLOSED</trade_status>
+            <use_coupon>F</use_coupon>
+            </trade></response>
+            <sign>aaaaaaaaaaaaaaaaaaaa</sign>
+            <sign_type>MD5</sign_type>
+          </alipay>
+    EOF
+    FakeWeb.register_uri(
+      :get,
+      %r|https://mapi\.alipay\.com/gateway\.do.*|,
+      :body => response_body
+    )
+
+    assert_equal response_body, Alipay::Service.single_trade_query(
+      :out_order_no => 'the-out-order-no'
+    )
+  end
+
   def test_should_send_goods_confirm_by_platform
     body = <<-EOF
       <?xml version="1.0" encoding="utf-8"?>
