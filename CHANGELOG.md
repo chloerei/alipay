@@ -1,3 +1,7 @@
+## v0.4.0 (2015-01-23)
+
+- Add `single_trade_query` service. #19
+
 ## v0.3.1 (2015-01-15)
 
 - Fix xml encoding #18
