@@ -114,6 +114,7 @@ module Alipay
     end
 
     CLOSE_TRADE_REQUIRED_OPTIONS = %w( service partner _input_charset)
+    CLOSE_TRADE_REQUIRED_OPTIONAL_OPTIONS = %w( trade_no out_order_no )
     def self.close_trade(options)
       options = {
         'service'        => 'close_trade',
@@ -122,10 +123,22 @@ module Alipay
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, CLOSE_TRADE_REQUIRED_OPTIONS)
+      check_optional_options(options, CLOSE_TRADE_REQUIRED_OPTIONAL_OPTIONS)
 
-      if options['trade_no'].nil? and options['out_order_no'].nil?
-        warn("Ailpay Warn: must specify either trade_no or out_order_no")
-      end
+      open("#{GATEWAY_URL}?#{query_string(options)}").read
+    end
+
+    SINGLE_TRADE_QUERY_OPTIONS = %w( service partner _input_charset)
+    SINGLE_TRADE_QUERY_OPTIONAL_OPTIONS = %w( trade_no out_order_no )
+    def self.single_trade_query(options)
+      options =   {
+        "service"         => 'single_trade_query',
+        "partner"         => Alipay.pid,
+        "_input_charset"  =>"utf-8",
+      }.merge(Utils.stringify_keys(options))
+
+      check_required_options(options, SINGLE_TRADE_QUERY_OPTIONS)
+      check_optional_options(options, SINGLE_TRADE_QUERY_OPTIONAL_OPTIONS)
 
       open("#{GATEWAY_URL}?#{query_string(options)}").read
     end
@@ -140,6 +153,10 @@ module Alipay
       names.each do |name|
         warn("Ailpay Warn: missing required option: #{name}") unless options.has_key?(name)
       end
+    end
+
+    def self.check_optional_options(options, names)
+      warn("Ailpay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| options[name].nil? }
     end
   end
 end
