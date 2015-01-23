@@ -133,8 +133,8 @@ module Alipay
     def self.single_trade_query(options)
       options =   {
         "service"         => 'single_trade_query',
+        "_input_charset"  => "utf-8",
         "partner"         => Alipay.pid,
-        "_input_charset"  =>"utf-8",
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, SINGLE_TRADE_QUERY_OPTIONS)

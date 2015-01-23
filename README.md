@@ -45,8 +45,8 @@ Alipay.seller_email = 'YOUR_SELLER_EMAIL'
 
 ```ruby
 options = {
-  :out_trade_no      => 'YOUR_ORDER_ID',         # 20130801000001
-  :subject           => 'YOUR_ORDER_SUBJECCT',   # Writings.io Base Account x 12
+  :out_trade_no      => 'YOUR_ORDER_ID',
+  :subject           => 'YOUR_ORDER_SUBJECCT',
   :logistics_type    => 'DIRECT',
   :logistics_fee     => '0',
   :logistics_payment => 'SELLER_PAY',
@@ -137,7 +137,7 @@ Alipay::Service.single_trade_query(
   :trade_no     => 'TRADE_NO',
   :out_order_no => 'the-out-order-no'
 )
-# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success><request><param name="trade_no">111111111</param><param name="_input_charset">utf-8</param><param name="service">single_trade_query</param><param name="partner">2222222222</param></request><response><trade><additional_trade_status>DAEMON_CONFIRM_CLOSE</additional_trade_status><buyer_email>foo@gmail.com</buyer_email><buyer_id>3333333</buyer_id><discount>0.00</discount><flag_trade_locked>0</flag_trade_locked><gmt_close>2015-01-20 02:37:00</gmt_close><gmt_create>2015-01-20 02:17:00</gmt_create><gmt_last_modified_time>2015-01-20 02:37:00</gmt_last_modified_time><is_total_fee_adjust>F</is_total_fee_adjust><operator_role>B</operator_role><out_trade_no>3279c7a082350132046800163d002e71</out_trade_no><payment_type>1</payment_type><price>640.00</price><quantity>1</quantity><seller_email>bar@gmail.com</seller_email><seller_id>100000001010101</seller_id><subject>[LC希澈家族&amp;amp;百度金希澈吧] SJ六巡澳门 团票【含内场和看台】</subject><to_buyer_fee>0.00</to_buyer_fee><to_seller_fee>0.00</to_seller_fee><total_fee>640.00</total_fee><trade_no>2015012013183181</trade_no><trade_status>TRADE_CLOSED</trade_status><use_coupon>F</use_coupon></trade></response><sign>aaaaaaaaaaaaaaaaaaaaaaa</sign><sign_type>MD5</sign_type></alipay>'
+# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success><request><param name="trade_no">TRADE_NO</param><param name="_input_charset">utf-8</param><param name="service">single_trade_query</param><param name="partner">PARTNER</param></request><response><trade><additional_trade_status>DAEMON_CONFIRM_CLOSE</additional_trade_status><buyer_email>foo@gmail.com</buyer_email><buyer_id>BUYER_ID</buyer_id><discount>0.00</discount><flag_trade_locked>0</flag_trade_locked><gmt_close>2015-01-20 02:37:00</gmt_close><gmt_create>2015-01-20 02:17:00</gmt_create><gmt_last_modified_time>2015-01-20 02:37:00</gmt_last_modified_time><is_total_fee_adjust>F</is_total_fee_adjust><operator_role>B</operator_role><out_trade_no>OUT_TRADE_NO</out_trade_no><payment_type>1</payment_type><price>640.00</price><quantity>1</quantity><seller_email>bar@example.com</seller_email><seller_id>SELLER_ID</seller_id><subject>YOUR ORDER SUBJECT</subject><to_buyer_fee>0.00</to_buyer_fee><to_seller_fee>0.00</to_seller_fee><total_fee>640.00</total_fee><trade_no>TRADE_NO</trade_no><trade_status>TRADE_CLOSED</trade_status><use_coupon>F</use_coupon></trade></response><sign>SIGN</sign><sign_type>MD5</sign_type></alipay>'
 ```
 
 ### Refund
