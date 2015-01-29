@@ -34,10 +34,7 @@ module Alipay
     module App
       # Alipay public key
       PEM = "-----BEGIN PUBLIC KEY-----\n" \
-            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCdQRT3itozwDJRJq7QkwzoVmNapGq01IxnikUH\n" \
-            "/pN+OULNRBd7l+MKosSc6wCc3Qwr9sPeQcsPvXh4h6vhRnHVJq7TizBmI9PkYbAEJ7SSuzzx1MCn\n" \
-            "pxVnusFvgvdJ08LOd4pMrRqMqSzi1aoScRH\n" \
-            "/Y0tz2Dc3txCKyMgrV8aJnQIDAQAB\n" \
+            "#{Alipay.pem}"
             "-----END PUBLIC KEY-----"
 
       def self.verify?(params)
