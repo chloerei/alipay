@@ -129,7 +129,7 @@ module Alipay
     end
 
     SINGLE_TRADE_QUERY_OPTIONS = %w( service partner _input_charset)
-    SINGLE_TRADE_QUERY_OPTIONAL_OPTIONS = %w( trade_no out_order_no )
+    SINGLE_TRADE_QUERY_OPTIONAL_OPTIONS = %w( trade_no out_trade_no )
     def self.single_trade_query(options)
       options =   {
         "service"         => 'single_trade_query',
