@@ -16,7 +16,7 @@ Please read alipay official document first: https://b.alipay.com/order/techServi
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.4.0'
+gem 'alipay', '~> 0.4.1'
 ```
 
 or development version

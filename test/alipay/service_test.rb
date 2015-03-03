@@ -129,7 +129,7 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     )
 
     assert_equal response_body, Alipay::Service.single_trade_query(
-      :out_order_no => 'the-out-order-no'
+      :out_trade_no => 'the-out-trade-no'
     )
   end
 

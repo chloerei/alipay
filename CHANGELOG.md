@@ -1,3 +1,7 @@
+## v0.4.1 (2015-03-03)
+
+- Fix `single_trade_query` check options typo.
+
 ## v0.4.0 (2015-01-23)
 
 - Add `single_trade_query` service. #19
