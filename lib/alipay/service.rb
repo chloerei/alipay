@@ -93,7 +93,7 @@ module Alipay
         'service'        => 'forex_refund',
         'partner'        => Alipay.pid,
         '_input_charset' => 'utf-8',
-        'gmt_return'     => Time.now.strftime('%Y-%m-%d %H:%M:%S')
+        'gmt_return'     => Time.now.strftime('%Y%m%d%H%M%S')
       }.merge(Utils.stringify_keys(options))
 
       check_required_options(options, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_OPTIONS)
