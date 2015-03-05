@@ -39,6 +39,7 @@ $ bundle
 Alipay.pid = 'YOUR_PID'
 Alipay.key = 'YOUR_KEY'
 Alipay.seller_email = 'YOUR_SELLER_EMAIL'
+Alipay.pem = 'YOUR_ALIPAY_RSA'
 ```
 
 ### Generate payment url for web

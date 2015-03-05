@@ -10,5 +10,6 @@ module Alipay
     attr_accessor :pid
     attr_accessor :key
     attr_accessor :seller_email
+    attr_accessor :pem
   end
 end
