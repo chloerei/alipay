@@ -51,6 +51,17 @@ class Alipay::ServiceTest < Test::Unit::TestCase
     assert_not_nil Alipay::Service.create_refund_url(options)
   end
 
+  def test_generate_create_forex_single_refund_url
+    options = {
+      :out_return_no => '1',
+      :out_trade_no  => '12345678980',
+      :return_amount => 0.01,
+      :currency      => 'USD',
+      :reason        => '订单取消'
+    }
+    assert_not_nil Alipay::Service.create_forex_single_refund_url(options)
+  end
+
   def test_generate_create_forex_trade
     options = {
       :notify_url        => 'https://writings.io/orders/20130801000001/alipay_notify',
