@@ -82,6 +82,25 @@ module Alipay
       "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
+    CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_OPTIONS = %w( out_return_no out_trade_no return_amount currency reason )
+    # 支付宝境外收单单笔退款接口
+    # out_return_no 退款流水单号
+    # out_trade_no 交易创建时的订单号
+    # return_amount 退款金额
+    # currency 退款币种，与交易创建时的币种一致
+    def self.create_forex_single_refund_url(options)
+      options = {
+        'service'        => 'forex_refund',
+        'partner'        => Alipay.pid,
+        '_input_charset' => 'utf-8',
+        'gmt_return'     => Time.now.strftime('%Y-%m-%d %H:%M:%S')
+      }.merge(Utils.stringify_keys(options))
+
+      check_required_options(options, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_OPTIONS)
+
+      "#{GATEWAY_URL}?#{query_string(options)}"
+    end
+
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS = %w( service partner _input_charset trade_no logistics_name )
     def self.send_goods_confirm_by_platform(options)
       options = {
