@@ -150,12 +150,15 @@ module Alipay
     end
 
     def self.check_required_options(options, names)
+      return if !Alipay.debug_mode?
+
       names.each do |name|
         warn("Ailpay Warn: missing required option: #{name}") unless options.has_key?(name)
       end
     end
 
     def self.check_optional_options(options, names)
+      return if !Alipay.debug_mode?
       warn("Ailpay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| options[name].nil? }
     end
   end
