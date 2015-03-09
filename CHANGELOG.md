@@ -1,3 +1,10 @@
+## v0.5.0 (2015-03-09)
+
+- Add `forex_single_refund` service.
+- Add `debug_mode` config:
+
+  set `Alipay.debug_mode = false` to disable options check warning in production env.
+
 ## v0.4.1 (2015-03-03)
 
 - Fix `single_trade_query` check options typo.
