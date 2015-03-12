@@ -21,6 +21,19 @@ module Alipay
       "#{GATEWAY_URL}?#{query_string(options)}"
     end
 
+    MOBILE_SECURITY_PAY_OPTIONS = %w( service partner _input_charset  notify_url out_trade_no subject payment_type seller_id total_fee body)
+    def self.generate_mobile_security_pay_url(options={})
+      options = {
+        '_input_charset' => 'utf-8',
+        'partner'        => Alipay.pid,
+        'seller_id'      => Alipay.seller_email,
+        'payment_type'   => '1',
+        'service'        => 'mobile.securitypay.pay'
+      }.merge(Utils.stringify_keys(options))
+      check_required_options(options, MOBILE_SECURITY_PAY_OPTIONS)
+      rsa_query_string options
+    end
+
     TRADE_CREATE_BY_BUYER_REQUIRED_OPTIONS = %w( service partner _input_charset out_trade_no subject payment_type logistics_type logistics_fee logistics_payment seller_email price quantity )
     # alipaydualfun
     def self.trade_create_by_buyer_url(options = {})
@@ -165,6 +178,12 @@ module Alipay
     def self.query_string(options)
       options.merge('sign_type' => 'MD5', 'sign' => Alipay::Sign.generate(options)).map do |key, value|
         "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"
+      end.join('&')
+    end
+
+    def self.rsa_query_string options
+      string = options.merge('sign' => Alipay::Sign.rsa_sign(options), 'sign_type' => 'RSA').map do |key, value|
+        %Q{#{key.to_s}="#{value.to_s}"}
       end.join('&')
     end
 
