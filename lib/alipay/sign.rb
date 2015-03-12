@@ -9,6 +9,14 @@ module Alipay
       Digest::MD5.hexdigest("#{query}#{Alipay.key}")
     end
 
+    def self.rsa_sign params
+      rsa_string = params.keys.map{|key| %Q{#{key}="#{params[key]}"} }.join("&")
+      pri = OpenSSL::PKey::RSA.new(Alipay.key)
+      sign = pri.sign('sha1', rsa_string.force_encoding("utf-8"))
+      signature = CGI.escape Base64.encode64(sign).gsub("\n", "")
+      return signature
+    end
+
     def self.verify?(params)
       params = Utils.stringify_keys(params)
       params.delete('sign_type')
