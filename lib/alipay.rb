@@ -7,9 +7,10 @@ require 'alipay/notify'
 
 module Alipay
   @debug_mode = true
+  @sign_type = 'MD5'
 
   class << self
-    attr_accessor :pid, :key, :seller_email, :debug_mode
+    attr_accessor :pid, :key, :seller_email, :sign_type, :debug_mode
 
     def debug_mode?
       !!@debug_mode
