@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::SignTest < Test::Unit::TestCase
+class Alipay::SignTest < Minitest::Test
   def setup
     @params = {
       :service => 'test',

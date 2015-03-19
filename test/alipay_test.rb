@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AlipayTest < Test::Unit::TestCase
+class AlipayTest < Minitest::Test
   def test_debug_mode_default
     assert Alipay.debug_mode?
   end

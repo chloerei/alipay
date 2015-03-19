@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::NotifyTest < Test::Unit::TestCase
+class Alipay::NotifyTest < Minitest::Test
   def setup
     @options = {
       :notify_id => '1234'

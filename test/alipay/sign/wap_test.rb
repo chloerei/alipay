@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::Sign::WapTest < Test::Unit::TestCase
+class Alipay::Sign::WapTest < Minitest::Test
   def setup
     @params = {
       :v => '1.0',

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::Service::WapTest < Test::Unit::TestCase
+class Alipay::Service::WapTest < Minitest::Test
   def test_trade_create_direct_token
     token = 'REQUEST_TOKEN'
     body = <<-EOS

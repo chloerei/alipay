@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::Notify::WapTest < Test::Unit::TestCase
+class Alipay::Notify::WapTest < Minitest::Test
   def setup
     @notify_id = 'notify_id_test'
 
