@@ -6,14 +6,13 @@ require 'alipay/service/wap'
 require 'alipay/notify'
 
 module Alipay
+  @debug_mode = true
+
   class << self
-    attr_accessor :pid
-    attr_accessor :key
-    attr_accessor :seller_email
-    attr_writer :debug_mode
+    attr_accessor :pid, :key, :seller_email, :debug_mode
 
     def debug_mode?
-      @debug_mode.nil? ? true : !!@debug_mode
+      !!@debug_mode
     end
   end
 end
