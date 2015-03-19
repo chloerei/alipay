@@ -5,6 +5,17 @@ require 'base64'
 module Alipay
   module Sign
     def self.generate(params)
+      sign_type = params.delete('sign_type') || Alipay.sign_type
+
+      case sign_type
+      when 'MD5'
+        generate_md5(params)
+      else
+        raise ArgumentError, "wrong sign_type #{sign_type}, allow value is 'MD5', 'RSA', 'DSA'"
+      end
+    end
+
+    def self.generate_md5(params)
       query = params.sort.map { |item| item.join('=') }.join('&')
       Digest::MD5.hexdigest("#{query}#{Alipay.key}")
     end
