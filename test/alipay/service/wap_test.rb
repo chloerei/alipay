@@ -26,15 +26,15 @@ class Alipay::Service::WapTest < Minitest::Test
     assert_equal token, Alipay::Service::Wap.trade_create_direct_token(
       :req_data => {
         :out_trade_no  => '1',
-        :subject       => '<a&b>',
+        :subject       => 'subject',
         :total_fee     => '0.01',
-        :call_back_url => 'http://www.yoursite.com/call_back'
+        :call_back_url => 'https://example.com/call_back'
       }
     )
   end
 
   def test_auth_and_execute
     options = { :request_token => 'token_test' }
-    assert_not_nil Alipay::Service::Wap.auth_and_execute(options)
+    assert_equal 'https://wappaygw.alipay.com/service/rest.htm?service=alipay.wap.auth.authAndExecute&req_data=%3Cauth_and_execute_req%3E%3Crequest_token%3Etoken_test%3C%2Frequest_token%3E%3C%2Fauth_and_execute_req%3E&partner=1000000000000000&format=xml&v=2.0&sec_id=MD5&sign=3efe60d4a9b7960ba599da6764c959df', Alipay::Service::Wap.auth_and_execute(options)
   end
 end
