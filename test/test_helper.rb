@@ -2,10 +2,9 @@ require 'minitest/autorun'
 require 'alipay'
 require 'fakeweb'
 
-Alipay.pid = 'pid'
-Alipay.key = 'key'
-Alipay.seller_email = 'chloerei@gmail.com'
-Alipay.debug_mode = true
+Alipay.pid = '1000000000000000'
+Alipay.key = '10000000000000000000000000000000'
+Alipay.seller_email = 'admin@example.com'
 
 module Minitest::Assertions
   def assert_not_nil(obj, msg = nil)
