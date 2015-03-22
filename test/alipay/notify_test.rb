@@ -3,9 +3,10 @@ require 'test_helper'
 class Alipay::NotifyTest < Minitest::Test
   def setup
     @options = {
-      :notify_id => '1234'
+      :notify_id => '1234',
+      :sign_type => 'MD5'
     }
-    @sign_options = @options.merge(:sign_type => 'MD5', :sign => Alipay::Sign.generate(@options))
+    @sign_options = @options.merge(:sign => Alipay::Sign.generate(@options))
   end
 
   def test_unsign_notify

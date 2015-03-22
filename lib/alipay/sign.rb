@@ -12,8 +12,12 @@ module Alipay
       case sign_type
       when 'MD5'
         generate_md5(key, params)
+      when 'RSA'
+        raise NotImplementedError, "RSA sign is unimplemented"
+      when 'DSA'
+        raise NotImplementedError, "DSA sign is unimplemented"
       else
-        raise ArgumentError, "wrong sign_type #{sign_type}, allow value is 'MD5', 'RSA', 'DSA'"
+        raise ArgumentError, "wrong sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
     end
 
@@ -34,8 +38,12 @@ module Alipay
       case sign_type
       when 'MD5'
         generate_md5(key, params) == sign
+      when 'RSA'
+        raise NotImplementedError, "RSA sign is unimplemented"
+      when 'DSA'
+        raise NotImplementedError, "DSA sign is unimplemented"
       else
-        false
+        raise ArgumentError, "wrong sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
     end
 
