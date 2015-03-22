@@ -6,7 +6,7 @@ class Alipay::SignTest < Minitest::Test
       :service => 'test',
       :partner => '123'
     }
-    @md5_sign = Digest::MD5.hexdigest("partner=123&service=test#{Alipay.key}")
+    @md5_sign = 'bbd13b52823b576291595f472ebcfbc2'
   end
 
   def test_generate_sign
