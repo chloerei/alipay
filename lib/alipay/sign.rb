@@ -28,8 +28,15 @@ module Alipay
     def self.verify?(params)
       params = Utils.stringify_keys(params)
       sign = params.delete('sign')
+      sign_type = params.delete('sign_type')
+      key = params.delete('key') || Alipay.key
 
-      generate(params) == sign
+      case sign_type
+      when 'MD5'
+        generate_md5(key, params) == sign
+      else
+        false
+      end
     end
 
     module Wap

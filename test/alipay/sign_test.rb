@@ -18,10 +18,10 @@ class Alipay::SignTest < Minitest::Test
   end
 
   def test_verify_sign
-    assert Alipay::Sign.verify?(@params.merge(:sign => @md5_sign))
+    assert Alipay::Sign.verify?(@params.merge(:sign_type => 'MD5', :sign => @md5_sign))
   end
 
   def test_verify_sign_when_fails
-    assert !Alipay::Sign.verify?(@params.merge(:danger => 'danger', :sign => @md5_sign))
+    assert !Alipay::Sign.verify?(@params.merge(:danger => 'danger', :sign_type => 'MD5', :sign => @md5_sign))
   end
 end
