@@ -31,20 +31,42 @@ module Alipay
 
     def self.verify?(params)
       params = Utils.stringify_keys(params)
-      sign = params.delete('sign')
+
       sign_type = params.delete('sign_type')
-      key = params.delete('key') || Alipay.key
 
       case sign_type
       when 'MD5'
-        generate_md5(key, params) == sign
+        verify_md5?(params)
       when 'RSA'
-        raise NotImplementedError, "RSA sign is unimplemented"
+        verify_rsa?(params)
       when 'DSA'
-        raise NotImplementedError, "DSA sign is unimplemented"
+        raise NotImplementedError, "DSA verify is unimplemented"
       else
         raise ArgumentError, "wrong sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
+    end
+
+    def self.verify_md5?(params)
+      key = params.delete('key') || Alipay.key
+      sign = params.delete('sign')
+      generate_md5(key, params) == sign
+    end
+
+    ALIPAY_RSA_PUBLIC_KEY = <<-EOF
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRA
+FljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQE
+B/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5Ksi
+NG9zpgmLCUYuLkxpLQIDAQAB
+-----END PUBLIC KEY-----
+    EOF
+
+    def self.verify_rsa?(params)
+      pkey = OpenSSL::PKey::RSA.new(ALIPAY_RSA_PUBLIC_KEY)
+      digest = OpenSSL::Digest::SHA1.new
+      sign = params.delete('sign')
+
+      pkey.verify(digest, Base64.decode64(sign), params_to_string(params))
     end
 
     module Wap
@@ -58,29 +80,6 @@ module Alipay
         end.join('&')
 
         params['sign'] == Digest::MD5.hexdigest("#{query}#{Alipay.key}")
-      end
-    end
-
-    module App
-      # Alipay public key
-      PEM = "-----BEGIN PUBLIC KEY-----\n" \
-            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRA\n" \
-            "FljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQE\n" \
-            "B/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5Ksi\n" \
-            "NG9zpgmLCUYuLkxpLQIDAQAB\n" \
-            "-----END PUBLIC KEY-----"
-
-      def self.verify?(params)
-        params = Utils.stringify_keys(params)
-
-        pkey = OpenSSL::PKey::RSA.new(PEM)
-        digest = OpenSSL::Digest::SHA1.new
-
-        params.delete('sign_type')
-        sign = params.delete('sign')
-        to_sign = params.sort.map { |item| item.join('=') }.join('&')
-
-        pkey.verify(digest, Base64.decode64(sign), to_sign)
       end
     end
   end

@@ -1,3 +1,8 @@
+## mater
+
+- Remove Sign::App.verify?, use Sign.verify_rsa? instead if you want rsa verify.
+- Remove Notify::App.verify?, use Notify.verify? instead, it auto detect sign_type.
+
 ## v0.5.0 (2015-03-09)
 
 - Add `forex_single_refund` service.
