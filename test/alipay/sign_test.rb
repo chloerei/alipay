@@ -14,7 +14,7 @@ class Alipay::SignTest < Minitest::Test
   end
 
   def test_generate_md5_sign
-    assert_equal @md5_sign, Alipay::Sign.generate_md5(@params)
+    assert_equal @md5_sign, Alipay::Sign.generate_md5(Alipay.key, @params)
   end
 
   def test_verify_sign
