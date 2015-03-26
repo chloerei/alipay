@@ -17,7 +17,7 @@ module Alipay
 
       check_required_options(options, CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_OPTIONS)
 
-      "#{GATEWAY_URL}?#{query_string(options)}"
+      request_uri(options).to_s
     end
 
     TRADE_CREATE_BY_BUYER_REQUIRED_OPTIONS = %w( service partner _input_charset out_trade_no subject payment_type logistics_type logistics_fee logistics_payment seller_email price quantity )
@@ -33,7 +33,7 @@ module Alipay
 
       check_required_options(options, TRADE_CREATE_BY_BUYER_REQUIRED_OPTIONS)
 
-      "#{GATEWAY_URL}?#{query_string(options)}"
+      request_uri(options).to_s
     end
 
     CREATE_DIRECT_PAY_BY_USER_REQUIRED_OPTIONS = %w( service partner _input_charset out_trade_no subject payment_type seller_email )
@@ -53,7 +53,7 @@ module Alipay
         warn("Ailpay Warn: total_fee or (price && quantiry) must have one")
       end
 
-      "#{GATEWAY_URL}?#{query_string(options)}"
+      request_uri(options).to_s
     end
 
     CREATE_REFUND_URL_REQUIRED_OPTIONS = %w( batch_no data notify_url )
@@ -78,7 +78,7 @@ module Alipay
         'detail_data'    => detail_data                             # 转换后的单笔数据集字符串
       }.merge(options)
 
-      "#{GATEWAY_URL}?#{query_string(options)}"
+      request_uri(options).to_s
     end
 
     CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_OPTIONS = %w( out_return_no out_trade_no return_amount currency reason )
@@ -97,7 +97,7 @@ module Alipay
 
       check_required_options(options, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_OPTIONS)
 
-      "#{GATEWAY_URL}?#{query_string(options)}"
+      request_uri(options).to_s
     end
 
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_OPTIONS = %w( service partner _input_charset trade_no logistics_name )
@@ -114,7 +114,7 @@ module Alipay
         warn("Ailpay Warn: transport_type or create_transport_type must have one")
       end
 
-      Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
+      Net::HTTP.get(request_uri(options))
     end
 
     CREATE_FOREX_TRADE_REQUIRED_OPTIONS = %w(service partner _input_charset notify_url subject out_trade_no currency total_fee)
@@ -128,7 +128,7 @@ module Alipay
 
       check_required_options(options, CREATE_FOREX_TRADE_REQUIRED_OPTIONS)
 
-      "#{GATEWAY_URL}?#{query_string(options)}"
+      request_uri(options).to_s
     end
 
     CLOSE_TRADE_REQUIRED_OPTIONS = %w( service partner _input_charset)
@@ -143,7 +143,7 @@ module Alipay
       check_required_options(options, CLOSE_TRADE_REQUIRED_OPTIONS)
       check_optional_options(options, CLOSE_TRADE_REQUIRED_OPTIONAL_OPTIONS)
 
-      Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
+      Net::HTTP.get(request_uri(options))
     end
 
     SINGLE_TRADE_QUERY_OPTIONS = %w( service partner _input_charset)
@@ -158,13 +158,18 @@ module Alipay
       check_required_options(options, SINGLE_TRADE_QUERY_OPTIONS)
       check_optional_options(options, SINGLE_TRADE_QUERY_OPTIONAL_OPTIONS)
 
-      Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
+      Net::HTTP.get(request_uri(options))
     end
 
-    def self.query_string(options)
-      options.merge('sign_type' => 'MD5', 'sign' => Alipay::Sign.generate(options)).map do |key, value|
-        "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"
-      end.join('&')
+    def self.request_uri(options)
+      uri = URI(GATEWAY_URL)
+      uri.query = URI.encode_www_form(sign_params(options))
+      uri
+    end
+
+    def self.sign_params(params)
+      params = params.merge('sign_type' => Alipay.sign_type) if params['sign_type'].nil?
+      params.merge('sign' => Alipay::Sign.generate(params))
     end
 
     def self.check_required_options(options, names)

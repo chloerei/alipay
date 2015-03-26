@@ -30,7 +30,7 @@ module Alipay
 
         Alipay::Service.check_required_options(options, WAP_TRADE_REQUIRED_OPTIONS)
 
-        xml = Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
+        xml = Net::HTTP.get(request_uri(options))
         CGI.unescape(xml).scan(/\<request_token\>(.*)\<\/request_token\>/).flatten.first
       end
 
@@ -51,15 +51,18 @@ module Alipay
         }.merge(options)
 
         Alipay::Service.check_required_options(options, AUTH_AND_EXECUTE_REQUIRED_OPTIONS)
-        "#{GATEWAY_URL}?#{query_string(options)}"
+        request_uri(options).to_s
       end
 
-      def self.query_string(options)
-        options.merge!('sec_id' => 'MD5')
+      def self.request_uri(options)
+        uri = URI(GATEWAY_URL)
+        uri.query = URI.encode_www_form(sign_params(options))
+        uri
+      end
 
-        options.merge('sign' => Alipay::Sign.generate(options)).map do |key, value|
-          "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"
-        end.join('&')
+      def self.sign_params(params)
+        sign_type = (params['sec_id'] ||= Alipay.sign_type)
+        params.merge('sign'   => Alipay::Sign.generate(params.merge('sign_type' => sign_type)))
       end
     end
   end
