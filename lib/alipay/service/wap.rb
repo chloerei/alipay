@@ -1,5 +1,3 @@
-require 'open-uri'
-
 module Alipay
   module Service
     module Wap
@@ -32,7 +30,7 @@ module Alipay
 
         Alipay::Service.check_required_options(options, WAP_TRADE_REQUIRED_OPTIONS)
 
-        xml = open("#{GATEWAY_URL}?#{query_string(options)}").read
+        xml = Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
         CGI.unescape(xml).scan(/\<request_token\>(.*)\<\/request_token\>/).flatten.first
       end
 

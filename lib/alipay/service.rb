@@ -1,5 +1,4 @@
 require 'cgi'
-require 'open-uri'
 
 module Alipay
   module Service
@@ -115,7 +114,7 @@ module Alipay
         warn("Ailpay Warn: transport_type or create_transport_type must have one")
       end
 
-      open("#{GATEWAY_URL}?#{query_string(options)}").read
+      Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
     end
 
     CREATE_FOREX_TRADE_REQUIRED_OPTIONS = %w(service partner _input_charset notify_url subject out_trade_no currency total_fee)
@@ -144,7 +143,7 @@ module Alipay
       check_required_options(options, CLOSE_TRADE_REQUIRED_OPTIONS)
       check_optional_options(options, CLOSE_TRADE_REQUIRED_OPTIONAL_OPTIONS)
 
-      open("#{GATEWAY_URL}?#{query_string(options)}").read
+      Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
     end
 
     SINGLE_TRADE_QUERY_OPTIONS = %w( service partner _input_charset)
@@ -159,7 +158,7 @@ module Alipay
       check_required_options(options, SINGLE_TRADE_QUERY_OPTIONS)
       check_optional_options(options, SINGLE_TRADE_QUERY_OPTIONAL_OPTIONS)
 
-      open("#{GATEWAY_URL}?#{query_string(options)}").read
+      Net::HTTP.get(URI("#{GATEWAY_URL}?#{query_string(options)}"))
     end
 
     def self.query_string(options)
