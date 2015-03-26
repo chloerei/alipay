@@ -1,8 +1,16 @@
-## mater
+## v0.6.0-beta1
 
+Usage:
+
+- Add `Alipay.sign_type`, default is 'MD5', 'RSA' and 'DSA' will implemented in the future.
 - Remove `Sign::App.verify?`, use `Sign.verify_rsa?` instead.
 - Remove `Notify::App.verify?`, use `Notify.verify?` instead.
 - Rename `Service::Wap.auth_and_execute` to `Service::Wap.auth_and_execute_url`
+
+Development:
+
+- Update Test::Unit to Minitest.
+- Fxied test case data.
 
 ## v0.5.0 (2015-03-09)
 
