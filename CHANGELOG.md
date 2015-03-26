@@ -1,7 +1,8 @@
 ## mater
 
-- Remove Sign::App.verify?, use Sign.verify_rsa? instead if you want rsa verify.
-- Remove Notify::App.verify?, use Notify.verify? instead, it auto detect sign_type.
+- Remove `Sign::App.verify?`, use `Sign.verify_rsa?` instead.
+- Remove `Notify::App.verify?`, use `Notify.verify?` instead.
+- Rename `Service::Wap.auth_and_execute` to `Service::Wap.auth_and_execute_url`
 
 ## v0.5.0 (2015-03-09)
 

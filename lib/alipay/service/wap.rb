@@ -36,7 +36,7 @@ module Alipay
 
       AUTH_AND_EXECUTE_REQUIRED_OPTIONS = %w( service format v partner )
 
-      def self.auth_and_execute(options)
+      def self.auth_and_execute_url(options)
         options = Utils.stringify_keys(options)
         Alipay::Service.check_required_options(options, ['request_token'])
 
