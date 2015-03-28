@@ -29,16 +29,18 @@ module Alipay
       params.sort.map { |item| item.join('=') }.join('&')
     end
 
-    def self.verify?(params)
+    def self.verify?(params, options = {})
       params = Utils.stringify_keys(params)
 
       sign_type = params.delete('sign_type')
+      sign = params.delete('sign')
+      key = options[:key] || Alipay.key
 
       case sign_type
       when 'MD5'
-        verify_md5?(params)
+        verify_md5?(key, sign, params)
       when 'RSA'
-        verify_rsa?(params)
+        verify_rsa?(sign, params)
       when 'DSA'
         raise NotImplementedError, "DSA verify is unimplemented"
       else
@@ -46,9 +48,7 @@ module Alipay
       end
     end
 
-    def self.verify_md5?(params)
-      key = params.delete('key') || Alipay.key
-      sign = params.delete('sign')
+    def self.verify_md5?(key, sign, params)
       generate_md5(key, params) == sign
     end
 
@@ -61,10 +61,9 @@ NG9zpgmLCUYuLkxpLQIDAQAB
 -----END PUBLIC KEY-----
     EOF
 
-    def self.verify_rsa?(params)
+    def self.verify_rsa?(sign, params)
       pkey = OpenSSL::PKey::RSA.new(ALIPAY_RSA_PUBLIC_KEY)
       digest = OpenSSL::Digest::SHA1.new
-      sign = params.delete('sign')
 
       pkey.verify(digest, Base64.decode64(sign), params_to_string(params))
     end
