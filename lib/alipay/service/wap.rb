@@ -60,9 +60,15 @@ module Alipay
         uri
       end
 
-      def self.sign_params(params)
-        sign_type = (params['sec_id'] ||= Alipay.sign_type)
-        params.merge('sign'   => Alipay::Sign.generate(params.merge('sign_type' => sign_type)))
+      SIGN_TYPE_TO_SEC_ID = {
+        'MD5' => 'MD5',
+        'RSA' => '0001'
+      }
+
+      def self.sign_params(params, options = {})
+        sign_type = (options['sign_type'] ||= Alipay.sign_type)
+        params = params.merge('sec_id' => SIGN_TYPE_TO_SEC_ID[sign_type])
+        params.merge('sign' => Alipay::Sign.generate(params, options))
       end
     end
   end

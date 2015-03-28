@@ -167,9 +167,11 @@ module Alipay
       uri
     end
 
-    def self.sign_params(params)
-      params = params.merge('sign_type' => Alipay.sign_type) if params['sign_type'].nil?
-      params.merge('sign' => Alipay::Sign.generate(params))
+    def self.sign_params(params, optinos = {})
+      params.merge(
+        'sign_type' => (optinos[:sign_type] || Alipay.sign_type),
+        'sign'      => Alipay::Sign.generate(params, optinos)
+      )
     end
 
     def self.check_required_options(options, names)

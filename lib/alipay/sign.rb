@@ -4,10 +4,10 @@ require 'base64'
 
 module Alipay
   module Sign
-    def self.generate(params)
+    def self.generate(params, options = {})
       params = Utils.stringify_keys(params)
-      sign_type = params.delete('sign_type') || Alipay.sign_type
-      key = params.delete('key') || Alipay.key
+      sign_type = options[:sign_type] || Alipay.sign_type
+      key = options[:key] || Alipay.key
 
       case sign_type
       when 'MD5'
