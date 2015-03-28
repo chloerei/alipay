@@ -8,7 +8,7 @@ class Alipay::NotifyTest < Minitest::Test
     @unsign_options = @options.merge(:sign_type => 'MD5', :sign => 'xxxx')
     @sign_options = @options.merge(
       :sign_type => 'MD5',
-      :sign => Alipay::Sign.generate(@options)
+      :sign      => '22fc7e38e5acdfede396aa463870d111'
     )
   end
 
