@@ -4,54 +4,57 @@ module Alipay
   module Service
     GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
 
-    CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS = %w( service partner _input_charset out_trade_no subject payment_type logistics_type logistics_fee logistics_payment seller_email price quantity )
+    CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
     # alipayescow
     def self.create_partner_trade_by_buyer_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS)
+
       params = {
         'service'        => 'create_partner_trade_by_buyer',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
         'seller_email'   => options[:seller_email] || Alipay.seller_email,
         'payment_type'   => '1'
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS)
+      }.merge(params)
 
       request_uri(params, options).to_s
     end
 
-    TRADE_CREATE_BY_BUYER_REQUIRED_PARAMS = %w( service partner _input_charset out_trade_no subject payment_type logistics_type logistics_fee logistics_payment seller_email price quantity )
+    TRADE_CREATE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
     # alipaydualfun
     def self.trade_create_by_buyer_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, TRADE_CREATE_BY_BUYER_REQUIRED_PARAMS)
+
       params = {
         'service'        => 'trade_create_by_buyer',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
         'seller_email'   => options[:seller_email] || Alipay.seller_email,
         'payment_type'   => '1'
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, TRADE_CREATE_BY_BUYER_REQUIRED_PARAMS)
+      }.merge(params)
 
       request_uri(params, options).to_s
     end
 
-    CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS = %w( service partner _input_charset out_trade_no subject payment_type seller_email )
+    CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS = %w( out_trade_no subject )
     # direct
     def self.create_direct_pay_by_user_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS)
+
+      if params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
+        warn("Ailpay Warn: total_fee or (price && quantiry) must have one")
+      end
+
       params = {
         'service'        => 'create_direct_pay_by_user',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
         'seller_email'   => options[:seller_email] || Alipay.seller_email,
         'payment_type'   => '1'
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS)
-
-      if params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
-        warn("Ailpay Warn: total_fee or (price && quantiry) must have one")
-      end
+      }.merge(params)
 
       request_uri(params, options).to_s
     end
@@ -88,75 +91,76 @@ module Alipay
     # return_amount 退款金额
     # currency 退款币种，与交易创建时的币种一致
     def self.create_forex_single_refund_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_PARAMS)
+
       params = {
         'service'        => 'forex_refund',
         'partner'        => options[:pid] || Alipay.pid,
         '_input_charset' => 'utf-8',
         'gmt_return'     => Time.now.strftime('%Y%m%d%H%M%S')
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_PARAMS)
+      }.merge(params)
 
       request_uri(params, options).to_s
     end
 
-    SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_PARAMS = %w( service partner _input_charset trade_no logistics_name )
+    SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_PARAMS = %w( trade_no logistics_name )
     def self.send_goods_confirm_by_platform(params, options = {})
-      params = {
-        'service'        => 'send_goods_confirm_by_platform',
-        'partner'        => options[:pid] || Alipay.pid,
-        '_input_charset' => 'utf-8'
-      }.merge(Utils.stringify_keys(params))
-
+      params = Utils.stringify_keys(params)
       check_required_params(params, SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_PARAMS)
 
       if params['transport_type'].nil? and params['create_transport_type'].nil?
         warn("Ailpay Warn: transport_type or create_transport_type must have one")
       end
 
+      params = {
+        'service'        => 'send_goods_confirm_by_platform',
+        'partner'        => options[:pid] || Alipay.pid,
+        '_input_charset' => 'utf-8'
+      }.merge(params)
+
       Net::HTTP.get(request_uri(params, options))
     end
 
-    CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w(service partner _input_charset notify_url subject out_trade_no currency total_fee)
+    CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w( notify_url subject out_trade_no currency total_fee)
     def self.create_forex_trade(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_FOREX_TRADE_REQUIRED_PARAMS)
+
       params = {
         'service'         => 'create_forex_trade',
         '_input_charset'  => 'utf-8',
         'partner'         => options[:pid] || Alipay.pid,
         'seller_email'    => options[:seller_email] || Alipay.seller_email
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, CREATE_FOREX_TRADE_REQUIRED_PARAMS)
+      }.merge(params)
 
       request_uri(params, options).to_s
     end
 
-    CLOSE_TRADE_REQUIRED_PARAMS = %w( service partner _input_charset)
     CLOSE_TRADE_REQUIRED_OPTIONAL_PARAMS = %w( trade_no out_order_no )
     def self.close_trade(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_optional_params(params, CLOSE_TRADE_REQUIRED_OPTIONAL_PARAMS)
+
       params = {
         'service'        => 'close_trade',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, CLOSE_TRADE_REQUIRED_PARAMS)
-      check_optional_params(params, CLOSE_TRADE_REQUIRED_OPTIONAL_PARAMS)
+      }.merge(params)
 
       Net::HTTP.get(request_uri(params, options))
     end
 
-    SINGLE_TRADE_QUERY_PARAMS = %w( service partner _input_charset)
     SINGLE_TRADE_QUERY_OPTIONAL_PARAMS = %w( trade_no out_trade_no )
     def self.single_trade_query(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_optional_params(params, SINGLE_TRADE_QUERY_OPTIONAL_PARAMS)
+
       params =   {
         "service"         => 'single_trade_query',
         "_input_charset"  => "utf-8",
         "partner"         => options[:pid] || Alipay.pid,
-      }.merge(Utils.stringify_keys(params))
-
-      check_required_params(params, SINGLE_TRADE_QUERY_PARAMS)
-      check_optional_params(params, SINGLE_TRADE_QUERY_OPTIONAL_PARAMS)
+      }.merge(params)
 
       Net::HTTP.get(request_uri(params, options))
     end
