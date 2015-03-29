@@ -3,11 +3,11 @@ require 'cgi'
 require 'alipay/version'
 require 'alipay/utils'
 require 'alipay/sign'
-require 'alipay/sign/wap'
 require 'alipay/service'
-require 'alipay/service/wap'
 require 'alipay/notify'
-require 'alipay/notify/wap'
+require 'alipay/wap/service'
+require 'alipay/wap/notify'
+require 'alipay/wap/sign'
 
 module Alipay
   @debug_mode = true

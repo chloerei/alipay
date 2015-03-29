@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::Sign::WapTest < Minitest::Test
+class Alipay::Wap::SignTest < Minitest::Test
   def setup
     @params = {
       :v => '1.0',
@@ -12,6 +12,6 @@ class Alipay::Sign::WapTest < Minitest::Test
   end
 
   def test_verify_sign
-    assert Alipay::Sign::Wap.verify?(@params.merge(:sign => @sign, :whatever => 'x'))
+    assert Alipay::Wap::Sign.verify?(@params.merge(:sign => @sign, :whatever => 'x'))
   end
 end

@@ -1,6 +1,6 @@
 module Alipay
-  module Service
-    module Wap
+  module Wap
+    module Service
       GATEWAY_URL = 'https://wappaygw.alipay.com/service/rest.htm'
 
       TRADE_CREATE_DIRECT_TOKEN_REQUIRED_PARAMS = %w( req_data )

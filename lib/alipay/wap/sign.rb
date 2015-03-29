@@ -1,6 +1,6 @@
 module Alipay
-  module Sign
-    module Wap
+  module Wap
+    module Sign
       SORTED_VERIFY_PARAMS = %w( service v sec_id notify_data )
       def self.verify?(params, options = {})
         params = Utils.stringify_keys(params)

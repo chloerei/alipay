@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::Service::WapTest < Minitest::Test
+class Alipay::Wap::ServiceTest < Minitest::Test
   def test_trade_create_direct_token
     token = 'REQUEST_TOKEN'
     body = <<-EOS
@@ -23,7 +23,7 @@ class Alipay::Service::WapTest < Minitest::Test
       :body => body
     )
 
-    assert_equal token, Alipay::Service::Wap.trade_create_direct_token(
+    assert_equal token, Alipay::Wap::Service.trade_create_direct_token(
       :req_data => {
         :out_trade_no  => '1',
         :subject       => 'subject',
@@ -35,6 +35,6 @@ class Alipay::Service::WapTest < Minitest::Test
 
   def test_auth_and_execute_url
     params = { :request_token => 'token_test' }
-    assert_equal 'https://wappaygw.alipay.com/service/rest.htm?service=alipay.wap.auth.authAndExecute&req_data=%3Cauth_and_execute_req%3E%3Crequest_token%3Etoken_test%3C%2Frequest_token%3E%3C%2Fauth_and_execute_req%3E&partner=1000000000000000&format=xml&v=2.0&sec_id=MD5&sign=3efe60d4a9b7960ba599da6764c959df', Alipay::Service::Wap.auth_and_execute_url(params)
+    assert_equal 'https://wappaygw.alipay.com/service/rest.htm?service=alipay.wap.auth.authAndExecute&req_data=%3Cauth_and_execute_req%3E%3Crequest_token%3Etoken_test%3C%2Frequest_token%3E%3C%2Fauth_and_execute_req%3E&partner=1000000000000000&format=xml&v=2.0&sec_id=MD5&sign=3efe60d4a9b7960ba599da6764c959df', Alipay::Wap::Service.auth_and_execute_url(params)
   end
 end

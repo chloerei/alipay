@@ -78,8 +78,8 @@ options = {
   }
 }
 
-token = Alipay::Service::Wap.trade_create_direct_token(options)
-Alipay::Service::Wap.auth_and_execute(request_token: token)
+token = Alipay::Wap::Service.trade_create_direct_token(options)
+Alipay::Wap::Service.auth_and_execute(request_token: token)
 # => 'http://wappaygw.alipay.com/service/rest.htm?req_data=...'
 ```
 
@@ -87,7 +87,7 @@ You can redirect user to this payment url, and user will see a payment page for 
 
 Current only support this payment type:
 
-    Alipay::Service::Wap.auth_and_execute # 即时到帐
+    Alipay::Wap::Service.auth_and_execute # 即时到帐
 
 ### Send goods
 
@@ -183,7 +183,7 @@ def alipay_wap_notify
   # except :controller_name, :action_name, :host, etc.
   notify_params = params.except(*request.path_parameters.keys)
 
-  if Alipay::Notify::Wap.verify?(notify_params)
+  if Alipay::Wap::Notify.verify?(notify_params)
     # valid notify, code your business logic.
     # you may want to get you order id:
     #   order_id = Hash.from_xml(params[:notify_data])['notify']['out_trade_no']
