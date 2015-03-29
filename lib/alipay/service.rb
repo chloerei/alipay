@@ -1,5 +1,3 @@
-require 'cgi'
-
 module Alipay
   module Service
     GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
