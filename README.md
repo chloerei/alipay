@@ -1,25 +1,20 @@
 # Alipay
 
-A simple alipay ruby gem, without unnecessary magic or wraper, it's directly facing how alipay api works.
-
-It contain this API:
-
-* Generate payment url (web, wap)
-* Send goods
-* Close trade
-* Verify notify (web, wap, app)
+A unofficial alipay ruby gem.
 
 Please read alipay official document first: https://b.alipay.com/order/techService.htm .
+
+Master branch(v0.6.0) is in develop, checkout [v0.5.0](https://github.com/chloerei/alipay/tree/v0.5.0) if you want to use in production.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.5.0'
+gem 'alipay', '~> 0.6.0.beta1'
 ```
 
-or development version
+or master branch:
 
 ```ruby
 gem 'alipay', :github => 'chloerei/alipay'
