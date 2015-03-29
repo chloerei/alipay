@@ -1,28 +1,20 @@
-require 'digest/md5'
-require 'openssl'
-require 'base64'
-
 module Alipay
   module Sign
     def self.generate(params, options = {})
       params = Utils.stringify_keys(params)
       sign_type = options[:sign_type] || Alipay.sign_type
-      key = options[:key] || Alipay.key
 
       case sign_type
       when 'MD5'
-        generate_md5(key, params)
+        key = options[:key] || Alipay.key
+        MD5.sign("#{params_to_string(params)}#{key}")
       when 'RSA'
-        raise NotImplementedError, "RSA sign is unimplemented"
+        RSA.sign(params_to_string(params))
       when 'DSA'
-        raise NotImplementedError, "DSA sign is unimplemented"
+        DSA.sign(params_to_string(params))
       else
-        raise ArgumentError, "wrong sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
+        raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
-    end
-
-    def self.generate_md5(key, params)
-      Digest::MD5.hexdigest("#{params_to_string(params)}#{key}")
     end
 
     def self.params_to_string(params)
@@ -34,38 +26,18 @@ module Alipay
 
       sign_type = params.delete('sign_type')
       sign = params.delete('sign')
-      key = options[:key] || Alipay.key
 
       case sign_type
       when 'MD5'
-        verify_md5?(key, sign, params)
+        key = options[:key] || Alipay.key
+        MD5.verify?("#{params_to_string(params)}#{key}", sign)
       when 'RSA'
-        verify_rsa?(sign, params)
+        RSA.verify?(params_to_string(params), sign)
       when 'DSA'
-        raise NotImplementedError, "DSA verify is unimplemented"
+        DSA.verify?(params_to_string(params), sign)
       else
-        raise ArgumentError, "wrong sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
+        raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
-    end
-
-    def self.verify_md5?(key, sign, params)
-      generate_md5(key, params) == sign
-    end
-
-    ALIPAY_RSA_PUBLIC_KEY = <<-EOF
------BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRA
-FljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQE
-B/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5Ksi
-NG9zpgmLCUYuLkxpLQIDAQAB
------END PUBLIC KEY-----
-    EOF
-
-    def self.verify_rsa?(sign, params)
-      pkey = OpenSSL::PKey::RSA.new(ALIPAY_RSA_PUBLIC_KEY)
-      digest = OpenSSL::Digest::SHA1.new
-
-      pkey.verify(digest, Base64.decode64(sign), params_to_string(params))
     end
   end
 end
