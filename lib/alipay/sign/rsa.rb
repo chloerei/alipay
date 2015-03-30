@@ -21,7 +21,7 @@ NG9zpgmLCUYuLkxpLQIDAQAB
         pkey = OpenSSL::PKey::RSA.new(ALIPAY_RSA_PUBLIC_KEY)
         digest = OpenSSL::Digest::SHA1.new
 
-        pkey.verify(digest, Base64.decode64(sign), str)
+        pkey.verify(digest, Base64.decode64(sign), string)
       end
     end
   end

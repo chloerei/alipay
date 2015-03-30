@@ -6,12 +6,13 @@ module Alipay
         params = Utils.stringify_keys(params)
         key = options[:pid] || Alipay.key
         sign = params.delete('sign')
+        string = params_to_string(params)
 
         case params['sec_id']
         when 'MD5'
-          ::Alipay::Sign::MD5.verify?("#{params_to_string(params)}#{key}", sign)
+          ::Alipay::Sign::MD5.verify?(key, string, sign)
         when '0001' # RSA
-          ::Alipay::Sign::RSA.verify?(params_to_string(params), sign)
+          ::Alipay::Sign::RSA.verify?(string, sign)
         else
           raise ArgumentError, "[Alipay] Invalid sec_id, allow value: 'MD5', '0001'"
         end

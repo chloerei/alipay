@@ -3,12 +3,12 @@ require 'digest/md5'
 module Alipay
   module Sign
     class MD5
-      def self.sign(string)
-        Digest::MD5.hexdigest(string)
+      def self.sign(key, string)
+        Digest::MD5.hexdigest("#{string}#{key}")
       end
 
-      def self.verify?(string, sign)
-        sign == sign(string)
+      def self.verify?(key, string, sign)
+        sign == sign(key, string)
       end
     end
   end

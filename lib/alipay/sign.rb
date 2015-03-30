@@ -3,15 +3,16 @@ module Alipay
     def self.generate(params, options = {})
       params = Utils.stringify_keys(params)
       sign_type = options[:sign_type] || Alipay.sign_type
+      key = options[:key] || Alipay.key
+      string = params_to_string(params)
 
       case sign_type
       when 'MD5'
-        key = options[:key] || Alipay.key
-        MD5.sign("#{params_to_string(params)}#{key}")
+        MD5.sign(key, string)
       when 'RSA'
-        RSA.sign(params_to_string(params))
+        RSA.sign(string)
       when 'DSA'
-        DSA.sign(params_to_string(params))
+        DSA.sign(string)
       else
         raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
@@ -26,15 +27,16 @@ module Alipay
 
       sign_type = params.delete('sign_type')
       sign = params.delete('sign')
+      string = params_to_string(params)
 
       case sign_type
       when 'MD5'
         key = options[:key] || Alipay.key
-        MD5.verify?("#{params_to_string(params)}#{key}", sign)
+        MD5.verify?(key, string, sign)
       when 'RSA'
-        RSA.verify?(params_to_string(params), sign)
+        RSA.verify?(string, sign)
       when 'DSA'
-        DSA.verify?(params_to_string(params), sign)
+        DSA.verify?(string, sign)
       else
         raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
       end
