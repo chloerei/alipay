@@ -64,7 +64,7 @@ module Alipay
       }
 
       def self.sign_params(params, options = {})
-        sign_type = (options['sign_type'] ||= Alipay.sign_type)
+        sign_type = (options[:sign_type] ||= Alipay.sign_type)
         params = params.merge('sec_id' => SIGN_TYPE_TO_SEC_ID[sign_type])
         params.merge('sign' => Alipay::Sign.generate(params, options))
       end
