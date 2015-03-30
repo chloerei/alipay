@@ -1,6 +1,15 @@
 module Alipay
   module Wap
     module Sign
+      ALIPAY_RSA_PUBLIC_KEY = <<-EOF
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCQwpCPC4oB+clYNBkKQx3gfyFl
+Ut3cpRr5oErt OypLKh6j1UmTDSpfsac29h1kC0HIvLmxWbPuoxcsKDlclgRPeWn
+IxrpSF9k5Fu6SRy3+AOdIKrDO SHQ7VwUsNih2OnPbztMSMplGnQCBa1iec2r+38
+Udmh5Ua2xg6IEfk493VQIDAQAB
+-----END PUBLIC KEY-----
+      EOF
+
       def self.verify?(params, options = {})
         params = Utils.stringify_keys(params)
         key = options[:pid] || Alipay.key
@@ -11,7 +20,7 @@ module Alipay
         when 'MD5'
           ::Alipay::Sign::MD5.verify?(key, string, sign)
         when '0001' # RSA
-          ::Alipay::Sign::RSA.verify?(string, sign)
+          ::Alipay::Sign::RSA.verify?(ALIPAY_RSA_PUBLIC_KEY, string, sign)
         else
           raise ArgumentError, "[Alipay] Invalid sec_id, allow value: 'MD5', '0001'"
         end
