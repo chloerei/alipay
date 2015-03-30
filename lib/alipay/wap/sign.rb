@@ -12,12 +12,12 @@ Udmh5Ua2xg6IEfk493VQIDAQAB
 
       def self.verify?(params, options = {})
         params = Utils.stringify_keys(params)
-        key = options[:pid] || Alipay.key
         sign = params.delete('sign')
         string = params_to_string(params)
 
         case params['sec_id']
         when 'MD5'
+          key = options[:pid] || Alipay.key
           ::Alipay::Sign::MD5.verify?(key, string, sign)
         when '0001' # RSA
           ::Alipay::Sign::RSA.verify?(ALIPAY_RSA_PUBLIC_KEY, string, sign)
