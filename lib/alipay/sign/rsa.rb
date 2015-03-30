@@ -13,11 +13,11 @@ NG9zpgmLCUYuLkxpLQIDAQAB
 -----END PUBLIC KEY-----
       EOF
 
-      def sign(str)
-        raise NotImplementedError, "RSA sign is unimplemented"
+      def sign(string)
+        raise NotImplementedError, "[Alipay] RSA sign is not implemented"
       end
 
-      def verify?(str, sign)
+      def verify?(string, sign)
         pkey = OpenSSL::PKey::RSA.new(ALIPAY_RSA_PUBLIC_KEY)
         digest = OpenSSL::Digest::SHA1.new
 

@@ -1,12 +1,12 @@
 module Alipay
   module Sign
     class DSA
-      def sign(str)
-        raise NotImplementedError, '[Alipay] DSA sign is not yet implemented'
+      def sign(string)
+        raise NotImplementedError, '[Alipay] DSA sign is not implemented'
       end
 
-      def verify?(str, sign)
-        raise NotImplementedError, '[Alipay] DSA verify is not yet implemented'
+      def verify?(string, sign)
+        raise NotImplementedError, '[Alipay] DSA verify is not implemented'
       end
     end
   end
