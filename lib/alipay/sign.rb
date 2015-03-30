@@ -10,7 +10,7 @@ module Alipay
       when 'MD5'
         MD5.sign(key, string)
       when 'RSA'
-        RSA.sign(string)
+        RSA.sign(key, string)
       when 'DSA'
         DSA.sign(string)
       else
