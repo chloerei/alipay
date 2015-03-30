@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Alipay::Notify::WapTest < Minitest::Test
+class Alipay::Wap::NotifyTest < Minitest::Test
   def setup
     @notify_id = 'notify_id_test'
 
@@ -17,16 +17,16 @@ class Alipay::Notify::WapTest < Minitest::Test
 
   def test_unsign_notify
     FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", :body => "true")
-    assert !Alipay::Notify::Wap.verify?(@notify_params)
+    assert !Alipay::Wap::Notify.verify?(@notify_params)
   end
 
   def test_verify_notify_when_true
     FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", :body => "true")
-    assert Alipay::Notify::Wap.verify?(@sign_params)
+    assert Alipay::Wap::Notify.verify?(@sign_params)
   end
 
   def test_verify_notify_when_false
     FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", :body => "false")
-    assert !Alipay::Notify::Wap.verify?(@sign_params)
+    assert !Alipay::Wap::Notify.verify?(@sign_params)
   end
 end
