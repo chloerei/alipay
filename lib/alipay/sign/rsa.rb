@@ -9,8 +9,8 @@ module Alipay
         Base64.encode64(rsa.sign('sha1', string))
       end
 
-      def self.verify?(string, sign)
-        rsa = OpenSSL::PKey::RSA.new(ALIPAY_RSA_PUBLIC_KEY)
+      def self.verify?(key, string, sign)
+        rsa = OpenSSL::PKey::RSA.new(key)
         rsa.verify('sha1', Base64.decode64(sign), string)
       end
     end
