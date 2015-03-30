@@ -1,7 +1,6 @@
 module Alipay
   module Wap
     module Sign
-      SORTED_VERIFY_PARAMS = %w( service v sec_id notify_data )
       def self.verify?(params, options = {})
         params = Utils.stringify_keys(params)
         key = options[:pid] || Alipay.key
@@ -18,6 +17,7 @@ module Alipay
         end
       end
 
+      SORTED_VERIFY_PARAMS = %w( service v sec_id notify_data )
       def self.params_to_string(params)
         SORTED_VERIFY_PARAMS.map do |key|
           "#{key}=#{params[key]}"

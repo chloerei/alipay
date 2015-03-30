@@ -14,7 +14,7 @@ module Alipay
       when 'DSA'
         DSA.sign(key, string)
       else
-        raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
+        raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow value: 'MD5', 'RSA', 'DSA'"
       end
     end
 
