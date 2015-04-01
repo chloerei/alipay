@@ -59,7 +59,7 @@ module Alipay
 
     CREATE_REFUND_URL_REQUIRED_PARAMS = %w( batch_no data notify_url )
     # 支付宝即时到帐批量退款有密接口(此为异步接口，有密指通过此接口打开 url 后需要用户输入支付宝的支付密码进行退款)
-    def self.create_refund_url(params, options = {})
+    def self.refund_fastpay_by_platform_pwd_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_REFUND_URL_REQUIRED_PARAMS)
 

@@ -187,14 +187,14 @@ refund_fastpay_by_platform_pwd
 #### Definition
 
 ```ruby
-Alipay::Service.create_refund_url # TODO: rename to same with service name
+Alipay::Service.refund_fastpay_by_platform_pwd_url
 ```
 
 #### Example
 
 ```ruby
 batch_no = Alipay::Utils.generate_batch_no # refund batch no, you SHOULD store it to db to avoid alipay duplicate refund
-Alipay::Service.create_refund_url(
+Alipay::Service.refund_fastpay_by_platform_pwd_url(
   batch_no: batch_no,
   data: [{
     trade_no: '201504010000001',
