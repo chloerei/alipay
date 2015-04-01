@@ -302,13 +302,13 @@ create_forex_trade
 #### Definition
 
 ```ruby
-Alipay::Service.create_forex_trade({ARGUMENTS}, {OPTIONS}) # TODO: rename add _url
+Alipay::Service.create_forex_trade_url({ARGUMENTS}, {OPTIONS})
 ```
 
 #### Example
 
 ```ruby
-Alipay::Service.create_forex_trade(
+Alipay::Service.create_forex_trade_url(
   out_trade_no: '20150401000-0001',
   subject: 'Subject',
   currency: 'USD',

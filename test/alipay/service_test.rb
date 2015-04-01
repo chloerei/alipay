@@ -65,7 +65,7 @@ class Alipay::ServiceTest < Minitest::Test
     assert_equal 'https://mapi.alipay.com/gateway.do?service=forex_refund&partner=1000000000000000&_input_charset=utf-8&gmt_return=2015-01-01+00%3A00%3A00&out_return_no=1&out_trade_no=12345678980&return_amount=0.01&currency=USD&reason=reason&sign_type=MD5&sign=123c50e884e560801fee8b73f1ac6172', Alipay::Service.create_forex_single_refund_url(options)
   end
 
-  def test_generate_create_forex_trade
+  def test_generate_create_forex_trade_url
     options = {
       :notify_url        => 'https://example.com/notify',
       :subject           => 'test',
@@ -73,7 +73,7 @@ class Alipay::ServiceTest < Minitest::Test
       :currency          => 'EUR',
       :total_fee         => '0.01',
     }
-    assert_equal 'https://mapi.alipay.com/gateway.do?service=create_forex_trade&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&notify_url=https%3A%2F%2Fexample.com%2Fnotify&subject=test&out_trade_no=1&currency=EUR&total_fee=0.01&sign_type=MD5&sign=495a0e610134aa33f6ce021f8b8c6c8d', Alipay::Service.create_forex_trade(options)
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=create_forex_trade&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&notify_url=https%3A%2F%2Fexample.com%2Fnotify&subject=test&out_trade_no=1&currency=EUR&total_fee=0.01&sign_type=MD5&sign=495a0e610134aa33f6ce021f8b8c6c8d', Alipay::Service.create_forex_trade_url(options)
   end
 
   def test_close_trade

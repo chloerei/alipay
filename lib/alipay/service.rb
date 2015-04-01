@@ -121,7 +121,7 @@ module Alipay
     end
 
     CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w( notify_url subject out_trade_no currency total_fee)
-    def self.create_forex_trade(params, options = {})
+    def self.create_forex_trade_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_FOREX_TRADE_REQUIRED_PARAMS)
 
