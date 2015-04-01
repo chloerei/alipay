@@ -1,4 +1,14 @@
-## v0.6.0-beta1
+## v0.6.0.beta2 (2015-04-01)
+
+- Move `Alipay::Service::Wap` to `Alipay::Wap::Service`
+- Move `Alipay::Sign::Wap` to `Alipay::Wap::Sign`
+- Move `Alipay::Notify::Wap` to `Alipay::Wap::Notify`
+- Rename `Alipay::Service.create_forex_single_refund_url` to `Alipay::Service.forex_refund_url`
+- Rename `Alipay::Service.create_forex_trade` to `Alipay::Service.create_forex_trade_url`
+- Rename `Alipay::Service.create_refund_url` to `Alipay::Service.refund_fastpay_by_platform_pwd_url`
+- All service methods accept `options` args to config pid, seller_email and key.
+
+## v0.6.0.beta1 (2015-03-26)
 
 Usage:
 

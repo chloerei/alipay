@@ -11,7 +11,7 @@ Master branch(v0.6.0) is in develop, checkout [v0.5.0](https://github.com/chloer
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.6.0.beta1'
+gem 'alipay', '~> 0.6.0.beta2'
 ```
 
 or master branch:
