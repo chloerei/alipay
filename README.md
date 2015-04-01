@@ -2,7 +2,7 @@
 
 A unofficial alipay ruby gem.
 
-Please read alipay official document first: https://b.alipay.com/order/techService.htm .
+Alipay official document: https://b.alipay.com/order/techService.htm .
 
 Master branch(v0.6.0) is in develop, checkout [v0.5.0](https://github.com/chloerei/alipay/tree/v0.5.0) if you want to use in production.
 
@@ -17,193 +17,474 @@ gem 'alipay', '~> 0.6.0.beta1'
 or master branch:
 
 ```ruby
-gem 'alipay', :github => 'chloerei/alipay'
+gem 'alipay', github: 'chloerei/alipay'
 ```
 
 And then execute:
 
-```sh
+```console
 $ bundle
 ```
 
-## Usage
-
-### Config
+## Configuration
 
 ```ruby
 Alipay.pid = 'YOUR_PID'
 Alipay.key = 'YOUR_KEY'
 Alipay.seller_email = 'YOUR_SELLER_EMAIL'
-Alipay.debug_mode = true # Default is true. Example for rails: !Rails.env.production?
+
+#Alipay.sign_type = 'MD5' # Available values: MD5, RSA. Default is MD5
+#Alipay.debug_mode = true # Enable parameter check. Default is true.
 ```
 
-### Generate payment url for web
+You can set default key, or pass a key directly to service method:
 
 ```ruby
-options = {
-  :out_trade_no      => 'YOUR_ORDER_ID',
-  :subject           => 'YOUR_ORDER_SUBJECCT',
-  :logistics_type    => 'DIRECT',
-  :logistics_fee     => '0',
-  :logistics_payment => 'SELLER_PAY',
-  :price             => '10.00',
-  :quantity          => 12,
-  :discount          => '20.00',
-  :return_url        => 'YOUR_ORDER_RETURN_URL', # https://writings.io/orders/20130801000001
-  :notify_url        => 'YOUR_ORDER_NOTIFY_URL'  # https://writings.io/orders/20130801000001/alipay_notify
-}
-
-Alipay::Service.create_partner_trade_by_buyer_url(options)
-# => 'https://mapi.alipay.com/gateway.do?out_trade_no=...'
+Service.create_partner_trade_by_buyer_url({
+  out_trade_no: 'OUT_TRADE_NO',
+  # Order params...
+}, {
+  pid: 'ANOTHER_PID',
+  key: 'ANOTHER_KEY',
+  seller_email: 'ANOTHER_SELLER_EMAIL'
+})
 ```
 
-You can redirect user to this payment url, and user will see a payment page for his/her order.
+## Service
 
-Current support three payment type:
+### 担保交易收款接口
 
-    Alipay::Service#create_partner_trade_by_buyer_url # 担保交易
-    Alipay::Service#trade_create_by_buyer_url         # 标准双接口
-    Alipay::Service#create_direct_pay_by_user_url     # 即时到帐
-
-### Generate payment url for wap
+#### Name
 
 ```ruby
-options = {
-  :req_data => {
-    :out_trade_no  => 'YOUR_ORDER_ID',         # 20130801000001
-    :subject       => 'YOUR_ORDER_SUBJECCT',   # Writings.io Base Account x 12
-    :total_fee     => 'TOTAL_FEE',
-    :notify_url    => 'YOUR_ORDER_NOTIFY_URL', # https://writings.io/orders/20130801000001/alipay_notify
-    :call_back_url => 'YOUR_ORDER_RETURN_URL'  # https://writings.io/orders/20130801000001
-  }
-}
-
-token = Alipay::Wap::Service.trade_create_direct_token(options)
-Alipay::Wap::Service.auth_and_execute(request_token: token)
-# => 'http://wappaygw.alipay.com/service/rest.htm?req_data=...'
+create_partner_trade_by_buyer
 ```
 
-You can redirect user to this payment url, and user will see a payment page for his/her order.
-
-Current only support this payment type:
-
-    Alipay::Wap::Service.auth_and_execute # 即时到帐
-
-### Send goods
+#### Definition
 
 ```ruby
-options = {
-  :trade_no       => 'TRADE_NO',
-  :logistics_name => 'writings.io',
-  :transport_type => 'DIRECT'
-}
+Alipay::Service.create_partner_trade_by_buyer_url({ARGUMENTS}, {OPTIONS})
+```
 
-Alipay::Service.send_goods_confirm_by_platform(options)
+#### Example
+
+```ruby
+Alipay::Service.create_partner_trade_by_buyer_url(
+  out_trade_no: '20150401000-0001',
+  subject: 'Order Name',
+  price: '10.00',
+  quantity: 12,
+  logistics_type: 'DIRECT',
+  logistics_fee: '0',
+  logistics_payment: 'SELLER_PAY',
+  return_url: 'https://example.com/orders/20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+# => 'https://mapi.alipay.com/gateway.do?service=create_partner_trade_by_buyer&...'
+```
+
+Guide consumer to this address to complete payment
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_order_no | required | Order id in your application. |
+| subject | required | Order subject. |
+| price | required | Order item's price. |
+| quantity | required | Order item's quantity, total price is price * quantity. |
+| logistics_type | required | Logistics type. Available values: POST, EXPRESS, EMS, DIRECT. |
+| logistics_fee | required | Logistics fee. |
+| logistics_payment | required | Who pay the logistics fee. Available values: BUYER_PAY, SELLER_PAY, BUYER_PAY_AFTER_RECEIVE. |
+| return_url | optional | Redirect customer to this url after payment. |
+| notify_url | optional | Alipay asyn notify url. |
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
+
+### 确认发货接口
+
+#### Name
+
+```ruby
+send_goods_confirm_by_platform
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.send_goods_confirm_by_platform({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.send_goods_confirm_by_platform(
+  trade_no: '201504010000001',
+  logistics_name: 'example.com'
+)
 # => '<!xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
 ```
 
-### Close trade
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| trade_no | required | Trade number in Alipay system, should get from notify message. |
+| logistics_name | required | Logistics Name. |
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
+
+### 即时到账收款接口
+
+#### Name
 
 ```ruby
-Alipay::Service.close_trade(
-  :trade_no     => 'TRADE_NO',
-  :out_order_no => 'the-out-order-no'
-)
-# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
+create_direct_pay_by_user
 ```
 
-You must specify either `trade_no` or `out_order_no`.
-
-If Alipay fail to close trade, this method will return XML similar to:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<alipay>
-  <is_success>F</is_success>
-  <error>TRADE_STATUS_NOT_AVAILD</error>
-</alipay>
-```
-
-## Single trade query
-
-The parameters same as [Close trade](#user-content-close-trade)
+#### Definition
 
 ```ruby
-Alipay::Service.single_trade_query(
-  :trade_no     => 'TRADE_NO',
-  :out_order_no => 'the-out-order-no'
-)
-# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success><request><param name="trade_no">TRADE_NO</param><param name="_input_charset">utf-8</param><param name="service">single_trade_query</param><param name="partner">PARTNER</param></request><response><trade><additional_trade_status>DAEMON_CONFIRM_CLOSE</additional_trade_status><buyer_email>foo@gmail.com</buyer_email><buyer_id>BUYER_ID</buyer_id><discount>0.00</discount><flag_trade_locked>0</flag_trade_locked><gmt_close>2015-01-20 02:37:00</gmt_close><gmt_create>2015-01-20 02:17:00</gmt_create><gmt_last_modified_time>2015-01-20 02:37:00</gmt_last_modified_time><is_total_fee_adjust>F</is_total_fee_adjust><operator_role>B</operator_role><out_trade_no>OUT_TRADE_NO</out_trade_no><payment_type>1</payment_type><price>640.00</price><quantity>1</quantity><seller_email>bar@example.com</seller_email><seller_id>SELLER_ID</seller_id><subject>YOUR ORDER SUBJECT</subject><to_buyer_fee>0.00</to_buyer_fee><to_seller_fee>0.00</to_seller_fee><total_fee>640.00</total_fee><trade_no>TRADE_NO</trade_no><trade_status>TRADE_CLOSED</trade_status><use_coupon>F</use_coupon></trade></response><sign>SIGN</sign><sign_type>MD5</sign_type></alipay>'
+Alipay::Service.create_direct_pay_by_user_url({ARGUMENTS}, {OPTIONS})
 ```
 
-### Refund
+#### Example
+
+```ruby
+Alipay::Service.create_direct_pay_by_user_url(
+  out_trade_no: '20150401000-0001',
+  subject: 'Order Name',
+  price: '10.00',
+  quantity: 12,
+  return_url: 'https://example.com/orders/20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_order_no | required | Order id in your application. |
+| subject | required | Order subject. |
+| price | required * | Order item's price. |
+| quantity | required * | Order item's quantity, total price is price * quantity. |
+| return_url | optional | Redirect customer to this url after payment. |
+| notify_url | optional | Alipay asyn notify url. |
+
+\* Can be replaced by total_fee. When total_fee is set, price and quantity could not be set.
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaydirect.zip .
+
+### 即时到账批量退款有密接口
+
+#### Name
+
+```ruby
+refund_fastpay_by_platform_pwd
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.refund_fastpay_by_platform_pwd_url
+```
+
+#### Example
 
 ```ruby
 batch_no = Alipay::Utils.generate_batch_no # refund batch no, you SHOULD store it to db to avoid alipay duplicate refund
-options = {
-    batch_no:   batch_no,
-    data:       [{:trade_no => 'TRADE_NO', :amount => '10.0', :reason => 'REFUND_REASON'}],
-    notify_url: 'YOUR_ORDER_NOTIFY_URL'  # https://writings.io/orders/20130801000001/alipay_refund_notify
-}
-
-Alipay::Service.create_refund_url(options)
+Alipay::Service.refund_fastpay_by_platform_pwd_url(
+  batch_no: batch_no,
+  data: [{
+    trade_no: '201504010000001',
+    amount: '10.0',
+    reason: 'REFUND_REASON'
+  }],
+  notify_url: 'https://example.com/orders/20150401000-0001/refund_notify'
+)
+# => https://mapi.alipay.com/gateway.do?service=refund_fastpay_by_platform_pwd&...
 ```
 
-Batch No. Generate Demo: http://git.io/GcXKJw
-Notify Url Demo: http://git.io/pst4Tw
+#### Arguments
 
-### Verify notify
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| batch_no | required | Refund batch no, you should store it to db to avoid alipay duplicate refund. |
+| data | required | Refund data, a hash array. |
+| notify_url | required | Alipay notify url. |
+
+##### Data Item
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| trade_no | required | Trade number in alipay system. |
+| amount | required | Refund amount. |
+| reason | required | Refund reason. Less than 256 bytes, could not contain special characters: ^ $ &#124; #. |
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaydirect.zip .
+
+### 关闭交易接口
+
+#### Name
 
 ```ruby
-# Example in rails,
-# notify url MUST be set when generate payment url
+close_trade
+```
 
-def alipay_web_notify
-  # except :controller_name, :action_name, :host, etc.
-  notify_params = params.except(*request.path_parameters.keys)
+#### Definition
 
-  if Alipay::Notify.verify?(notify_params)
-    # Valid notify, code your business logic.
-    # trade_status is base on your payment type
-    # Example:
-    #
-    # case params[:trade_status]
-    # when 'WAIT_BUYER_PAY'
-    # when 'WAIT_SELLER_SEND_GOODS'
-    # when 'TRADE_FINISHED'
-    # when 'TRADE_CLOSED'
-    # end
-    render :text => 'success'
-  else
-    render :text => 'error'
-  end
-end
+```ruby
+Alipay::Service.close_trade({ARGUMENTS}, {OPTIONS})
+```
 
-def alipay_wap_notify
-  # except :controller_name, :action_name, :host, etc.
-  notify_params = params.except(*request.path_parameters.keys)
+#### Example
 
-  if Alipay::Wap::Notify.verify?(notify_params)
-    # valid notify, code your business logic.
-    # you may want to get you order id:
-    #   order_id = Hash.from_xml(params[:notify_data])['notify']['out_trade_no']
-    render :text => 'success'
-  else
-    render :text => 'error'
-  end
-end
+```ruby
+Alipay::Service.close_trade(
+  trade_no: '201504010000001'
+)
+# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
 
-def alipay_app_notify
-  # except :controller_name, :action_name, :host, etc.
-  notify_params = params.except(*request.path_parameters.keys)
+# When fail
+# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>F</is_success> <error>TRADE_STATUS_NOT_AVAILD</error></alipay>'
+```
 
-  if Alipay::Notify::App.verify?(notify_params)
-    # valid notify, code your business logic.
-    render :text => 'success'
-  else
-    render :text => 'error'
-  end
-end
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_order_no | optional * | Order number in your application. |
+| trade_no | optional * | Trade number in alipay system. |
+
+\* out_order_no and trade_no must have one.
+
+### 单笔交易查询接口
+
+#### Name
+
+```ruby
+single_trade_query
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.single_trade_query({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.single_trade_query(
+  trade_no: '201504010000001'
+)
+# => '<?xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success>...
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_trade_no | optional * | Order number in your application. |
+| trade_no | optional * | Trade number in alipay system. |
+
+\* out_trade_no and trade_no must have one.
+
+### 境外收单接口
+
+#### Name
+
+```ruby
+create_forex_trade
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.create_forex_trade_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.create_forex_trade_url(
+  out_trade_no: '20150401000-0001',
+  subject: 'Subject',
+  currency: 'USD',
+  total_fee: '10.00',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+# => 'https://mapi.alipay.com/gateway.do?service=create_forex_trade...'
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_trade_no | required | Order number in your application. |
+| subject | required | Order subject. |
+| currency | required | Abbreviated currency name. |
+| total_fee | required | Order total price. |
+| notify_url | optional | Alipay asyn notify url. |
+
+### 境外收单单笔退款接口
+
+#### Name
+
+```ruby
+forex_refund
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.forex_refund_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.forex_refund_url(
+  out_return_no: '20150401000-0001',
+  out_trade_no: '201504010000001',
+  return_amount: '10.00',
+  currency: 'USD',
+  reason: 'Reason',
+  gmt_return: '2015-04-01 00:00:00'
+)
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_return_no | required | Refund no, you should store it to db to avoid alipay duplicate refund. |
+| out_trade_no | required | Order number in your application. |
+| return_amount | required | Refund amount. |
+| currency | required | Abbreviated currency name. |
+| reason | required | Refun reason. |
+| notify_url | optional | Alipay asyn notify url. |
+
+### 验证通知
+
+#### Name
+
+```ruby
+notify_verify
+```
+
+#### Definition
+
+```ruby
+Alipay::Notify.verify?({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+# Rails
+# params except :controller_name, :action_name, :host, etc.
+notify_params = params.except(*request.path_parameters.keys)
+
+Alipay::Notify.verify?(notify_params)
+```
+
+## Wap::Service
+
+### 授权接口
+
+#### Name
+
+```ruby
+alipay.wap.trade.create.direct
+```
+
+#### Definition
+
+```ruby
+Alipay::Wap::Service.trade_create_direct_token({ARGUMENTS}, {OPTIONS}}
+```
+
+#### Example
+
+```ruby
+token = Alipay::Wap::Service.trade_create_direct_token(
+  req_data: {
+    out_trade_no: '20150401000-0001',
+    subject: 'Subject',
+    total_fee: '10.0',
+    call_back_url: 'https://example.com/orders/20150401000-0001',
+    notify_url: 'https://example.com/orders/20150401000-0001/notify'
+  }
+)
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| req_data | required | See req_data ARGUMENTS |
+
+##### req_data ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_order_no | required | Order id in your application. |
+| subject | required | Order subject. |
+| total_fee | required | Order total price. |
+| return_url | optional | Redirect customer to this url after payment. |
+| notify_url | optional | Alipay asyn notify url. |
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_WAP_PAYWAP.zip .
+
+### 交易接口
+
+#### Name
+
+```ruby
+alipay.wap.auth.authAndExecute
+```
+
+#### Definition
+
+```ruby
+Alipay::Wap::Service.auth_and_execute({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Wap::Service.auth_and_execute(request_token: token)
+```
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| request_token | required | Get from trade_create_direct_token |
+
+### 验证通知
+
+#### Name
+
+```ruby
+notify_verify
+```
+
+#### Definition
+
+```ruby
+Alipay::Wap::Notify.verify?({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+# Rails
+# params except :controller_name, :action_name, :host, etc.
+notify_params = params.except(*request.path_parameters.keys)
+
+Alipay::Wap::Notify.verify?(notify_params)
 ```
 
 ## Contributing
