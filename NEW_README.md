@@ -366,6 +366,30 @@ Alipay::Service.create_forex_single_refund_url(
 | reason | required | Refun reason. |
 | notify_url | optional | Alipay asyn notify url. |
 
+### 验证通知
+
+#### Name
+
+```ruby
+notify_verify
+```
+
+#### Definition
+
+```ruby
+Alipay::Notify.verify?({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+# Rails
+# params except :controller_name, :action_name, :host, etc.
+notify_params = params.except(*request.path_parameters.keys)
+
+Alipay::Notify.verify?(notify_params)
+```
+
 ## Wap::Service
 
 ### 授权接口
@@ -439,7 +463,29 @@ Alipay::Wap::Service.auth_and_execute(request_token: token)
 | --- | ----------- | ----------- |
 | request_token | required | Get from trade_create_direct_token |
 
-### 通知验证
+### 验证通知
+
+#### Name
+
+```ruby
+notify_verify
+```
+
+#### Definition
+
+```ruby
+Alipay::Wap::Notify.verify?({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+# Rails
+# params except :controller_name, :action_name, :host, etc.
+notify_params = params.except(*request.path_parameters.keys)
+
+Alipay::Wap::Notify.verify?(notify_params)
+```
 
 ## Contributing
 
