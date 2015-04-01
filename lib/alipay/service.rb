@@ -88,7 +88,7 @@ module Alipay
     # out_trade_no 交易创建时的订单号
     # return_amount 退款金额
     # currency 退款币种，与交易创建时的币种一致
-    def self.create_forex_single_refund_url(params, options = {})
+    def self.forex_refund_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_PARAMS)
 

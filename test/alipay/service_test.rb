@@ -53,7 +53,7 @@ class Alipay::ServiceTest < Minitest::Test
     assert_equal "https://mapi.alipay.com/gateway.do?service=refund_fastpay_by_platform_pwd&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&refund_date=2015-01-01+00%3A00%3A00&batch_num=1&detail_data=1%5E0.01%5Etest&batch_no=123456789&notify_url=%2Fsome_url&sign_type=MD5&sign=3f5be5655b513334460a511e74a9ae57", Alipay::Service.refund_fastpay_by_platform_pwd_url(options)
   end
 
-  def test_generate_create_forex_single_refund_url
+  def test_forex_refund_url
     options = {
       :out_return_no => '1',
       :out_trade_no  => '12345678980',
@@ -62,7 +62,7 @@ class Alipay::ServiceTest < Minitest::Test
       :reason        => 'reason',
       :gmt_return    => '2015-01-01 00:00:00'
     }
-    assert_equal 'https://mapi.alipay.com/gateway.do?service=forex_refund&partner=1000000000000000&_input_charset=utf-8&gmt_return=2015-01-01+00%3A00%3A00&out_return_no=1&out_trade_no=12345678980&return_amount=0.01&currency=USD&reason=reason&sign_type=MD5&sign=123c50e884e560801fee8b73f1ac6172', Alipay::Service.create_forex_single_refund_url(options)
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=forex_refund&partner=1000000000000000&_input_charset=utf-8&gmt_return=2015-01-01+00%3A00%3A00&out_return_no=1&out_trade_no=12345678980&return_amount=0.01&currency=USD&reason=reason&sign_type=MD5&sign=123c50e884e560801fee8b73f1ac6172', Alipay::Service.forex_refund_url(options)
   end
 
   def test_generate_create_forex_trade_url

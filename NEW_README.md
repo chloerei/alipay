@@ -339,13 +339,13 @@ forex_refund
 #### Definition
 
 ```ruby
-Alipay::Service.create_forex_single_refund_url({ARGUMENTS}, {OPTIONS}) # TODO: rename forex_refund_url
+Alipay::Service.forex_refund_url({ARGUMENTS}, {OPTIONS})
 ```
 
 #### Example
 
 ```ruby
-Alipay::Service.create_forex_single_refund_url(
+Alipay::Service.forex_refund_url(
   out_return_no: '20150401000-0001',
   out_trade_no: '201504010000001',
   return_amount: '10.00',
