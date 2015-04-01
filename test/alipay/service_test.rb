@@ -60,9 +60,9 @@ class Alipay::ServiceTest < Minitest::Test
       :return_amount => '0.01',
       :currency      => 'USD',
       :reason        => 'reason',
-      :gmt_return    => '2015-01-01 00:00:00'
+      :gmt_return    => '20150101000000'
     }
-    assert_equal 'https://mapi.alipay.com/gateway.do?service=forex_refund&partner=1000000000000000&_input_charset=utf-8&gmt_return=2015-01-01+00%3A00%3A00&out_return_no=1&out_trade_no=12345678980&return_amount=0.01&currency=USD&reason=reason&sign_type=MD5&sign=123c50e884e560801fee8b73f1ac6172', Alipay::Service.forex_refund_url(options)
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=forex_refund&partner=1000000000000000&_input_charset=utf-8&gmt_return=20150101000000&out_return_no=1&out_trade_no=12345678980&return_amount=0.01&currency=USD&reason=reason&sign_type=MD5&sign=c9681fff5505fe993d1b2b8141308d0d', Alipay::Service.forex_refund_url(options)
   end
 
   def test_generate_create_forex_trade_url

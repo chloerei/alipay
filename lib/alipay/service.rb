@@ -96,7 +96,7 @@ module Alipay
         'service'        => 'forex_refund',
         'partner'        => options[:pid] || Alipay.pid,
         '_input_charset' => 'utf-8',
-        'gmt_return'     => Time.now.strftime('%Y%m%d%H%M%S')
+        'gmt_return'     => Time.now.getlocal('+08:00').strftime('%Y%m%d%H%M%S')
       }.merge(params)
 
       request_uri(params, options).to_s

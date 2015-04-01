@@ -351,7 +351,7 @@ Alipay::Service.forex_refund_url(
   return_amount: '10.00',
   currency: 'USD',
   reason: 'Reason',
-  gmt_return: '2015-04-01 00:00:00'
+  gmt_return: '20150401000000'
 )
 ```
 
@@ -364,7 +364,9 @@ Alipay::Service.forex_refund_url(
 | return_amount | required | Refund amount. |
 | currency | required | Abbreviated currency name. |
 | reason | required | Refun reason. |
-| notify_url | optional | Alipay asyn notify url. |
+| gmt_return | required * | YYYYMMDDHHMMSS Beijing Time. |
+
+\* Auto set Time.now if not set.
 
 ### 验证通知
 
