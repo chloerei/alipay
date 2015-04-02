@@ -1,3 +1,8 @@
+## v0.6.0.beta3 (2015-04-02)
+
+- Don't raise exception when sign_type error in Sign.verify?.
+- Fixed gmt_return timezone to +08:00.
+
 ## v0.6.0.beta2 (2015-04-01)
 
 - Move `Alipay::Service::Wap` to `Alipay::Wap::Service`
