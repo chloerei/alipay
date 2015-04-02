@@ -43,7 +43,7 @@ NG9zpgmLCUYuLkxpLQIDAQAB
       when 'DSA'
         DSA.verify?(string, sign)
       else
-        raise ArgumentError, "[Alipay] Invalid sign_type #{sign_type}, allow values: 'MD5', 'RSA', 'DSA'"
+        false
       end
     end
 

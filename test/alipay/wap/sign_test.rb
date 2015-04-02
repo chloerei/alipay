@@ -12,6 +12,8 @@ class Alipay::Wap::SignTest < Minitest::Test
   end
 
   def test_verify_sign
+    assert !Alipay::Wap::Sign.verify?(@params)
+    assert !Alipay::Wap::Sign.verify?(@params.merge(:sec_id => 'unknow'))
     assert Alipay::Wap::Sign.verify?(@params.merge(:sign => @sign, :whatever => 'x'))
   end
 end

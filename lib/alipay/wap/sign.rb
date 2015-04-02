@@ -22,7 +22,7 @@ Udmh5Ua2xg6IEfk493VQIDAQAB
         when '0001' # RSA
           ::Alipay::Sign::RSA.verify?(ALIPAY_RSA_PUBLIC_KEY, string, sign)
         else
-          raise ArgumentError, "[Alipay] Invalid sec_id, allow value: 'MD5', '0001'"
+          false
         end
       end
 
