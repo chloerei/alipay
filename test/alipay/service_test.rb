@@ -165,4 +165,8 @@ class Alipay::ServiceTest < Minitest::Test
       :transport_type => 'DIRECT'
     )
   end
+
+  def test_mobile_security_pay_url
+    # TODO
+  end
 end
