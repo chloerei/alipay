@@ -406,6 +406,8 @@ Alipay::Service.mobile_security_pay_url(
 
 \* This service only support RSA sign_type.
 
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
+
 ### 验证通知
 
 #### Name
