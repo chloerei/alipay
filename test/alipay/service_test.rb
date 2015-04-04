@@ -167,6 +167,15 @@ class Alipay::ServiceTest < Minitest::Test
   end
 
   def test_mobile_security_pay_url
-    # TODO
+    assert_equal 'https://mapi.alipay.com/gateway.do?_input_charset=utf-8&partner=1000000000000000&seller_id=admin%40example.com&payment_type=1&service=mobile.securitypay.pay&out_trade_no=1&notify_url=%2Fsome_url&subject=subject&total_fee=0.01&body=test&sign_type=RSA&sign=cEpcxOIFtNJwkWL7fJx%2F%2BToy6raiLnVF3L9cBt81rUHmD9Im0pM%2FzTH57Y7v%0AXlKK8OfrM07pOLqD0mrLXsuCUU7C%2B%2BjfwUxcIixSdiwCLEsc36VsJf8Sgrt1%0Azx10SC7y2vd1Cvq0M822O86C%2FESMO1kpIdk%2BgiM%2FhjFCOKZEnLY%3D%0A', Alipay::Service.mobile_security_pay_url({
+      :out_trade_no      => '1',
+      :notify_url  => '/some_url',
+      :subject => 'subject',
+      :total_fee => '0.01',
+      :body => 'test'
+    }, {
+      :sign_type => 'RSA',
+      :key => TEST_RSA_PRIVATE_KEY
+    })
   end
 end
