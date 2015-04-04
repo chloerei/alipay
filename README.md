@@ -404,6 +404,8 @@ Alipay::Service.mobile_security_pay_url(
 | total_fee | required | Order total price. |
 | body | required | Order body, less than 512 bytes. |
 
+\* This service only support RSA sign_type.
+
 ### 验证通知
 
 #### Name
