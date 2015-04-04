@@ -187,10 +187,10 @@ module Alipay
       uri
     end
 
-    def self.sign_params(params, optinos = {})
+    def self.sign_params(params, options = {})
       params.merge(
-        'sign_type' => (optinos[:sign_type] || Alipay.sign_type),
-        'sign'      => Alipay::Sign.generate(params, optinos)
+        'sign_type' => (options[:sign_type] || Alipay.sign_type),
+        'sign'      => Alipay::Sign.generate(params, options)
       )
     end
 
