@@ -20,21 +20,20 @@ class Alipay::Wap::ServiceTest < Minitest::Test
     FakeWeb.register_uri(
       :get,
       %r|https://wappaygw\.alipay\.com/service/rest\.htm.*|,
-      :body => body
+      body: body
     )
 
     assert_equal token, Alipay::Wap::Service.trade_create_direct_token(
-      :req_data => {
-        :out_trade_no  => '1',
-        :subject       => 'subject',
-        :total_fee     => '0.01',
-        :call_back_url => 'https://example.com/call_back'
+      req_data: {
+        out_trade_no: '1',
+        subject: 'subject',
+        total_fee: '0.01',
+        call_back_url: 'https://example.com/call_back'
       }
     )
   end
 
   def test_auth_and_execute_url
-    params = { :request_token => 'token_test' }
-    assert_equal 'https://wappaygw.alipay.com/service/rest.htm?service=alipay.wap.auth.authAndExecute&req_data=%3Cauth_and_execute_req%3E%3Crequest_token%3Etoken_test%3C%2Frequest_token%3E%3C%2Fauth_and_execute_req%3E&partner=1000000000000000&format=xml&v=2.0&sec_id=MD5&sign=3efe60d4a9b7960ba599da6764c959df', Alipay::Wap::Service.auth_and_execute_url(params)
+    assert_equal 'https://wappaygw.alipay.com/service/rest.htm?service=alipay.wap.auth.authAndExecute&req_data=%3Cauth_and_execute_req%3E%3Crequest_token%3Etoken_test%3C%2Frequest_token%3E%3C%2Fauth_and_execute_req%3E&partner=1000000000000000&format=xml&v=2.0&sec_id=MD5&sign=3efe60d4a9b7960ba599da6764c959df', Alipay::Wap::Service.auth_and_execute_url(request_token: 'token_test')
   end
 end

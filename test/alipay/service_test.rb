@@ -3,13 +3,13 @@ require 'test_helper'
 class Alipay::ServiceTest < Minitest::Test
   def test_generate_create_partner_trade_by_buyer_url
     options = {
-      :out_trade_no      => '1',
-      :subject           => 'test',
-      :logistics_type    => 'POST',
-      :logistics_fee     => '0',
-      :logistics_payment => 'SELLER_PAY',
-      :price             => '0.01',
-      :quantity          => 1
+      out_trade_no: '1',
+      subject: 'test',
+      logistics_type: 'POST',
+      logistics_fee: '0',
+      logistics_payment: 'SELLER_PAY',
+      price: '0.01',
+      quantity: 1
     }
 
     assert_equal 'https://mapi.alipay.com/gateway.do?service=create_partner_trade_by_buyer&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&payment_type=1&out_trade_no=1&subject=test&logistics_type=POST&logistics_fee=0&logistics_payment=SELLER_PAY&price=0.01&quantity=1&sign_type=MD5&sign=09c5d8fd3d7eac18268fffa4cdffd19e', Alipay::Service.create_partner_trade_by_buyer_url(options)
@@ -17,61 +17,61 @@ class Alipay::ServiceTest < Minitest::Test
 
   def test_generate_trade_create_by_buyer_url
     options = {
-      :out_trade_no      => '1',
-      :subject           => 'test',
-      :logistics_type    => 'POST',
-      :logistics_fee     => '0',
-      :logistics_payment => 'SELLER_PAY',
-      :price             => '0.01',
-      :quantity          => 1
+      out_trade_no: '1',
+      subject: 'test',
+      logistics_type: 'POST',
+      logistics_fee: '0',
+      logistics_payment: 'SELLER_PAY',
+      price: '0.01',
+      quantity: 1
     }
     assert_equal 'https://mapi.alipay.com/gateway.do?service=trade_create_by_buyer&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&payment_type=1&out_trade_no=1&subject=test&logistics_type=POST&logistics_fee=0&logistics_payment=SELLER_PAY&price=0.01&quantity=1&sign_type=MD5&sign=62b029a767accbbd5f3b085da5959506', Alipay::Service.trade_create_by_buyer_url(options)
   end
 
   def test_generate_create_direct_pay_by_user_url
     options = {
-      :out_trade_no      => '1',
-      :subject           => 'test',
-      :price             => '0.01',
-      :quantity          => 1
+      out_trade_no: '1',
+      subject: 'test',
+      price: '0.01',
+      quantity: 1
     }
     assert_equal 'https://mapi.alipay.com/gateway.do?service=create_direct_pay_by_user&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&payment_type=1&out_trade_no=1&subject=test&price=0.01&quantity=1&sign_type=MD5&sign=51c7f60e85eaff5136600d1942b2744c', Alipay::Service.create_direct_pay_by_user_url(options)
   end
 
   def test_refund_fastpay_by_platform_pwd_url
     data = [{
-      :trade_no => '1',
-      :amount   => '0.01',
-      :reason   => 'test'
+      trade_no: '1',
+      amount: '0.01',
+      reason: 'test'
     }]
     options = {
-      :batch_no    => '123456789',
-      :data        => data,
-      :notify_url  => '/some_url',
-      :refund_date => '2015-01-01 00:00:00'
+      batch_no: '123456789',
+      data: data,
+      notify_url: '/some_url',
+      refund_date: '2015-01-01 00:00:00'
     }
     assert_equal "https://mapi.alipay.com/gateway.do?service=refund_fastpay_by_platform_pwd&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&refund_date=2015-01-01+00%3A00%3A00&batch_num=1&detail_data=1%5E0.01%5Etest&batch_no=123456789&notify_url=%2Fsome_url&sign_type=MD5&sign=3f5be5655b513334460a511e74a9ae57", Alipay::Service.refund_fastpay_by_platform_pwd_url(options)
   end
 
   def test_forex_refund_url
     options = {
-      :out_return_no => '1',
-      :out_trade_no  => '12345678980',
-      :return_amount => '0.01',
-      :currency      => 'USD',
-      :reason        => 'reason',
-      :gmt_return    => '20150101000000'
+      out_return_no: '1',
+      out_trade_no: '12345678980',
+      return_amount: '0.01',
+      currency: 'USD',
+      reason: 'reason',
+      gmt_return: '20150101000000'
     }
     assert_equal 'https://mapi.alipay.com/gateway.do?service=forex_refund&partner=1000000000000000&_input_charset=utf-8&gmt_return=20150101000000&out_return_no=1&out_trade_no=12345678980&return_amount=0.01&currency=USD&reason=reason&sign_type=MD5&sign=c9681fff5505fe993d1b2b8141308d0d', Alipay::Service.forex_refund_url(options)
   end
 
   def test_generate_create_forex_trade_url
     options = {
-      :notify_url        => 'https://example.com/notify',
-      :subject           => 'test',
-      :out_trade_no      => '1',
-      :currency          => 'EUR',
-      :total_fee         => '0.01',
+      notify_url: 'https://example.com/notify',
+      subject: 'test',
+      out_trade_no: '1',
+      currency: 'EUR',
+      total_fee: '0.01',
     }
     assert_equal 'https://mapi.alipay.com/gateway.do?service=create_forex_trade&_input_charset=utf-8&partner=1000000000000000&seller_email=admin%40example.com&notify_url=https%3A%2F%2Fexample.com%2Fnotify&subject=test&out_trade_no=1&currency=EUR&total_fee=0.01&sign_type=MD5&sign=495a0e610134aa33f6ce021f8b8c6c8d', Alipay::Service.create_forex_trade_url(options)
   end
@@ -86,11 +86,11 @@ class Alipay::ServiceTest < Minitest::Test
     FakeWeb.register_uri(
       :get,
       %r|https://mapi\.alipay\.com/gateway\.do.*|,
-      :body => response_body
+      body: response_body
     )
 
     assert_equal response_body, Alipay::Service.close_trade(
-      :out_order_no => '1'
+      out_order_no: '1'
     )
   end
 
@@ -138,11 +138,11 @@ class Alipay::ServiceTest < Minitest::Test
     FakeWeb.register_uri(
       :get,
       %r|https://mapi\.alipay\.com/gateway\.do.*|,
-      :body => response_body
+      body: response_body
     )
 
     assert_equal response_body, Alipay::Service.single_trade_query(
-      :out_trade_no => '1'
+      out_trade_no: '1'
     )
   end
 
@@ -156,26 +156,26 @@ class Alipay::ServiceTest < Minitest::Test
     FakeWeb.register_uri(
       :get,
       %r|https://mapi\.alipay\.com/gateway\.do.*|,
-      :body => body
+      body: body
     )
 
     assert_equal body, Alipay::Service.send_goods_confirm_by_platform(
-      :trade_no => 'trade_no',
-      :logistics_name => 'example.com',
-      :transport_type => 'DIRECT'
+      trade_no: 'trade_no',
+      logistics_name: 'example.com',
+      transport_type: 'DIRECT'
     )
   end
 
   def test_mobile_security_pay_url
     assert_equal 'https://mapi.alipay.com/gateway.do?_input_charset=utf-8&partner=1000000000000000&seller_id=admin%40example.com&payment_type=1&service=mobile.securitypay.pay&out_trade_no=1&notify_url=%2Fsome_url&subject=subject&total_fee=0.01&body=test&sign_type=RSA&sign=cEpcxOIFtNJwkWL7fJx%2F%2BToy6raiLnVF3L9cBt81rUHmD9Im0pM%2FzTH57Y7v%0AXlKK8OfrM07pOLqD0mrLXsuCUU7C%2B%2BjfwUxcIixSdiwCLEsc36VsJf8Sgrt1%0Azx10SC7y2vd1Cvq0M822O86C%2FESMO1kpIdk%2BgiM%2FhjFCOKZEnLY%3D%0A', Alipay::Service.mobile_security_pay_url({
-      :out_trade_no      => '1',
-      :notify_url  => '/some_url',
-      :subject => 'subject',
-      :total_fee => '0.01',
-      :body => 'test'
+      out_trade_no: '1',
+      notify_url: '/some_url',
+      subject: 'subject',
+      total_fee: '0.01',
+      body: 'test'
     }, {
-      :sign_type => 'RSA',
-      :key => TEST_RSA_PRIVATE_KEY
+      sign_type: 'RSA',
+      key: TEST_RSA_PRIVATE_KEY
     })
   end
 end
