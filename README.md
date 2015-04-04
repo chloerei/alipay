@@ -368,6 +368,42 @@ Alipay::Service.forex_refund_url(
 
 \* Auto set Time.now if not set.
 
+### 快捷支付(无线)
+
+#### Name
+
+```ruby
+mobile.securitypay.pay
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.mobile_security_pay_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.mobile_security_pay_url(
+  out_trade_no: '20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+  subject: 'subject',
+  total_fee: '10.00',
+  body: 'text'
+)
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_trade_no | required | Order number in your application. |
+| notify_url | required | Alipay asyn notify url. |
+| subject | required | Order subject. |
+| total_fee | required | Order total price. |
+| body | required | Order body, less than 512 bytes. |
+
 ### 验证通知
 
 #### Name
