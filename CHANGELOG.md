@@ -1,3 +1,7 @@
+## master
+
+- Add Alipay::Service.mobile_security_pay_url method.
+
 ## v0.6.0.beta3 (2015-04-02)
 
 - Don't raise exception when sign_type error in Sign.verify?.
