@@ -4,20 +4,12 @@ A unofficial alipay ruby gem.
 
 Alipay official document: https://b.alipay.com/order/techService.htm .
 
-Master branch(v0.6.0) is in develop, checkout [v0.5.0](https://github.com/chloerei/alipay/tree/v0.5.0) if you want to use in production.
-
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.6.0.beta3'
-```
-
-or master branch:
-
-```ruby
-gem 'alipay', github: 'chloerei/alipay'
+gem 'alipay', '~> 0.6.0'
 ```
 
 And then execute:

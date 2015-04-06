@@ -1,3 +1,3 @@
 module Alipay
-  VERSION = "0.6.0.beta3"
+  VERSION = "0.6.0"
 end

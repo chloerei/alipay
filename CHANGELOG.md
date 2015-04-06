@@ -1,13 +1,15 @@
-## master
+## v.0.6.0
 
-- Add Alipay::Service.mobile_security_pay_url method.
+New API:
 
-## v0.6.0.beta3 (2015-04-02)
+- Add Alipay::Service.mobile_security_pay_url.
+- All service methods accept `options` args to config pid, seller_email and key.
 
-- Don't raise exception when sign_type error in Sign.verify?.
-- Fixed gmt_return timezone to +08:00.
+New Config:
 
-## v0.6.0.beta2 (2015-04-01)
+- Add `Alipay.sign_type`, default is 'MD5', allow: 'MD5', 'RSA'. 'DSA' is not implemented yet.
+
+Break Changes:
 
 - Move `Alipay::Service::Wap` to `Alipay::Wap::Service`
 - Move `Alipay::Sign::Wap` to `Alipay::Wap::Sign`
@@ -15,21 +17,14 @@
 - Rename `Alipay::Service.create_forex_single_refund_url` to `Alipay::Service.forex_refund_url`
 - Rename `Alipay::Service.create_forex_trade` to `Alipay::Service.create_forex_trade_url`
 - Rename `Alipay::Service.create_refund_url` to `Alipay::Service.refund_fastpay_by_platform_pwd_url`
-- All service methods accept `options` args to config pid, seller_email and key.
+- Rename `Service::Wap.auth_and_execute` to `Service::Wap::Service.auth_and_execute_url`
 
-## v0.6.0.beta1 (2015-03-26)
-
-Usage:
-
-- Add `Alipay.sign_type`, default is 'MD5', 'RSA' and 'DSA' will implemented in the future.
-- Remove `Sign::App.verify?`, use `Sign.verify_rsa?` instead.
-- Remove `Notify::App.verify?`, use `Notify.verify?` instead.
-- Rename `Service::Wap.auth_and_execute` to `Service::Wap.auth_and_execute_url`
+Now `Alipay::Sign.verify?` and `Alipay::Wap::Sign.verify?` detect sign_type by params.
 
 Development:
 
 - Update Test::Unit to Minitest.
-- Fxied test case data.
+- Use fxied test data.
 
 ## v0.5.0 (2015-03-09)
 
