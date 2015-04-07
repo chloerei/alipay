@@ -23,7 +23,6 @@ $ bundle
 ```ruby
 Alipay.pid = 'YOUR_PID'
 Alipay.key = 'YOUR_KEY'
-Alipay.seller_email = 'YOUR_SELLER_EMAIL'
 
 #Alipay.sign_type = 'MD5' # Available values: MD5, RSA. Default is MD5
 #Alipay.debug_mode = true # Enable parameter check. Default is true.
@@ -38,7 +37,6 @@ Service.create_partner_trade_by_buyer_url({
 }, {
   pid: 'ANOTHER_PID',
   key: 'ANOTHER_KEY',
-  seller_email: 'ANOTHER_SELLER_EMAIL'
 })
 ```
 
@@ -445,6 +443,7 @@ Alipay::Wap::Service.trade_create_direct_token({ARGUMENTS}, {OPTIONS}}
 ```ruby
 token = Alipay::Wap::Service.trade_create_direct_token(
   req_data: {
+    seller_account_name: 'account@example.com',
     out_trade_no: '20150401000-0001',
     subject: 'Subject',
     total_fee: '10.0',
@@ -464,6 +463,7 @@ token = Alipay::Wap::Service.trade_create_direct_token(
 
 | Key | Requirement | Description |
 | --- | ----------- | ----------- |
+| seller_account_name | required | Alipay seller account. |
 | out_order_no | required | Order id in your application. |
 | subject | required | Order subject. |
 | total_fee | required | Order total price. |

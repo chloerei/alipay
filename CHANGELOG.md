@@ -1,3 +1,9 @@
+## v0.7.0 (2015-04-07)
+
+- Remove Alipay.seller_email setting, it can be replaced by seller_id, than same with pid.
+- Alipay::Wap::Service.trade_create_direct_token add a required params: seller_account_name.
+
+
 ## v0.6.0 (2015-04-06)
 
 New API:
