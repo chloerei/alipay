@@ -25,6 +25,7 @@ class Alipay::Wap::ServiceTest < Minitest::Test
 
     assert_equal token, Alipay::Wap::Service.trade_create_direct_token(
       req_data: {
+        seller_account_name: 'account@example.com',
         out_trade_no: '1',
         subject: 'subject',
         total_fee: '0.01',

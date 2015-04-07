@@ -4,17 +4,13 @@ module Alipay
       GATEWAY_URL = 'https://wappaygw.alipay.com/service/rest.htm'
 
       TRADE_CREATE_DIRECT_TOKEN_REQUIRED_PARAMS = %w( req_data )
-      REQ_DATA_REQUIRED_PARAMS = %w( subject out_trade_no total_fee call_back_url )
+      REQ_DATA_REQUIRED_PARAMS = %w( seller_account_name subject out_trade_no total_fee call_back_url )
       def self.trade_create_direct_token(params, options = {})
         params = Utils.stringify_keys(params)
         Alipay::Service.check_required_params(params, TRADE_CREATE_DIRECT_TOKEN_REQUIRED_PARAMS)
 
         req_data = Utils.stringify_keys(params.delete('req_data'))
         Alipay::Service.check_required_params(req_data, REQ_DATA_REQUIRED_PARAMS)
-
-        req_data = {
-          'seller_account_name' => options[:seller_email] || Alipay.seller_email
-        }.merge(req_data)
 
         xml = req_data.map {|k, v| "<#{k}>#{v.encode(:xml => :text)}</#{k}>" }.join
         req_data_xml = "<direct_trade_create_req>#{xml}</direct_trade_create_req>"

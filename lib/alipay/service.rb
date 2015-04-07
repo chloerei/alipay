@@ -12,7 +12,7 @@ module Alipay
         'service'        => 'create_partner_trade_by_buyer',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'seller_email'   => options[:seller_email] || Alipay.seller_email,
+        'seller_id'      => options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -29,7 +29,7 @@ module Alipay
         'service'        => 'trade_create_by_buyer',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'seller_email'   => options[:seller_email] || Alipay.seller_email,
+        'seller_id'      => options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -50,7 +50,7 @@ module Alipay
         'service'        => 'create_direct_pay_by_user',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'seller_email'   => options[:seller_email] || Alipay.seller_email,
+        'seller_id'      => options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -73,7 +73,7 @@ module Alipay
         'service'        => 'refund_fastpay_by_platform_pwd',  # 接口名称
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'seller_email'   => options[:seller_email] || Alipay.seller_email,
+        'seller_user_id' => options[:pid] || Alipay.pid,
         'refund_date'    => Time.now.strftime('%Y-%m-%d %H:%M:%S'), # 申请退款时间
         'batch_num'      => data.size,                              # 总笔数
         'detail_data'    => detail_data                             # 转换后的单笔数据集字符串
@@ -129,7 +129,6 @@ module Alipay
         'service'         => 'create_forex_trade',
         '_input_charset'  => 'utf-8',
         'partner'         => options[:pid] || Alipay.pid,
-        'seller_email'    => options[:seller_email] || Alipay.seller_email
       }.merge(params)
 
       request_uri(params, options).to_s
@@ -171,11 +170,11 @@ module Alipay
       raise ArgumentError, "only support RSA sign_type" if sign_type != 'RSA'
 
       params = {
+        'service'        => 'mobile.securitypay.pay',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'seller_id'      => options[:seller_email] || Alipay.seller_email,
-        'payment_type'   => '1',
-        'service'        => 'mobile.securitypay.pay'
+        'seller_id'      => options[:pid] || Alipay.pid,
+        'payment_type'   => '1'
       }.merge(params)
 
       request_uri(params, options).to_s
