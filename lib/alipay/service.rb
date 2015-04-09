@@ -42,7 +42,7 @@ module Alipay
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS)
 
-      if params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?) and params['rmb_fee'].nil?
+      if Alipay.debug_mode? and params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
         warn("Alipay Warn: total_fee or (price && quantity) must be set")
       end
 
@@ -103,13 +103,11 @@ module Alipay
     end
 
     SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_PARAMS = %w( trade_no logistics_name )
+    SEND_GOODS_CONFIRM_BY_PLATFORM_OPTIONAL_PARAMS = %w( transport_type create_transport_type )
     def self.send_goods_confirm_by_platform(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_PARAMS)
-
-      if params['transport_type'].nil? and params['create_transport_type'].nil?
-        warn("Alipay Warn: transport_type or create_transport_type must have one")
-      end
+      check_optional_params(params, SEND_GOODS_CONFIRM_BY_PLATFORM_OPTIONAL_PARAMS)
 
       params = {
         'service'        => 'send_goods_confirm_by_platform',
@@ -120,14 +118,12 @@ module Alipay
       Net::HTTP.get(request_uri(params, options))
     end
 
-    CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w( notify_url subject out_trade_no currency)
+    CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w( notify_url subject out_trade_no currency )
+    CREATE_FOREX_TRADE_OPTIONAL_PARAMS = %w( total_fee rmb_fee )
     def self.create_forex_trade_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_FOREX_TRADE_REQUIRED_PARAMS)
-
-      if ![params['total_fee'], params['rmb_fee']].any?
-        warn("Alipay Warn: total_fee or rmb_fee must be set")
-      end
+      check_optional_params(params, CREATE_FOREX_TRADE_OPTIONAL_PARAMS)
 
       params = {
         'service'         => 'create_forex_trade',
@@ -207,6 +203,7 @@ module Alipay
 
     def self.check_optional_params(params, names)
       return if !Alipay.debug_mode?
+
       warn("Alipay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| params[name].nil? }
     end
   end
