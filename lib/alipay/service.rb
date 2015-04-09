@@ -42,8 +42,8 @@ module Alipay
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS)
 
-      if params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
-        warn("Ailpay Warn: total_fee or (price && quantiry) must have one")
+      if params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?) and params['rmb_fee'].nil?
+        warn("Alipay Warn: total_fee or (price && quantity) must be set")
       end
 
       params = {
@@ -108,7 +108,7 @@ module Alipay
       check_required_params(params, SEND_GOODS_CONFIRM_BY_PLATFORM_REQUIRED_PARAMS)
 
       if params['transport_type'].nil? and params['create_transport_type'].nil?
-        warn("Ailpay Warn: transport_type or create_transport_type must have one")
+        warn("Alipay Warn: transport_type or create_transport_type must have one")
       end
 
       params = {
@@ -120,10 +120,14 @@ module Alipay
       Net::HTTP.get(request_uri(params, options))
     end
 
-    CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w( notify_url subject out_trade_no currency total_fee)
+    CREATE_FOREX_TRADE_REQUIRED_PARAMS = %w( notify_url subject out_trade_no currency)
     def self.create_forex_trade_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_FOREX_TRADE_REQUIRED_PARAMS)
+
+      if ![params['total_fee'], params['rmb_fee']].any?
+        warn("Alipay Warn: total_fee or rmb_fee must be set")
+      end
 
       params = {
         'service'         => 'create_forex_trade',
@@ -197,13 +201,13 @@ module Alipay
       return if !Alipay.debug_mode?
 
       names.each do |name|
-        warn("Ailpay Warn: missing required option: #{name}") unless params.has_key?(name)
+        warn("Alipay Warn: missing required option: #{name}") unless params.has_key?(name)
       end
     end
 
     def self.check_optional_params(params, names)
       return if !Alipay.debug_mode?
-      warn("Ailpay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| params[name].nil? }
+      warn("Alipay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| params[name].nil? }
     end
   end
 end
