@@ -315,8 +315,10 @@ Alipay::Service.create_forex_trade_url(
 | out_trade_no | required | Order number in your application. |
 | subject | required | Order subject. |
 | currency | required | Abbreviated currency name. |
-| total_fee | required | Order total price. |
+| total_fee | required * | Order total price. |
 | notify_url | optional | Alipay asyn notify url. |
+
+\* total_fee can be replace by rmb_fee.
 
 ### 境外收单单笔退款接口
 
