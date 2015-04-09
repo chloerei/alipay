@@ -43,7 +43,7 @@ module Alipay
       check_required_params(params, CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS)
 
       if params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
-        warn("Ailpay Warn: total_fee or (price && quantiry) must have one")
+        warn("Alipay Warn: total_fee or (price && quantiry) must have one")
       end
 
       params = {
@@ -203,7 +203,7 @@ module Alipay
 
     def self.check_optional_params(params, names)
       return if !Alipay.debug_mode?
-      warn("Ailpay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| params[name].nil? }
+      warn("Alipay Warn: must specify either #{names.join(' or ')}") if names.all? {|name| params[name].nil? }
     end
   end
 end
