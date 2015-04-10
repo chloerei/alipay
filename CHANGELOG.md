@@ -1,3 +1,7 @@
+## v0.7.1 (2015-04-10)
+
+- Don't warning when `rmb_fee` is used in forex_refund_url method.
+
 ## v0.7.0 (2015-04-07)
 
 - Remove Alipay.seller_email setting, it can be replaced by seller_id, than same with pid.
