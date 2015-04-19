@@ -485,13 +485,13 @@ alipay.wap.auth.authAndExecute
 #### Definition
 
 ```ruby
-Alipay::Wap::Service.auth_and_execute({ARGUMENTS}, {OPTIONS})
+Alipay::Wap::Service.auth_and_execute_url({ARGUMENTS}, {OPTIONS})
 ```
 
 #### Example
 
 ```ruby
-Alipay::Wap::Service.auth_and_execute(request_token: token)
+Alipay::Wap::Service.auth_and_execute_url(request_token: token)
 ```
 #### ARGUMENTS
 
