@@ -4,7 +4,7 @@ module Alipay
       params = Utils.stringify_keys(params)
       sign_type = options[:sign_type] || Alipay.sign_type
       key = options[:key] || Alipay.key
-      string = params_to_string(params)
+      string = params_to_string(params, options[:is_fixed_order])
 
       case sign_type
       when 'MD5'
@@ -32,7 +32,7 @@ NG9zpgmLCUYuLkxpLQIDAQAB
 
       sign_type = params.delete('sign_type')
       sign = params.delete('sign')
-      string = params_to_string(params)
+      string = params_to_string(params, options[:is_fixed_order])
 
       case sign_type
       when 'MD5'
@@ -47,8 +47,12 @@ NG9zpgmLCUYuLkxpLQIDAQAB
       end
     end
 
-    def self.params_to_string(params)
-      params.sort.map { |item| item.join('=') }.join('&')
+    def self.params_to_string(params, is_fixed_order)
+        if is_fixed_order
+          params.map { |item| item.join('=') }.join('&') 
+        else
+          params.sort.map { |item| item.join('=') }.join('&')
+        end
     end
   end
 end
