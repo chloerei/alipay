@@ -31,6 +31,7 @@ NG9zpgmLCUYuLkxpLQIDAQAB
       params = Utils.stringify_keys(params)
 
       sign_type = params.delete('sign_type')
+      sign_type = params['sec_id'] if options[:is_fixed_order]
       sign = params.delete('sign')
       string = params_to_string(params, options[:is_fixed_order])
 
@@ -48,11 +49,11 @@ NG9zpgmLCUYuLkxpLQIDAQAB
     end
 
     def self.params_to_string(params, is_fixed_order)
-        if is_fixed_order
-          params.map { |item| item.join('=') }.join('&') 
-        else
-          params.sort.map { |item| item.join('=') }.join('&')
-        end
+      if is_fixed_order
+        "service=#{params['service']}&v=#{params['v']}&sec_id=#{params['sec_id']}&notify_data=#{params['notify_data']}"
+      else
+        params.sort.map { |item| item.join('=') }.join('&')
+      end
     end
   end
 end
