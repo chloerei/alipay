@@ -162,10 +162,10 @@ module Alipay
       Net::HTTP.get(request_uri(params, options))
     end
 
-    MOBILD_SECURITY_PAY_REQUIRED_PARAMS = %w( notify_url out_trade_no subject total_fee body )
+    MOBILE_SECURITY_PAY_REQUIRED_PARAMS = %w( notify_url out_trade_no subject total_fee body )
     def self.mobile_security_pay_url(params, options = {})
       params = Utils.stringify_keys(params)
-      check_required_params(params, MOBILD_SECURITY_PAY_REQUIRED_PARAMS)
+      check_required_params(params, MOBILE_SECURITY_PAY_REQUIRED_PARAMS)
       sign_type = options[:sign_type] || Alipay.sign_type
       raise ArgumentError, "only support RSA sign_type" if sign_type != 'RSA'
 
