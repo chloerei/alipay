@@ -110,7 +110,8 @@ Alipay::Service.send_goods_confirm_by_platform({ARGUMENTS}, {OPTIONS})
 ```ruby
 Alipay::Service.send_goods_confirm_by_platform(
   trade_no: '201504010000001',
-  logistics_name: 'example.com'
+  logistics_name: 'example.com',
+  transport_type: 'DIRECT'
 )
 # => '<!xml version="1.0" encoding="utf-8"?><alipay><is_success>T</is_success></alipay>'
 ```
@@ -121,6 +122,7 @@ Alipay::Service.send_goods_confirm_by_platform(
 | --- | ----------- | ----------- |
 | trade_no | required | Trade number in Alipay system, should get from notify message. |
 | logistics_name | required | Logistics Name. |
+| transport_type/create_transport_type | required | Allowed values: POST, EXPRESS, EMS, DIRECT. |
 
 This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
 
