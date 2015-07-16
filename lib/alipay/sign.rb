@@ -4,7 +4,11 @@ module Alipay
       params = Utils.stringify_keys(params)
       sign_type = options[:sign_type] || Alipay.sign_type
       key = options[:key] || Alipay.key
-      string = params_to_string(params)
+      if sign_type == 'RSA'
+        string = params.sort.map { |i,o| "#{i}=\"#{o}\"" }.join('&')
+      else
+        string = params_to_string(params)
+      end
 
       case sign_type
       when 'MD5'
