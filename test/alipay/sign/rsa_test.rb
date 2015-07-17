@@ -7,7 +7,7 @@ class Alipay::Sign::RSATest < Minitest::Test
   end
 
   def test_sign
-    assert_equal @sign, Alipay::Sign::RSA.sign(TEST_RSA_PRIVATE_KEY, @string)
+    assert_equal @sign.gsub("\n", ''), Alipay::Sign::RSA.sign(TEST_RSA_PRIVATE_KEY, @string)
   end
 
   def test_verify
