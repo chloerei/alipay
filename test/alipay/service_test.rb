@@ -167,7 +167,7 @@ class Alipay::ServiceTest < Minitest::Test
   end
 
   def test_mobile_security_pay_url
-    assert_equal 'https://mapi.alipay.com/gateway.do?service=mobile.securitypay.pay&_input_charset=utf-8&partner=1000000000000000&seller_id=1000000000000000&payment_type=1&out_trade_no=1&notify_url=%2Fsome_url&subject=subject&total_fee=0.01&body=test&sign_type=RSA&sign=EuHBKhLyXFBFM28s8nNM45r4gIWccPijVl8SHAmRaAC11wFNRiOfc3jEzJYJ%0A%2FADJNytARSNVSu3vXvRWhsNDHE9%2F%2BkFRckoXjjC10IApWa8bN7%2ByfHQk2w88%0AkDEVfv9Z%2F0t%2B8yHZD0Po4OBBHoEC9d%2FodPZYBElfcQvJ5vilQsc%3D%0A', Alipay::Service.mobile_security_pay_url({
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=mobile.securitypay.pay&_input_charset=utf-8&partner=1000000000000000&seller_id=1000000000000000&payment_type=1&out_trade_no=1&notify_url=%2Fsome_url&subject=subject&total_fee=0.01&body=test&sign_type=RSA&sign=EuHBKhLyXFBFM28s8nNM45r4gIWccPijVl8SHAmRaAC11wFNRiOfc3jEzJYJ%2FADJNytARSNVSu3vXvRWhsNDHE9%2F%2BkFRckoXjjC10IApWa8bN7%2ByfHQk2w88kDEVfv9Z%2F0t%2B8yHZD0Po4OBBHoEC9d%2FodPZYBElfcQvJ5vilQsc%3D', Alipay::Service.mobile_security_pay_url({
       out_trade_no: '1',
       notify_url: '/some_url',
       subject: 'subject',
