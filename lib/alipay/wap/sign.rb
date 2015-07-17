@@ -17,7 +17,7 @@ Udmh5Ua2xg6IEfk493VQIDAQAB
 
         case params['sec_id']
         when 'MD5'
-          key = options[:pid] || Alipay.key
+          key = options[:key] || Alipay.key
           ::Alipay::Sign::MD5.verify?(key, string, sign)
         when '0001' # RSA
           ::Alipay::Sign::RSA.verify?(ALIPAY_RSA_PUBLIC_KEY, string, sign)
