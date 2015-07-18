@@ -11,6 +11,7 @@ require 'alipay/notify'
 require 'alipay/wap/service'
 require 'alipay/wap/notify'
 require 'alipay/wap/sign'
+require 'alipay/mobile/service'
 require 'alipay/mobile/sign'
 
 module Alipay
