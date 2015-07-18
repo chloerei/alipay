@@ -362,46 +362,6 @@ Alipay::Service.forex_refund_url(
 
 \* Auto set Time.now if not set.
 
-### 快捷支付(无线)
-
-#### Name
-
-```ruby
-mobile.securitypay.pay
-```
-
-#### Definition
-
-```ruby
-Alipay::Service.mobile_security_pay_url({ARGUMENTS}, {OPTIONS})
-```
-
-#### Example
-
-```ruby
-Alipay::Service.mobile_security_pay_url(
-  out_trade_no: '20150401000-0001',
-  notify_url: 'https://example.com/orders/20150401000-0001/notify'
-  subject: 'subject',
-  total_fee: '10.00',
-  body: 'text'
-)
-```
-
-#### ARGUMENTS
-
-| Key | Requirement | Description |
-| --- | ----------- | ----------- |
-| out_trade_no | required | Order number in your application. |
-| notify_url | required | Alipay asyn notify url. |
-| subject | required | Order subject. |
-| total_fee | required | Order total price. |
-| body | required | Order body, less than 512 bytes. |
-
-\* This service only support RSA sign_type.
-
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
-
 ### 验证通知
 
 #### Name
@@ -425,6 +385,49 @@ notify_params = params.except(*request.path_parameters.keys)
 
 Alipay::Notify.verify?(notify_params)
 ```
+
+## Mobile::Service
+
+### 移动支付接口
+
+#### Name
+
+```ruby
+mobile.securitypay.pay
+```
+
+#### Definition
+
+```ruby
+Alipay::Mobile::Service.mobile_security_pay_string({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Mobile::Service.mobile_security_pay_string(
+  out_trade_no: '20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+  subject: 'subject',
+  total_fee: '10.00',
+  body: 'text'
+)
+# => service="mobile.securitypay.pay"&_input_charset="utf-8"&partner=...
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_trade_no | required | Order number in your application. |
+| notify_url | required | Alipay asyn notify url. |
+| subject | required | Order subject. |
+| total_fee | required | Order total price. |
+| body | required | Order body, less than 512 bytes. |
+
+\* This service only support RSA sign_type.
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
 
 ## Wap::Service
 
