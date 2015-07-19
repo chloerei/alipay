@@ -1,5 +1,3 @@
-require 'cgi'
-
 module Alipay
   module Mobile
     module Service
