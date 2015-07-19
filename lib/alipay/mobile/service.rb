@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Alipay
   module Mobile
     module Service
@@ -18,7 +20,7 @@ module Alipay
         }.merge(params)
 
         string = Alipay::Mobile::Sign.params_to_string(params)
-        sign = Alipay::Sign::RSA.sign(key, string)
+        sign = CGI.escape(Alipay::Sign::RSA.sign(key, string))
 
         %Q(#{string}&sign="#{sign}"&sign_type="RSA")
       end
