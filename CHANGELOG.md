@@ -1,3 +1,8 @@
+## v0.8.0 (2015-07-20)
+
+- Add `Alipay::Mobile::Service.mobile_security_pay_string` method, thanks @Sen #49
+- Remove `Alipay::Service.mobile_security_pay_url` #49
+
 ## v0.7.1 (2015-04-10)
 
 - Don't warning when `rmb_fee` is used in forex_refund_url method.
