@@ -9,7 +9,7 @@ Alipay official document: https://b.alipay.com/order/techService.htm .
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.7.1'
+gem 'alipay', '~> 0.8.0'
 ```
 
 And then execute:
