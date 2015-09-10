@@ -399,13 +399,13 @@ mobile.securitypay.pay
 #### Definition
 
 ```ruby
-Alipay::Mobile::Service.mobile_security_pay_string({ARGUMENTS}, {OPTIONS})
+Alipay::Mobile::Service.mobile_securitypay_pay_string({ARGUMENTS}, {OPTIONS})
 ```
 
 #### Example
 
 ```ruby
-Alipay::Mobile::Service.mobile_security_pay_string(
+Alipay::Mobile::Service.mobile_securitypay_pay_string(
   out_trade_no: '20150401000-0001',
   notify_url: 'https://example.com/orders/20150401000-0001/notify'
   subject: 'subject',
