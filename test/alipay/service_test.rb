@@ -38,6 +38,15 @@ class Alipay::ServiceTest < Minitest::Test
     assert_equal 'https://mapi.alipay.com/gateway.do?service=create_direct_pay_by_user&_input_charset=utf-8&partner=1000000000000000&seller_id=1000000000000000&payment_type=1&out_trade_no=1&subject=test&price=0.01&quantity=1&sign_type=MD5&sign=682ad02280fca7d4c0fd22678fdddeef', Alipay::Service.create_direct_pay_by_user_url(options)
   end
 
+  def test_generate_create_direct_pay_by_user_wap_url
+    options = {
+      out_trade_no: '1',
+      subject: 'test',
+      total_fee: '0.01'
+    }
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.wap.create.direct.pay.by.user&_input_charset=utf-8&partner=1000000000000000&seller_id=1000000000000000&payment_type=1&out_trade_no=1&subject=test&total_fee=0.01&sign_type=MD5&sign=6530de6e3cba153cd4ca7edc48b91f96', Alipay::Service.create_direct_pay_by_user_wap_url(options)
+  end
+
   def test_refund_fastpay_by_platform_pwd_url
     data = [{
       trade_no: '1',
