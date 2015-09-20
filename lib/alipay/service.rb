@@ -63,10 +63,6 @@ module Alipay
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_DIRECT_PAY_BY_USER_WAP_REQUIRED_PARAMS)
 
-      if Alipay.debug_mode? and params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
-        warn("Alipay Warn: total_fee or (price && quantity) must be set")
-      end
-
       params = {
         'service'        => 'alipay.wap.create.direct.pay.by.user',
         '_input_charset' => 'utf-8',
