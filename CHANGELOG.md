@@ -1,3 +1,7 @@
+## Master
+
+- Add `Alipay::Service.create_direct_pay_by_user_wap_url` method, thanks @serco-chen #52
+
 ## v0.8.0 (2015-07-20)
 
 - Add `Alipay::Mobile::Service.mobile_security_pay_string` method, thanks @Sen #49
