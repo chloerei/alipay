@@ -57,6 +57,27 @@ module Alipay
       request_uri(params, options).to_s
     end
 
+    CREATE_DIRECT_PAY_BY_USER_WAP_REQUIRED_PARAMS = %w( out_trade_no subject total_fee )
+    # direct wap
+    def self.create_direct_pay_by_user_wap_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_DIRECT_PAY_BY_USER_WAP_REQUIRED_PARAMS)
+
+      if Alipay.debug_mode? and params['total_fee'].nil? and (params['price'].nil? || params['quantity'].nil?)
+        warn("Alipay Warn: total_fee or (price && quantity) must be set")
+      end
+
+      params = {
+        'service'        => 'alipay.wap.create.direct.pay.by.user',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+        'seller_id'      => options[:pid] || Alipay.pid,
+        'payment_type'   => '1'
+      }.merge(params)
+
+      request_uri(params, options).to_s
+    end
+
     CREATE_REFUND_URL_REQUIRED_PARAMS = %w( batch_no data notify_url )
     # 支付宝即时到帐批量退款有密接口(此为异步接口，有密指通过此接口打开 url 后需要用户输入支付宝的支付密码进行退款)
     def self.refund_fastpay_by_platform_pwd_url(params, options = {})
