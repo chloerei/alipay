@@ -146,8 +146,7 @@ Alipay::Service.create_direct_pay_by_user_url({ARGUMENTS}, {OPTIONS})
 Alipay::Service.create_direct_pay_by_user_url(
   out_trade_no: '20150401000-0001',
   subject: 'Order Name',
-  price: '10.00',
-  quantity: 12,
+  total_fee: '10.00',
   return_url: 'https://example.com/orders/20150401000-0001',
   notify_url: 'https://example.com/orders/20150401000-0001/notify'
 )
@@ -159,14 +158,49 @@ Alipay::Service.create_direct_pay_by_user_url(
 | --- | ----------- | ----------- |
 | out_order_no | required | Order id in your application. |
 | subject | required | Order subject. |
-| price | required * | Order item's price. |
-| quantity | required * | Order item's quantity, total price is price * quantity. |
+| total_fee | required | Order's total fee. |
 | return_url | optional | Redirect customer to this url after payment. |
 | notify_url | optional | Alipay asyn notify url. |
 
-\* Can be replaced by total_fee. When total_fee is set, price and quantity could not be set.
-
 This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaydirect.zip .
+
+### 手机网站支付接口
+
+#### Name
+
+```ruby
+alipay.wap.create.direct.pay.by.user
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.create_direct_pay_by_user_wap_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.create_direct_pay_by_user_wap_url(
+  out_trade_no: '20150401000-0001',
+  subject: 'Order Name',
+  total_fee: '10.00',
+  return_url: 'https://example.com/orders/20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_order_no | required | Order id in your application. |
+| subject | required | Order subject. |
+| total_fee | required | Order's total fee. |
+| return_url | optional | Redirect customer to this url after payment. |
+| notify_url | optional | Alipay asyn notify url. |
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaywapdirect.zip .
 
 ### 即时到账批量退款有密接口
 
