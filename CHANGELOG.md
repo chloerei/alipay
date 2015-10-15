@@ -1,4 +1,6 @@
-## Master
+## master
+
+## v0.9.0 (2015-10-15)
 
 - Add `Alipay::Service.create_direct_pay_by_user_wap_url` method, thanks @serco-chen #52
 

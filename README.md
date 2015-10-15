@@ -9,7 +9,7 @@ Alipay official document: https://b.alipay.com/order/techService.htm .
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.8.0'
+gem 'alipay', '~> 0.9.0'
 ```
 
 And then execute:
@@ -463,7 +463,7 @@ Alipay::Mobile::Service.mobile_securitypay_pay_string(
 
 This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
 
-## Wap::Service
+## Wap::Service (Deprecated)
 
 ### 授权接口
 
