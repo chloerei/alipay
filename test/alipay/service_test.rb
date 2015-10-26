@@ -174,4 +174,20 @@ class Alipay::ServiceTest < Minitest::Test
       transport_type: 'DIRECT'
     )
   end
+
+  def test_account_page
+    body = <<-EOF
+      <?xml version="1.0" encoding="utf-8"?>
+      <alipay>
+        <is_success>T</is_success>
+      </alipay>
+    EOF
+    FakeWeb.register_uri(:get, %r|https://mapi\.alipay\.com/gateway\.do.*|, :body => body)
+
+    assert_equal body, Alipay::Service.account_page(
+      page_no: 1,
+      gmt_start_time: (Time.now - 1).strftime('%Y-%m-%d %H:%M:%S'),
+      gmt_end_time: Time.now.strftime('%Y-%m-%d %H:%M:%S')
+    )
+  end
 end

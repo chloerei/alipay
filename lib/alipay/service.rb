@@ -179,6 +179,17 @@ module Alipay
       Net::HTTP.get(request_uri(params, options))
     end
 
+    # 查询指定时间段内的账单，需要签约 "账单明细分页查询接口"
+    def self.account_page(params, options = {})
+      params = {
+        service: 'account.page.query',
+        _input_charset: 'utf-8',
+        partner: options[:pid] || Alipay.pid,
+      }.merge(params)
+
+      Net::HTTP.get(request_uri(params, options))
+    end
+
     def self.request_uri(params, options = {})
       uri = URI(GATEWAY_URL)
       uri.query = URI.encode_www_form(sign_params(params, options))
