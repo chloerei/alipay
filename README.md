@@ -463,7 +463,7 @@ Alipay::Mobile::Service.mobile_securitypay_pay_string(
 
 This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
 
-## Wap::Service (Deprecated)
+## Wap::Service
 
 ### 授权接口
 
