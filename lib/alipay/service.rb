@@ -180,7 +180,7 @@ module Alipay
     end
 
     # 查询指定时间段内的账单，需要签约 "账单明细分页查询接口"
-    def self.account_page(params, options = {})
+    def self.account_page_query(params, options = {})
       params = {
         service: 'account.page.query',
         _input_charset: 'utf-8',

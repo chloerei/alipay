@@ -574,7 +574,7 @@ account.page.query
 #### Definition
 
 ```ruby
-Alipay::Service::account_page({PARAMS}, {OPTIONS})
+Alipay::Service::account_page_query({PARAMS}, {OPTIONS})
 ```
 
 #### Arguments
@@ -595,7 +595,7 @@ Alipay::Service::account_page({PARAMS}, {OPTIONS})
 #### Example
 
 ```ruby
-Alipay::Service.account_page(
+Alipay::Service.account_page_query(
   page_no: 1,
   gmt_start_time: "2015-10-25 00:00:00",
   gmt_end_time: "2015-10-26 00:00:00"
