@@ -174,4 +174,66 @@ class Alipay::ServiceTest < Minitest::Test
       transport_type: 'DIRECT'
     )
   end
+
+  def test_account_page
+    body = <<-EOF
+      <?xml version="1.0" encoding="utf-8"?>
+      <alipay>
+        <is_success>T</is_success>
+        <request>
+          <param name="sign">sign_data</param>
+          <param name="_input_charset">utf-8</param>
+          <param name="gmt_end_time">2015-10-26 06:20:29</param>
+          <param name="sign_type">MD5</param>
+          <param name="service">account.page.query</param>
+          <param name="partner">2088123123</param>
+          <param name="page_no">1</param>
+          <param name="gmt_start_time">2015-10-25 06:20:29</param>
+        </request>
+        <response>
+          <account_page_query_result>
+            <account_log_list>
+              <AccountQueryAccountLogVO>
+                <balance>1234</balance>
+                <buyer_account>2088123123</buyer_account>
+                <currency>123</currency>
+                <deposit_bank_no>20151025123123</deposit_bank_no>
+                <goods_title>商品名称</goods_title>
+                <income>100.00</income>
+                <iw_account_log_id>12345678910</iw_account_log_id>
+                <memo> </memo>
+                <merchant_out_order_no>1234567</merchant_out_order_no>
+                <outcome>0.00</outcome>
+                <partner_id>2088123123</partner_id>
+                <rate>0.015</rate>
+                <seller_account>2088123123123</seller_account>
+                <seller_fullname>xxxx有限公司</seller_fullname>
+                <service_fee>0.00</service_fee>
+                <service_fee_ratio> </service_fee_ratio>
+                <sign_product_name>快捷手机安全支付</sign_product_name>
+                <sub_trans_code_msg>快速支付,支付给个人，支付宝帐户全额</sub_trans_code_msg>
+                <total_fee>100.00</total_fee>
+                <trade_no>20151025123123</trade_no>
+                <trade_refund_amount>0.00</trade_refund_amount>
+                <trans_code_msg>在线支付</trans_code_msg>
+                <trans_date>2015-10-25 06:33:07</trans_date>
+              </AccountQueryAccountLogVO>
+            </account_log_list>
+            <has_next_page>F</has_next_page>
+            <page_no>1</page_no>
+            <page_size>5000</page_size>
+          </account_page_query_result>
+        </response>
+        <sign>sign_data</sign>
+        <sign_type>MD5</sign_type>
+      </alipay>
+    EOF
+    FakeWeb.register_uri(:get, %r|https://mapi\.alipay\.com/gateway\.do.*|, :body => body)
+
+    assert_equal body, Alipay::Service.account_page(
+      page_no: 1,
+      gmt_start_time: (Time.now - 1).strftime('%Y-%m-%d %H:%M:%S'),
+      gmt_end_time: Time.now.strftime('%Y-%m-%d %H:%M:%S')
+    )
+  end
 end
