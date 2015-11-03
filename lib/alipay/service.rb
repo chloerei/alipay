@@ -3,7 +3,6 @@ module Alipay
     GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
 
     CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
-    # alipayescow
     def self.create_partner_trade_by_buyer_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS)
@@ -20,7 +19,6 @@ module Alipay
     end
 
     TRADE_CREATE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
-    # alipaydualfun
     def self.trade_create_by_buyer_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, TRADE_CREATE_BY_BUYER_REQUIRED_PARAMS)
@@ -37,7 +35,6 @@ module Alipay
     end
 
     CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS = %w( out_trade_no subject )
-    # direct
     def self.create_direct_pay_by_user_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_DIRECT_PAY_BY_USER_REQUIRED_PARAMS)
@@ -58,7 +55,6 @@ module Alipay
     end
 
     CREATE_DIRECT_PAY_BY_USER_WAP_REQUIRED_PARAMS = %w( out_trade_no subject total_fee )
-    # direct wap
     def self.create_direct_pay_by_user_wap_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_DIRECT_PAY_BY_USER_WAP_REQUIRED_PARAMS)
@@ -75,7 +71,6 @@ module Alipay
     end
 
     CREATE_REFUND_URL_REQUIRED_PARAMS = %w( batch_no data notify_url )
-    # 支付宝即时到帐批量退款有密接口(此为异步接口，有密指通过此接口打开 url 后需要用户输入支付宝的支付密码进行退款)
     def self.refund_fastpay_by_platform_pwd_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_REFUND_URL_REQUIRED_PARAMS)
@@ -87,24 +82,19 @@ module Alipay
       end.join('#')
 
       params = {
-        'service'        => 'refund_fastpay_by_platform_pwd',  # 接口名称
+        'service'        => 'refund_fastpay_by_platform_pwd',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
         'seller_user_id' => options[:pid] || Alipay.pid,
-        'refund_date'    => Time.now.strftime('%Y-%m-%d %H:%M:%S'), # 申请退款时间
-        'batch_num'      => data.size,                              # 总笔数
-        'detail_data'    => detail_data                             # 转换后的单笔数据集字符串
+        'refund_date'    => Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+        'batch_num'      => data.size,
+        'detail_data'    => detail_data
       }.merge(params)
 
       request_uri(params, options).to_s
     end
 
     CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_PARAMS = %w( out_return_no out_trade_no return_amount currency reason )
-    # 支付宝境外收单单笔退款接口
-    # out_return_no 退款流水单号
-    # out_trade_no 交易创建时的订单号
-    # return_amount 退款金额
-    # currency 退款币种，与交易创建时的币种一致
     def self.forex_refund_url(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_FOREX_SINGLE_REFUND_URL_REQUIRED_PARAMS)
@@ -179,7 +169,6 @@ module Alipay
       Net::HTTP.get(request_uri(params, options))
     end
 
-    # 查询指定时间段内的账单，需要签约 "账单明细分页查询接口"
     def self.account_page_query(params, options = {})
       params = {
         service: 'account.page.query',
