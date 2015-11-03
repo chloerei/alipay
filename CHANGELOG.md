@@ -1,5 +1,9 @@
 ## master
 
+## v0.10.0 (2015-11-03)
+
+- Add `Alipay::Service.account_page_query` method, thanks @xjz19901211 #53
+
 ## v0.9.0 (2015-10-15)
 
 - Add `Alipay::Service.create_direct_pay_by_user_wap_url` method, thanks @serco-chen #52
