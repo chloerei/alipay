@@ -30,7 +30,6 @@ module Alipay
       end
 
       AUTH_AND_EXECUTE_REQUIRED_PARAMS = %w( request_token )
-
       def self.auth_and_execute_url(params, options = {})
         params = Utils.stringify_keys(params)
         Alipay::Service.check_required_params(params, AUTH_AND_EXECUTE_REQUIRED_PARAMS)
@@ -46,6 +45,22 @@ module Alipay
         }.merge(params)
 
         request_uri(params, options).to_s
+      end
+
+      def self.security_risk_detect(params, options)
+        params = Utils.stringify_keys(params)
+
+        params = {
+          'service' => 'alipay.security.risk.detect',
+          '_input_charset' => 'utf-8',
+          'partner' => options[:pid] || Alipay.pid,
+          'timestamp' => Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+          'scene_code' => 'PAYMENT'
+        }.merge(params)
+
+        sign_params(params, options)
+
+        Net::HTTP.post_form(URI(GATEWAY_URL), params)
       end
 
       def self.request_uri(params, options = {})
