@@ -1,5 +1,9 @@
 ## master
 
+## v0.11.0 (2015-12-04)
+
+- Add `Alipay::Wap::Service.security_risk_detect` method, thanks @jasl #55
+
 ## v0.10.0 (2015-11-03)
 
 - Add `Alipay::Service.account_page_query` method, thanks @xjz19901211 #53
