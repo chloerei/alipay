@@ -538,6 +538,52 @@ Alipay::Wap::Service.auth_and_execute_url(request_token: token)
 | --- | ----------- | ----------- |
 | request_token | required | Get from trade_create_direct_token |
 
+### 风险探测服务接口
+
+#### Name
+
+```ruby
+alipay.security.risk.detect
+```
+
+#### Definition
+
+```ruby
+Alipay::Wap::Service.security_risk_detect({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Wap::Service.security_risk_detect({
+  order_no: '1',
+  order_credate_time: '1970-01-01 00:00:00',
+  order_category: 'TestCase^AlipayGem^Ruby',
+  order_item_name: 'item',
+  order_amount: '0.01',
+  buyer_account_no: '2088123123',
+  buyer_bind_mobile: '13600000000',
+  buyer_reg_date: '1970-01-01 00:00:00',
+  terminal_type: 'WAP'
+}, {
+  sign_type: 'RSA',
+  key: RSA_PRIVATE_KEY
+})
+```
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| order_no | optional | Order id in your application. |
+| order_credate_time | optional | Order created time. |
+| order_category | optional | Categories of Order's items. using `^` as splitter. |
+| order_item_name | optional | Order subject. |
+| order_amount | optional | Order item's price. |
+| buyer_account_no | optional | User id in your application. |
+| buyer_reg_date | optional | User created time. |
+| buyer_bind_mobile | optional | User mobile phone. |
+| terminal_type | optional | The terminal type which user are using to request the payment, can be `MOBILE` for App, `WAP` for mobile, `WEB` for PC. |
+
 ### 验证通知
 
 #### Name

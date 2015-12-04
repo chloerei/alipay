@@ -37,4 +37,31 @@ class Alipay::Wap::ServiceTest < Minitest::Test
   def test_auth_and_execute_url
     assert_equal 'https://wappaygw.alipay.com/service/rest.htm?service=alipay.wap.auth.authAndExecute&req_data=%3Cauth_and_execute_req%3E%3Crequest_token%3Etoken_test%3C%2Frequest_token%3E%3C%2Fauth_and_execute_req%3E&partner=1000000000000000&format=xml&v=2.0&sec_id=MD5&sign=3efe60d4a9b7960ba599da6764c959df', Alipay::Wap::Service.auth_and_execute_url(request_token: 'token_test')
   end
+
+  def test_security_risk_detect
+    FakeWeb.register_uri(
+      :post,
+      %r|https://wappaygw\.alipay\.com/service/rest\.htm.*|,
+      body: ''
+    )
+
+    params = {
+      order_no: '1',
+      order_credate_time: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+      order_category: 'TestCase^AlipayGem^Ruby',
+      order_item_name: 'item',
+      order_amount: '0.01',
+      buyer_account_no: '2088123123',
+      buyer_bind_mobile: '13600000000',
+      buyer_reg_date: '1970-01-01 00:00:00',
+      terminal_type: 'WAP'
+    }
+
+    options = {
+      sign_type: 'RSA',
+      key: TEST_RSA_PRIVATE_KEY
+    }
+
+    assert_equal '', Alipay::Wap::Service.security_risk_detect(params, options).body
+  end
 end
