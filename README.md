@@ -1,5 +1,8 @@
 # Alipay
-
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Build Status: Linux](https://travis-ci.org/chloerei/alipay.svg?branch=master)](https://travis-ci.org/chloerei/alipay)
+<!--[![Coverage Status](https://coveralls.io/repos/chloerei/alipay/badge.svg?branch=master&service=github)](https://coveralls.io/github/chloerei/alipay?branch=master)-->
+<!--[![Code Climate](https://codeclimate.com/github/chloerei/alipay/badges/gpa.svg)](https://codeclimate.com/github/chloerei/alipay)-->
 A unofficial alipay ruby gem.
 
 Alipay official document: https://b.alipay.com/order/techService.htm .
@@ -89,7 +92,7 @@ Guide consumer to this address to complete payment
 | return_url | optional | Redirect customer to this url after payment. |
 | notify_url | optional | Alipay asyn notify url. |
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail?treeId=61&articleId=103714&docType=1).
 
 ### 确认发货接口
 
@@ -124,7 +127,7 @@ Alipay::Service.send_goods_confirm_by_platform(
 | logistics_name | required | Logistics Name. |
 | transport_type/create_transport_type | required | Allowed values: POST, EXPRESS, EMS, DIRECT. |
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail.htm?spm=0.0.0.0.O5RRLc&treeId=61&articleId=103725&docType=1).
 
 ### 即时到账收款接口
 
@@ -162,7 +165,7 @@ Alipay::Service.create_direct_pay_by_user_url(
 | return_url | optional | Redirect customer to this url after payment. |
 | notify_url | optional | Alipay asyn notify url. |
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaydirect.zip .
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail.htm?spm=0.0.0.0.P3THdc&treeId=62&articleId=103740&docType=1).
 
 ### 手机网站支付接口
 
@@ -200,7 +203,7 @@ Alipay::Service.create_direct_pay_by_user_wap_url(
 | return_url | optional | Redirect customer to this url after payment. |
 | notify_url | optional | Alipay asyn notify url. |
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaywapdirect.zip .
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail.htm?spm=0.0.0.0.rHHeVr&treeId=60&articleId=103693&docType=1).
 
 ### 即时到账批量退款有密接口
 
@@ -248,7 +251,7 @@ Alipay::Service.refund_fastpay_by_platform_pwd_url(
 | amount | required | Refund amount. |
 | reason | required | Refund reason. Less than 256 bytes, could not contain special characters: ^ $ &#124; #. |
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaydirect.zip .
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail.htm?spm=0.0.0.0.UrKvow&treeId=66&articleId=103600&docType=1).
 
 ### 关闭交易接口
 
@@ -461,7 +464,7 @@ Alipay::Mobile::Service.mobile_securitypay_pay_string(
 
 \* This service only support RSA sign_type.
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail?treeId=59&articleId=103663&docType=1).
 
 ## Wap::Service
 
