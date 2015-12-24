@@ -1,6 +1,39 @@
+require 'bigdecimal'
 module Alipay
   module Service
     GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
+
+    BATCH_TRANS_NOTIFY_REQUIRED_PARAMS = %w(email account_name data batch_no)
+    BATCH_TRANS_NOTIFY_OPTIONAL_PARAMS = %w(email buyer_account_name)
+    BATCH_TRANS_DETAIL_REQUIRED_PARAMS = %w(trade_no email name amount reason)
+    def self.batch_trans_notify(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, BATCH_TRANS_NOTIFY_REQUIRED_PARAMS)
+      check_optional_params(params, BATCH_TRANS_NOTIFY_OPTIONAL_PARAMS)
+      data = params.delete('data')
+
+      batch_fee = 0
+      detail_data = data.map do |i|
+        i = Utils.stringify_keys(i)
+        check_required_params(i, BATCH_TRANS_DETAIL_REQUIRED_PARAMS)
+        batch_fee += BigDecimal(i['amount'])
+        "#{i['trade_no']}^#{i['email']}^#{i['name']}^#{i['amount']}^#{i['reason']}"
+      end.join('|')
+
+      batch_fee = (batch_fee * 100).to_i
+
+      params = {
+        'service'        => 'batch_trans_notify',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+        'detail_data'    => detail_data,
+        'pay_date'       => Date.today.strftime('%Y%m%d'),
+        'batch_fee'      => batch_fee,
+        'batch_num'      => data.length,
+      }.merge(params)
+
+      Net::HTTP.get(request_uri(params, options))
+    end
 
     CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
     def self.create_partner_trade_by_buyer_url(params, options = {})

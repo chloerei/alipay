@@ -1,6 +1,35 @@
 require 'test_helper'
 
 class Alipay::ServiceTest < Minitest::Test
+  def test_batch_trans_notify
+    #TODO test with real response
+    response_body = <<-EOF
+      <?xml version="1.0" encoding="utf-8"?>
+      <alipay>
+        <is_success>T</is_success>
+      </alipay>
+    EOF
+    FakeWeb.register_uri(
+      :get,
+      %r|https://mapi\.alipay\.com/gateway\.do.*|,
+      body: response_body
+    )
+    data = [{
+      trade_no: '0315006',
+      email:    'testture0002@126.com',
+      name:     '常炜买家',
+      amount:   '20.00',
+      reason:   'hello'
+    }]
+    options = {
+      account_name: '毛毛',
+      data:         data,
+      batch_no:     '20080107001',
+      email:        'biz_932@alitest.com'
+    }
+    assert_equal response_body, Alipay::Service.batch_trans_notify(options)
+  end
+
   def test_generate_create_partner_trade_by_buyer_url
     options = {
       out_trade_no: '1',
