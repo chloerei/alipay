@@ -640,6 +640,68 @@ Alipay::Service.account_page_query(
 )
 ```
 
+### 批量付款到支付宝账户
+
+#### Name
+
+```ruby
+batch_trans_notify
+```
+
+#### Definition
+
+```ruby
+Alipay::Service::batch_trans_notify({PARAMS}, {OPTIONS})
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| email | required | Remittance's alipay account email |
+| account_name | required | Remittance's alipay account name |
+| buyer_account_name | optional | Same as email |
+| batch_no | required * | Transport batch no, you should store it to db and avoid duplicate transport. |
+| data | required | Transport data, a hash array. |
+| batch_num | auto calculated | data.length |
+| batch_fee | auto calculated | data.map(&:amount).sum |
+| pay_date | optional ** | YYYYMMDD |
+| notify_url | optional | Alipay asyn notify url. |
+
+\*警告：支付宝视任何不同“批量付款批次号（batch_no）”的请求为一个全新的批次，所以在批次处理结果不明确前，请切勿修改批次号或将内容合并到另一批次重新提交！如有发生，商户需自行承担因此而产生的所有损失。
+
+\*\* Auto set Time.now if not set.
+
+##### Data Item
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| trade_no | required | Trade number in your app |
+| email | required | Beneficiary's alipay account email |
+| name | required | Beneficiary's name |
+| amount | required | Transport amount. |
+| reason | required | Transport reason. Less than 256 bytes, could not contain special characters: ^ $ &#124; #. |
+
+
+This is not a complete list of arguments, please read official [document](http://doc.open.alipay.com/doc2/detail.htm?spm=0.0.0.0.X8u4BI&treeId=64&articleId=103773&docType=1).
+
+#### Example
+```ruby
+Alipay::Service.batch_trans_notify(
+  email: 'kaishek@logistics.com',
+  account_name: '常凯申',
+  batch_no: batch_no,
+  data: [{
+    trade_no: '201504010000001',
+    email:  'leader_one@example.com',
+    name:   '林登万',
+    amount: '350000000.00',
+    reason: 'for annual interest'
+  }],
+  notify_url: 'https://kaishek-express.com/batch_tran/20150401000-0001/notify'
+)
+```
+
 ## Contributing
 
 Bug report or pull request are welcome.
