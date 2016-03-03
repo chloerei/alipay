@@ -637,6 +637,47 @@ Alipay::Service.account_page_query(
 )
 ```
 
+### 批量付款到支付宝账户接口
+
+#### Name
+
+```ruby
+batch_trans_notify
+```
+
+#### Definition
+
+```ruby
+Alipay::Service::batch_trans_notify({PARAMS}, {OPTIONS})
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| notify_url | required | Alipay asyn notify url. |
+| account_name | required | Alipay account name of payer. |
+| detail_data | required | Payment data. |
+| batch_no | required | Batch transaction number. |
+| batch_num | required | Batch transaction count. |
+| batch_fee | required | Batch transaction total amount. |
+| email | required | Alipay email account of payer. |
+
+#### Example
+
+```ruby
+Alipay::Service.batch_trans_notify(
+  notify_url: 'https://example.com/orders/20150401000-0001/notify',
+  account_name: '毛毛',
+  detail_data: '0315006^testture0002@126.com^常炜买家^1000.00^hello',
+  batch_no: '20080107001',
+  batch_num: 1,
+  batch_fee: 1000.00,
+  email: 'biz_932@alitest.com'
+)
+```
+
+
 ## Contributing
 
 Bug report or pull request are welcome.
