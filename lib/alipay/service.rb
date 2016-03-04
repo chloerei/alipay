@@ -11,7 +11,7 @@ module Alipay
         'service'        => 'batch_trans_notify',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'pay_date'       => Time.now
+        'pay_date'       => Time.now.strftime("%Y%m%d")
       }.merge(params)
 
       request_uri(params, options).to_s
