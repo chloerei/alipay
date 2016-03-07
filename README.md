@@ -396,6 +396,77 @@ Alipay::Service.forex_refund_url(
 
 \* Auto set Time.now if not set.
 
+### 账单明细分页查询接口
+
+#### Name
+
+```ruby
+account.page.query
+```
+
+#### Definition
+
+```ruby
+Alipay::Service::account_page_query({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.account_page_query(
+  page_no: 1,
+  gmt_start_time: '2015-10-25 00:00:00',
+  gmt_end_time: '2015-10-26 00:00:00'
+)
+```
+
+#### Arguments
+
+It's an unpublic api, contact support for permission and document.
+
+### 批量付款到支付宝账户接口
+
+#### Name
+
+```ruby
+batch_trans_notify
+```
+
+#### Definition
+
+```ruby
+Alipay::Service::batch_trans_notify_url({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.batch_trans_notify_url(
+  notify_url: 'https://example.com/orders/20150401000-0001/notify',
+  account_name: '毛毛',
+  detail_data: '0315006^testture0002@126.com^常炜买家^1000.00^hello',
+  batch_no: '20080107001',
+  batch_num: 1,
+  batch_fee: 1000.00,
+  email: 'biz_932@alitest.com'
+)
+#=> 'https://mapi.alipay.com/gateway.do?service=batch_trans_notify&...'
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| notify_url | required | Alipay asyn notify url. |
+| account_name | required | Alipay account name of payer. |
+| detail_data | required | Payment data. |
+| batch_no | required | Batch transaction number. |
+| batch_num | required | Batch transaction count. |
+| batch_fee | required | Batch transaction total amount. |
+| email | required | Alipay email account of payer. |
+
+Document: https://doc.open.alipay.com/doc2/detail?treeId=64&articleId=103773&docType=1
+
 ### 验证通知
 
 #### Name
@@ -607,76 +678,6 @@ notify_params = params.except(*request.path_parameters.keys)
 
 Alipay::Wap::Notify.verify?(notify_params)
 ```
-
-
-### 账单明细分页查询接口
-
-#### Name
-
-```ruby
-account.page.query
-```
-
-#### Definition
-
-```ruby
-Alipay::Service::account_page_query({PARAMS}, {OPTIONS})
-```
-
-#### Arguments
-
-It's an unpublic api, contact support for permission and document.
-
-#### Example
-
-```ruby
-Alipay::Service.account_page_query(
-  page_no: 1,
-  gmt_start_time: '2015-10-25 00:00:00',
-  gmt_end_time: '2015-10-26 00:00:00'
-)
-```
-
-### 批量付款到支付宝账户接口
-
-#### Name
-
-```ruby
-batch_trans_notify
-```
-
-#### Definition
-
-```ruby
-Alipay::Service::batch_trans_notify_url({PARAMS}, {OPTIONS})
-```
-
-#### Arguments
-
-| Key | Requirement | Description |
-| --- | ----------- | ----------- |
-| notify_url | required | Alipay asyn notify url. |
-| account_name | required | Alipay account name of payer. |
-| detail_data | required | Payment data. |
-| batch_no | required | Batch transaction number. |
-| batch_num | required | Batch transaction count. |
-| batch_fee | required | Batch transaction total amount. |
-| email | required | Alipay email account of payer. |
-
-#### Example
-
-```ruby
-Alipay::Service.batch_trans_notify_url(
-  notify_url: 'https://example.com/orders/20150401000-0001/notify',
-  account_name: '毛毛',
-  detail_data: '0315006^testture0002@126.com^常炜买家^1000.00^hello',
-  batch_no: '20080107001',
-  batch_num: 1,
-  batch_fee: 1000.00,
-  email: 'biz_932@alitest.com'
-)
-```
-
 
 ## Contributing
 
