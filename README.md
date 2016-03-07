@@ -648,7 +648,7 @@ batch_trans_notify
 #### Definition
 
 ```ruby
-Alipay::Service::batch_trans_notify({PARAMS}, {OPTIONS})
+Alipay::Service::batch_trans_notify_url({PARAMS}, {OPTIONS})
 ```
 
 #### Arguments
@@ -666,7 +666,7 @@ Alipay::Service::batch_trans_notify({PARAMS}, {OPTIONS})
 #### Example
 
 ```ruby
-Alipay::Service.batch_trans_notify(
+Alipay::Service.batch_trans_notify_url(
   notify_url: 'https://example.com/orders/20150401000-0001/notify',
   account_name: '毛毛',
   detail_data: '0315006^testture0002@126.com^常炜买家^1000.00^hello',

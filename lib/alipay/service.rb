@@ -2,21 +2,6 @@ module Alipay
   module Service
     GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
 
-    BATCH_TRANS_NOTIFY_REQUIRED_PARAMS = %w( notify_url account_name detail_data batch_no batch_num batch_fee email )
-    def self.batch_trans_notify(params, options = {})
-      params = Utils.stringify_keys(params)
-      check_required_params(params, BATCH_TRANS_NOTIFY_REQUIRED_PARAMS)
-
-      params = {
-        'service'        => 'batch_trans_notify',
-        '_input_charset' => 'utf-8',
-        'partner'        => options[:pid] || Alipay.pid,
-        'pay_date'       => Time.now.strftime("%Y%m%d")
-      }.merge(params)
-
-      request_uri(params, options).to_s
-    end
-
     CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
     def self.create_partner_trade_by_buyer_url(params, options = {})
       params = Utils.stringify_keys(params)
@@ -192,6 +177,21 @@ module Alipay
       }.merge(params)
 
       Net::HTTP.get(request_uri(params, options))
+    end
+
+    BATCH_TRANS_NOTIFY_REQUIRED_PARAMS = %w( notify_url account_name detail_data batch_no batch_num batch_fee email )
+    def self.batch_trans_notify_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, BATCH_TRANS_NOTIFY_REQUIRED_PARAMS)
+
+      params = {
+        'service'        => 'batch_trans_notify',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+        'pay_date'       => Time.now.strftime("%Y%m%d")
+      }.merge(params)
+
+      request_uri(params, options).to_s
     end
 
     def self.request_uri(params, options = {})

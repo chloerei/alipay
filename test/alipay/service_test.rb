@@ -236,4 +236,19 @@ class Alipay::ServiceTest < Minitest::Test
       gmt_end_time: Time.now.strftime('%Y-%m-%d %H:%M:%S')
     )
   end
+
+  def test_batch_trans_notify_url
+    options = {
+      notify_url: 'https://example.com/orders/20150401000-0001/notify',
+      account_name: '毛毛',
+      detail_data: '0315006^testture0002@126.com^常炜买家^1000.00^hello',
+      batch_no: '20080107001',
+      batch_num: 1,
+      batch_fee: 1000.00,
+      email: 'biz_932@alitest.com',
+      pay_date: '20080107'
+    }
+
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=batch_trans_notify&_input_charset=utf-8&partner=1000000000000000&pay_date=20080107&notify_url=https%3A%2F%2Fexample.com%2Forders%2F20150401000-0001%2Fnotify&account_name=%E6%AF%9B%E6%AF%9B&detail_data=0315006%5Etestture0002%40126.com%5E%E5%B8%B8%E7%82%9C%E4%B9%B0%E5%AE%B6%5E1000.00%5Ehello&batch_no=20080107001&batch_num=1&batch_fee=1000.0&email=biz_932%40alitest.com&sign_type=MD5&sign=59c611607daafd1337e96b22404bd521', Alipay::Service.batch_trans_notify_url(options)
+  end
 end
