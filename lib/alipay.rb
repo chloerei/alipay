@@ -13,6 +13,8 @@ require 'alipay/wap/notify'
 require 'alipay/wap/sign'
 require 'alipay/mobile/service'
 require 'alipay/mobile/sign'
+require 'alipay/app/service'
+require 'alipay/app/sign'
 
 module Alipay
   @debug_mode = true

@@ -545,7 +545,7 @@ alipay.trade.app.pay
 #### Definition
 
 ```ruby
-Alipay::Mobile::Service.alipay_trade_app_pay({ARGUMENTS}, {OPTIONS})
+Alipay::App::Service.alipay_trade_app_pay({ARGUMENTS}, {OPTIONS})
 ```
 
 #### Example
@@ -556,7 +556,7 @@ biz_content = {
   'product_code': 'QUICK_MSECURITY_PAY', 'subject': subject, 'total_amount': total_amount
 }.to_json
 
-Alipay::Mobile::Service.alipay_trade_app_pay(
+Alipay::App::Service.alipay_trade_app_pay(
   notify_url: 'https://example.com/orders/20150401000-0001/notify',
   app_id: '1234567890',
   biz_content: biz_content
@@ -583,7 +583,7 @@ This is not a complete list of arguments, please read official document: https:/
 #### APP支付验证通知
 
 ```ruby
-Alipay::Sign.app_pay_verify?(params, {:key => public_key})
+Alipay::App::Sign.verify?(params)
 ```
 
 ## Wap::Service
