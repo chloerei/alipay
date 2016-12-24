@@ -1,5 +1,9 @@
 ## master
 
+## v0.13.0 (2016-12-24)
+
+1 Add `Alipay::App::Service.alipay_trade_app_pay` method, thanks @FX-HAO #64
+
 ## v0.12.0 (2016-03-07)
 
 - Add `Alipay::Service::batch_trans_notify_url` method, thanks @ryancheung #58
