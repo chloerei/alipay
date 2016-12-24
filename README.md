@@ -534,6 +534,58 @@ Alipay::Mobile::Service.mobile_securitypay_pay_string(
 
 This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/WS_MOBILE_PAY_SDK_BASE.zip .
 
+### APP支付接口
+
+#### Name
+
+```ruby
+alipay.trade.app.pay
+```
+
+#### Definition
+
+```ruby
+Alipay::App::Service.alipay_trade_app_pay({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+biz_content = {
+  'body': body, 'out_trade_no': out_trade_no, 'passback_params': passback_params,
+  'product_code': 'QUICK_MSECURITY_PAY', 'subject': subject, 'total_amount': total_amount
+}.to_json
+
+Alipay::App::Service.alipay_trade_app_pay(
+  notify_url: 'https://example.com/orders/20150401000-0001/notify',
+  app_id: '1234567890',
+  biz_content: biz_content
+)
+# => service="alipay.trade.app.pay"&_input_charset="utf-8"&partner=...
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| app_id | required | Application-assigned id |
+| out_trade_no | required | Order number in your application. |
+| notify_url | required | Alipay asyn notify url. |
+| subject | required | Order subject. |
+| total_amount | required | Order total price. |
+| body | required | Order body, less than 512 bytes. |
+| biz_content | required | A list of business parameters |
+
+\* This service only support RSA sign_type.
+
+This is not a complete list of arguments, please read official document: https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.vwh1xQ&treeId=193&articleId=105465&docType=1 .
+
+#### APP支付验证通知
+
+```ruby
+Alipay::App::Sign.verify?(params)
+```
+
 ## Wap::Service
 
 ### 授权接口
