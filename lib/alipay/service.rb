@@ -194,6 +194,21 @@ module Alipay
       request_uri(params, options).to_s
     end
 
+    CREATE_FOREX_TRADE_WAP_REQUIRED_PARAMS = %w( out_trade_no subject merchant_url currency )
+    def self.create_forex_trade_wap_url(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_FOREX_TRADE_WAP_REQUIRED_PARAMS)
+
+      params = {
+        'service'        => 'create_forex_trade_wap',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+        'seller_id'      => options[:pid] || Alipay.pid
+      }.merge(params)
+
+      request_uri(params, options).to_s
+    end
+
     def self.request_uri(params, options = {})
       uri = URI(GATEWAY_URL)
       uri.query = URI.encode_www_form(sign_params(params, options))
