@@ -235,6 +235,19 @@ class Alipay::ServiceTest < Minitest::Test
     )
   end
 
+  def test_create_forex_trade_wap_url
+    options = {
+      out_trade_no: '20150401000-0001',
+      subject: 'Order Name',
+      merchant_url: 'http://example.com/itemback',
+      total_fee: '10.00', #or rmb_fee, only one
+      currency: 'USD',
+      return_url: 'https://example.com/orders/20150401000-0001',
+      notify_url: 'https://example.com/orders/20150401000-0001/notify'
+    }
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=create_forex_trade_wap&_input_charset=utf-8&partner=1000000000000000&seller_id=1000000000000000&out_trade_no=20150401000-0001&subject=Order+Name&merchant_url=http%3A%2F%2Fexample.com%2Fitemback&total_fee=10.00&currency=USD&return_url=https%3A%2F%2Fexample.com%2Forders%2F20150401000-0001&notify_url=https%3A%2F%2Fexample.com%2Forders%2F20150401000-0001%2Fnotify&sign_type=MD5&sign=f15d9e3d885c12f1a994048342c07bef', Alipay::Service.create_forex_trade_wap_url(options)
+  end
+
   def test_batch_trans_notify_url
     options = {
       notify_url: 'https://example.com/orders/20150401000-0001/notify',

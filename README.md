@@ -227,7 +227,7 @@ Alipay::Service.create_forex_trade_wap_url(
   subject: 'Order Name',
   merchant_url: 'http://example.com/itemback',
   total_fee: '10.00', #or rmb_fee, only one
-  currency: 'USD'
+  currency: 'USD',
   return_url: 'https://example.com/orders/20150401000-0001',
   notify_url: 'https://example.com/orders/20150401000-0001/notify'
 )
@@ -245,7 +245,7 @@ Alipay::Service.create_forex_trade_wap_url(
 | return_url | optional | Redirect customer to this url after payment. |
 | notify_url | optional | Alipay asyn notify url. |
 
-This is not a complete list of arguments, please read official document: https://os.alipayobjects.com/rmsportal/AyiczbEOmUCdZxW.zip .
+This is not a complete list of arguments, please read official document: https://global.alipay.com/product/mobilepayments.html .
 
 
 ### 即时到账批量退款有密接口
