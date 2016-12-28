@@ -17,11 +17,10 @@ class Alipay::Wap::ServiceTest < Minitest::Test
       &sign=SIGN
     EOS
 
-    FakeWeb.register_uri(
+    stub_request(
       :get,
-      %r|https://wappaygw\.alipay\.com/service/rest\.htm.*|,
-      body: body
-    )
+      %r|https://wappaygw\.alipay\.com/service/rest\.htm.*|
+    ).to_return(body: body)
 
     assert_equal token, Alipay::Wap::Service.trade_create_direct_token(
       req_data: {
@@ -39,10 +38,11 @@ class Alipay::Wap::ServiceTest < Minitest::Test
   end
 
   def test_security_risk_detect
-    FakeWeb.register_uri(
+    stub_request(
       :post,
-      %r|https://wappaygw\.alipay\.com/service/rest\.htm.*|,
-      body: ''
+      %r|https://wappaygw\.alipay\.com/service/rest\.htm.*|
+    ).to_return(
+      body: ' '
     )
 
     params = {
@@ -62,6 +62,6 @@ class Alipay::Wap::ServiceTest < Minitest::Test
       key: TEST_RSA_PRIVATE_KEY
     }
 
-    assert_equal '', Alipay::Wap::Service.security_risk_detect(params, options).body
+    assert_equal ' ', Alipay::Wap::Service.security_risk_detect(params, options).body
   end
 end

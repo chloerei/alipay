@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'alipay'
-require 'fakeweb'
+require 'webmock/minitest'
 
 Alipay.pid = '1000000000000000'
 Alipay.key = '10000000000000000000000000000000'

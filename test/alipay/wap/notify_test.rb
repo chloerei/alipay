@@ -16,17 +16,23 @@ class Alipay::Wap::NotifyTest < Minitest::Test
   end
 
   def test_unsign_notify
-    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", body: "true")
+    stub_request(
+      :get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}"
+    ).to_return(body: "true")
     assert !Alipay::Wap::Notify.verify?(@notify_params)
   end
 
   def test_verify_notify_when_true
-    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", body: "true")
+    stub_request(
+      :get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}"
+    ).to_return(body: "true")
     assert Alipay::Wap::Notify.verify?(@sign_params)
   end
 
   def test_verify_notify_when_false
-    FakeWeb.register_uri(:get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}", body: "false")
+    stub_request(
+      :get, "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=#{Alipay.pid}&notify_id=#{@notify_id}"
+    ).to_return(body: "false")
     assert !Alipay::Wap::Notify.verify?(@sign_params)
   end
 end

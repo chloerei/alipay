@@ -92,11 +92,10 @@ class Alipay::ServiceTest < Minitest::Test
         <is_success>T</is_success>
       </alipay>
     EOF
-    FakeWeb.register_uri(
+    stub_request(
       :get,
-      %r|https://mapi\.alipay\.com/gateway\.do.*|,
-      body: response_body
-    )
+      %r|https://mapi\.alipay\.com/gateway\.do.*|
+    ).to_return(body: response_body)
 
     assert_equal response_body, Alipay::Service.close_trade(
       out_order_no: '1'
@@ -144,11 +143,10 @@ class Alipay::ServiceTest < Minitest::Test
             <sign_type>MD5</sign_type>
           </alipay>
     EOF
-    FakeWeb.register_uri(
+    stub_request(
       :get,
-      %r|https://mapi\.alipay\.com/gateway\.do.*|,
-      body: response_body
-    )
+      %r|https://mapi\.alipay\.com/gateway\.do.*|
+    ).to_return(body: response_body)
 
     assert_equal response_body, Alipay::Service.single_trade_query(
       out_trade_no: '1'
@@ -162,11 +160,10 @@ class Alipay::ServiceTest < Minitest::Test
         <is_success>T</is_success>
       </alipay>
     EOF
-    FakeWeb.register_uri(
+    stub_request(
       :get,
-      %r|https://mapi\.alipay\.com/gateway\.do.*|,
-      body: body
-    )
+      %r|https://mapi\.alipay\.com/gateway\.do.*|
+    ).to_return(body: body)
 
     assert_equal body, Alipay::Service.send_goods_confirm_by_platform(
       trade_no: 'trade_no',
@@ -228,8 +225,9 @@ class Alipay::ServiceTest < Minitest::Test
         <sign_type>MD5</sign_type>
       </alipay>
     EOF
-    FakeWeb.register_uri(:get, %r|https://mapi\.alipay\.com/gateway\.do.*|, :body => body)
-
+    stub_request(
+      :get, %r|https://mapi\.alipay\.com/gateway\.do.*|
+    ).to_return(:body => body)
     assert_equal body, Alipay::Service.account_page_query(
       page_no: 1,
       gmt_start_time: (Time.now - 1).strftime('%Y-%m-%d %H:%M:%S'),
