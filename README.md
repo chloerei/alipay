@@ -202,6 +202,52 @@ Alipay::Service.create_direct_pay_by_user_wap_url(
 
 This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipaywapdirect.zip .
 
+
+
+
+### 国际支付宝移动接口
+
+#### Name
+
+```ruby
+create_forex_trade_wap
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.create_forex_trade_wap_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Service.create_forex_trade_wap_url(
+  out_trade_no: '20150401000-0001',
+  subject: 'Order Name',
+  merchant_url: 'http://example.com/itemback',
+  total_fee: '10.00', #or rmb_fee, only one
+  currency: 'USD'
+  return_url: 'https://example.com/orders/20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_order_no | required | Order id in your application. |
+| subject | required | Order subject. |
+| merchant_url | required | The link which customer could jump back to merchant page from Alipay cashier. |
+| total_fee or rmb_fee | required | Order's total fee. |
+| currency | required | currency type. |
+| return_url | optional | Redirect customer to this url after payment. |
+| notify_url | optional | Alipay asyn notify url. |
+
+This is not a complete list of arguments, please read official document: https://os.alipayobjects.com/rmsportal/AyiczbEOmUCdZxW.zip .
+
+
 ### 即时到账批量退款有密接口
 
 #### Name
@@ -488,7 +534,7 @@ Alipay::Notify.verify?({PARAMS}, {OPTIONS})
 # params except :controller_name, :action_name, :host, etc.
 notify_params = params.except(*request.path_parameters.keys)
 
-Alipay::Notify.verify?(notify_params)
+Alipay::Notify.verify?(notify_params, options = {})
 ```
 
 ## Mobile::Service
