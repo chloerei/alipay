@@ -1,6 +1,6 @@
 ## master
 
-## v0.13.0 (2016-12-28)
+## v0.14.0 (2016-12-28)
 
 - Add `Alipay::App::Service.create_forex_trade_wap_url` method, thanks @xiaohesong #61
 
