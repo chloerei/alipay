@@ -17,10 +17,11 @@ module Alipay
         }.merge(params)
 
         string = Alipay::App::Sign.params_to_sorted_string(params)
-        sign = CGI.escape(Alipay::Sign::RSA.sign(key, string))
+        sign = Alipay::Sign::RSA.sign(key, string)
+        params = params.merge({'sign' => sign})
         encoded_string = Alipay::App::Sign.params_to_encoded_string(params)
+        %Q(#{encoded_string})
 
-        %Q(#{encoded_string}&sign=#{sign})
       end
     end
   end
