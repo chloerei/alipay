@@ -602,11 +602,18 @@ biz_content = {
   'product_code': 'QUICK_MSECURITY_PAY', 'subject': subject, 'total_amount': total_amount
 }.to_json
 
-Alipay::App::Service.alipay_trade_app_pay(
+params = {
   notify_url: 'https://example.com/orders/20150401000-0001/notify',
   app_id: '1234567890',
   biz_content: biz_content
-)
+}
+
+options = {
+  sign_type: :rsa2, # :rsa 或 :rsa2
+  key: OpenSSL::PKey::RSA.new("private key content ...")
+}
+
+Alipay::App::Service.alipay_trade_app_pay(params, options)
 # => service="alipay.trade.app.pay"&_input_charset="utf-8"&partner=...
 ```
 
@@ -622,14 +629,19 @@ Alipay::App::Service.alipay_trade_app_pay(
 | body | required | Order body, less than 512 bytes. |
 | biz_content | required | A list of business parameters |
 
-\* This service only support RSA sign_type.
+\* This service support RSA or RSA2 sign_type.
 
 This is not a complete list of arguments, please read official document: https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.vwh1xQ&treeId=193&articleId=105465&docType=1 .
 
 #### APP支付验证通知
 
 ```ruby
-Alipay::App::Sign.verify?(params)
+options = {
+  sign_type: :rsa2, # :rsa 或 :rsa2
+  key: OpenSSL::PKey::RSA.new("alipay sdk public key ...")
+}
+
+Alipay::App::Sign.verify?(params, options)
 ```
 
 ## Wap::Service
