@@ -20,9 +20,10 @@ require 'alipay/app/sign'
 module Alipay
   @debug_mode = true
   @sign_type = 'MD5'
+  @transport = 'https'
 
   class << self
-    attr_accessor :pid, :key, :sign_type, :debug_mode
+    attr_accessor :pid, :key, :sign_type, :debug_mode, :transport
 
     def debug_mode?
       !!@debug_mode
