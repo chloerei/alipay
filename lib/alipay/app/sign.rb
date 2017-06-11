@@ -8,14 +8,20 @@ module Alipay
 
         sign_type = params.delete('sign_type').upcase
         unless options[:sign_type].to_s.upcase == sign_type
-          "Alipay::App::Sign.verify? : invalid params[sign_type]: #{sign_type}"
+          raise "sign_type not match: params: #{params[:sign_type]} options: #{options[:sign_type]}"
         end
 
         sign = params.delete('sign')
         string = ::Alipay::Sign.params_to_string(params)
 
-        sign_module = ::Alipay::Sign.const_get(sign_type)
-        sign_module.verify?(options[:key], string, sign)
+        case sign_type
+        when 'RSA'
+          ::Alipay::Sign::RSA.verify?(options[:key], string, sign)
+        when 'RSA2'
+          ::Alipay::Sign::RSA2.verify?(options[:key], string, sign)
+        else
+          false
+        end
       end
 
       def self.params_to_sorted_string(params)
