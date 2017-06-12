@@ -1,9 +1,7 @@
 # Alipay
 
 A unofficial alipay ruby gem.
-
 Alipay official document: https://b.alipay.com/order/techService.htm .
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,6 +20,7 @@ $ bundle
 
 ```ruby
 Alipay.pid = 'YOUR_PID'
+Alipay.app_id = 'YOUR_APP_ID'
 Alipay.key = 'YOUR_KEY'
 
 #Alipay.sign_type = 'MD5' # Available values: MD5, RSA. Default is MD5
@@ -788,6 +787,52 @@ notify_params = params.except(*request.path_parameters.keys)
 
 Alipay::Wap::Notify.verify?(notify_params)
 ```
+
+## Open::Service
+
+### 单笔转账到支付宝账户接口
+
+#### Name
+
+```ruby
+alipay.fund.trans.toaccount.transfer
+```
+
+#### Definition
+
+```ruby
+Alipay::Open::Service.alipay_fund_trans_toaccount_transfer({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Open::Service.alipay_fund_trans_toaccount_transfer(
+  out_biz_no: '20170612000-0001',
+  payee_type: 'ALIPAY_LOGONID',
+  payee_account: 'hi@example.com',
+  amount: 10.00,
+  payer_show_name: 'payer show name',
+  payee_real_name: 'payee real name',
+  remark: 'remark'
+)
+# => JSON response 示例
+# {
+#     "sign":"ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE",
+#     "alipay_fund_trans_toaccount_transfer_response":{
+#         "pay_date":"2013-01-01 08:08:08",
+#         "code":"10000",
+#         "order_id":"20160627110070001502260006780837",
+#         "msg":"Success",
+#         "out_biz_no":"3142321423432"
+#     }
+# }
+```
+
+#### ARGUMENTS
+
+Please read official document: https://doc.open.alipay.com/docs/api.htm?apiId=1321&docType=4
+
 
 ## Contributing
 
