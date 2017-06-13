@@ -5,6 +5,7 @@ module Alipay
 
       FUND_TRANS_TOACCOUNT_TRANSFER_REQUIRED_PARAMS = %w( out_biz_no payee_type payee_account amount )
       def self.alipay_fund_trans_toaccount_transfer(params, options = {})
+        params = Utils.stringify_keys(params)
         Alipay::Service.check_required_params(params, FUND_TRANS_TOACCOUNT_TRANSFER_REQUIRED_PARAMS)
 
         app_id = options[:app_id] || Alipay.app_id
@@ -47,9 +48,11 @@ module Alipay
           'sign_type'      => sign_type
         }
 
-        real_params["return_url"] = params["return_url"] if params["return_url"].present?
-        real_params["notify_url"] = params["notify_url"] if params["notify_url"].present?
-        real_params["biz_content"] = params.except('return_url', 'notify_url').to_json
+        real_params["return_url"] = params["return_url"] unless params["return_url"].nil?
+        real_params["notify_url"] = params["notify_url"] unless params["notify_url"].nil?
+        params.delete('return_url')
+        params.delete('notify_url')
+        real_params["biz_content"] = params.to_json
 
         signed_params = real_params.merge("sign" => get_sign_by_type(real_params, key, sign_type))
 
@@ -61,7 +64,7 @@ module Alipay
 
       def self.get_sign_by_type(params, key, sign_type)
         string = Alipay::App::Sign.params_to_sorted_string(params)
-        sign = case sign_type
+        case sign_type
         when 'RSA'
           ::Alipay::Sign::RSA.sign(key, string)
         when 'RSA2'
