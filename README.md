@@ -833,6 +833,48 @@ Alipay::Open::Service.alipay_fund_trans_toaccount_transfer(
 
 Please read official document: https://doc.open.alipay.com/docs/api.htm?apiId=1321&docType=4
 
+### 手机网站支付 - 外部商户创建订单并支付
+
+#### Name
+
+```ruby
+alipay.trade.wap.pay
+```
+
+#### Definition
+
+```ruby
+Alipay::Open::Service.alipay_trade_wap_pay_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Open::Service.alipay_trade_wap_pay_url(
+  subject: 'Order name',
+  out_trade_no: 'OUT_TRADE_NO',
+  total_amount: 10.0,
+  product_code: 'QUICK_WAP_PAY',
+  return_url: 'https://example.com/orders/20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+# => 返回示例
+# https://openapi.alipay.com/gateway.do?timestamp=2013-01-01 08:08:08&method=alipay.trade.wap.pay&app_id=1990&sign_type=RSA2&sign=ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE&version=1.0&biz_content=
+#   {
+#     "body":"对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。",
+#     "subject":"大乐透",
+#     "out_trade_no":"70501111111S001111119",
+#     "timeout_express":"90m",
+#     "total_amount":9.00,
+#     "product_code":"QUICK_WAP_PAY"
+#   }
+```
+
+#### ARGUMENTS
+
+Please read official document: https://doc.open.alipay.com/doc2/detail.htm?treeId=203&articleId=105463&docType=1
+
+
 
 ## Contributing
 
