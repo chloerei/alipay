@@ -21,7 +21,7 @@ module Alipay
           'sign_type'      => sign_type
         }
 
-        signed_params = get_sign_by_type(params, sign_type)
+        signed_params = get_sign_by_type(params, key, sign_type)
 
         uri = URI(::Alipay::Service::OPEN_GATEWAY_URL)
         uri.query = URI.encode_www_form(signed_params)
@@ -51,7 +51,7 @@ module Alipay
         real_params["notify_url"] = params["notify_url"] if params["notify_url"].present?
         real_params["biz_content"] = params.except('return_url', 'notify_url').to_json
 
-        signed_params = get_sign_by_type(real_params, sign_type)
+        signed_params = get_sign_by_type(real_params, key, sign_type)
 
         uri = URI(::Alipay::Service::OPEN_GATEWAY_URL)
         uri.query = URI.encode_www_form(signed_params)
@@ -59,7 +59,7 @@ module Alipay
         uri
       end
 
-      def self.get_sign_by_type(params, sign_type)
+      def self.get_sign_by_type(params, key, sign_type)
         string = Alipay::App::Sign.params_to_sorted_string(params)
         sign = case sign_type
         when 'RSA'
