@@ -27,8 +27,9 @@ module Alipay
         else
           raise ArgumentError, "invalid sign_type #{sign_type}, allow value: 'RSA', 'RSA2'"
         end
+        encoded_string = Alipay::App::Sign.params_to_encoded_string(params)
 
-        Alipay::App::Sign.params_to_encoded_string params.merge('sign' => sign)
+        %Q(#{encoded_string}&sign=#{CGI.escape(sign)})
       end
     end
   end
