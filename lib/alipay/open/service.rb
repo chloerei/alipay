@@ -56,7 +56,7 @@ module Alipay
         uri = URI(::Alipay::Open::Service::OPEN_GATEWAY_URL)
         uri.query = URI.encode_www_form(signed_params)
 
-        uri
+        uri.to_s
       end
 
       def self.get_sign_by_type(params, key, sign_type)
