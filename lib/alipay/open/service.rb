@@ -23,7 +23,7 @@ module Alipay
 
         signed_params = get_sign_by_type(params, key, sign_type)
 
-        uri = URI(::Alipay::Service::OPEN_GATEWAY_URL)
+        uri = URI(::Alipay::Open::Service::OPEN_GATEWAY_URL)
         uri.query = URI.encode_www_form(signed_params)
 
         Net::HTTP.get(uri)
@@ -53,7 +53,7 @@ module Alipay
 
         signed_params = get_sign_by_type(real_params, key, sign_type)
 
-        uri = URI(::Alipay::Service::OPEN_GATEWAY_URL)
+        uri = URI(::Alipay::Open::Service::OPEN_GATEWAY_URL)
         uri.query = URI.encode_www_form(signed_params)
 
         uri
