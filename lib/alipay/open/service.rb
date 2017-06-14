@@ -3,6 +3,15 @@ module Alipay
     module Service
       OPEN_GATEWAY_URL = "https://openapi.alipay.com/gateway.do"
 
+      ALIPAY_RSA_PUBLIC_KEY = <<-EOF
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkr
+IvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsra
+prwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUr
+CmZYI/FCEa3/cNMW0QIDAQAB
+-----END PUBLIC KEY-----
+      EOF
+
       FUND_TRANS_TOACCOUNT_TRANSFER_REQUIRED_PARAMS = %w( out_biz_no payee_type payee_account amount )
       def self.alipay_fund_trans_toaccount_transfer(params, options = {})
         params = Utils.stringify_keys(params)
