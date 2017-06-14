@@ -83,6 +83,36 @@ CmZYI/FCEa3/cNMW0QIDAQAB
         end
       end
 
+      # 统一收单交易退款接口
+      # out_trade_no 和 trade_no 是二选一(必填)
+      ALIPAY_TRADE_REFUND_REQUIRED_PARAMS = %w( out_trade_no trade_no refund_amount )
+      def self.alipay_trade_refund(params, options = {})
+        params = Utils.stringify_keys(params)
+        Alipay::Service.check_required_params(params, ALIPAY_TRADE_REFUND_REQUIRED_PARAMS)
+        warn("Alipay Warn: missing required option: Either out_trade_no or trade_no must must be provided!") if (['out_trade_no', 'trade_no'] & params.keys) == []
+
+        app_id = options[:app_id] || Alipay.app_id
+        key = options[:key] || Alipay.key
+        sign_type = (options[:sign_type] || :rsa2).to_s.upcase
+
+        params = {
+          "biz_content"    => params.to_json,
+          "app_id"         => app_id,
+          'method'         => 'alipay.trade.refund',
+          'charset'        => 'utf-8',
+          'version'        => '1.0',
+          'timestamp'      => Time.now.utc.strftime('%Y-%m-%d %H:%M:%S').to_s,
+          'sign_type'      => sign_type
+        }
+
+        signed_params = params.merge("sign" => get_sign_by_type(params, key, sign_type))
+
+        uri = URI(::Alipay::Open::Service::OPEN_GATEWAY_URL)
+        uri.query = URI.encode_www_form(signed_params)
+
+        Net::HTTP.get(uri)
+      end
+
     end
   end
 end

@@ -875,6 +875,57 @@ Alipay::Open::Service.alipay_trade_wap_pay_url(
 Please read official document: https://doc.open.alipay.com/doc2/detail.htm?treeId=203&articleId=105463&docType=1
 
 
+### 统一收单交易退款
+
+#### Name
+
+```ruby
+alipay.trade.refund
+```
+
+#### Definition
+
+```ruby
+Alipay::Open::Service.alipay_trade_refund({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Open::Service.alipay_trade_refund(
+  trade_no: "Alipay trade no",
+  refund_amount: 10.00
+)
+# => 返回示例
+# {
+#     "sign":"ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE",
+#     "alipay_trade_refund_response":{
+#         "buyer_user_id":"2088101117955611",
+#         "gmt_refund_pay":"2014-11-27 15:45:57",
+#         "refund_fee":88.88,
+#         "trade_no":"支付宝交易号",
+#         "open_id":"2088102122524333",
+#         "refund_detail_item_list":[
+#             {
+#                 "amount":10,
+#                 "fund_type":"DEBIT_CARD",
+#                 "fund_channel":"ALIPAYACCOUNT",
+#                 "real_amount":11.21
+#             }
+#         ],
+#         "fund_change":"Y",
+#         "buyer_logon_id":"159****5620",
+#         "code":"10000",
+#         "out_trade_no":"6823789339978248",
+#         "store_name":"望湘园联洋店",
+#         "msg":"Success"
+#     }
+# }
+```
+
+#### ARGUMENTS
+
+Please read official document: https://doc.open.alipay.com/doc2/apiDetail.htm?apiId=759&docType=4
 
 ## Contributing
 
