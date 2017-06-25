@@ -1,0 +1,6 @@
+# Dev config for bin/console
+
+url:
+app_id:
+app_private_key:
+alipay_public_key:
