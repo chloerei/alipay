@@ -16,6 +16,7 @@ require 'alipay/mobile/service'
 require 'alipay/mobile/sign'
 require 'alipay/app/service'
 require 'alipay/app/sign'
+require 'alipay/client'
 
 module Alipay
   @debug_mode = true
