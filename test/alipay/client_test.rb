@@ -43,6 +43,6 @@ class Alipay::ClientTest < Minitest::Test
     stub_request(:post, "https://openapi.alipaydev.com/gateway.do").
       to_return(body: body)
 
-    assert_equal body, @client.execute(method: 'data.dataservice.bill.downloadurl.query', biz_content: { bill_type: 'trade', bill_date: '2016-04-01' })
+    assert_equal body, @client.execute(method: 'alipay.data.dataservice.bill.downloadurl.query', biz_content: { bill_type: 'trade', bill_date: '2016-04-01' })
   end
 end
