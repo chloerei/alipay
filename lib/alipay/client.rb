@@ -23,16 +23,31 @@ module Alipay
 
     def request_url(params)
       params = default_params.merge(params)
+      params[:sign] = generate_sign(params)
 
       uri = URI(@url)
-      uri.query = URI.encode_www_form(params.merge(sign: generate_sign(params)))
+      uri.query = URI.encode_www_form(params)
       uri.to_s
+    end
+
+    def request_form(params)
+      params = default_params.merge(params)
+      params[:sign] = generate_sign(params)
+
+      html = %Q(<form id='alipaysubmit' name='alipaysubmit' action='#{@url}' method='POST'>)
+      params.each do |key, value|
+        html << %Q(<input type='hidden' name='#{key}' value='#{value.gsub("'", "&apos;")}'/>)
+      end
+      html << "<input type='submit' value='ok' style='display:none'></form>"
+      html << "<script>document.forms['alipaysubmit'].submit();</script>"
+      html
     end
 
     def execute(params)
       params = default_params.merge(params)
+      params[:sign] = generate_sign(params)
 
-      Net::HTTP.post_form(URI(@url), params.merge(sign: generate_sign(params))).body
+      Net::HTTP.post_form(URI(@url), params).body
     end
 
     def generate_sign(params)
