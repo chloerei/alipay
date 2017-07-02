@@ -11,14 +11,14 @@ module Alipay
       @sign_type = options['sign_type'] || 'RSA2'
     end
 
-    def request_url(params)
+    def page_execute_url(params)
       params = prepare_params(params)
       uri = URI(@url)
       uri.query = URI.encode_www_form(params)
       uri.to_s
     end
 
-    def request_form(params)
+    def page_execute_form(params)
       params = prepare_params(params)
 
       html = %Q(<form id='alipaysubmit' name='alipaysubmit' action='#{@url}' method='POST'>)
