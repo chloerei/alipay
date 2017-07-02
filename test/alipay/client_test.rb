@@ -17,6 +17,12 @@ class Alipay::ClientTest < Minitest::Test
     refute_nil @client
   end
 
+  def test_sdk_execute_for_alipay_trade_app_pay
+    string = 'app_id=2016000000000000&charset=utf-8&sign_type=RSA2&version=1.0&timestamp=2016-04-01+00%3A00%3A00&method=alipay.trade.page.pay&biz_content=%7B%22out_trade_no%22%3A%2220160401000000%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%22test%22%7D&sign=Ws9J1PwRZx9Ku65rvRcbmy%2BhpfEpzeKculXbpa%2FuZbWfr4m2keutr63RQPhXqhWMKNGXh9BuzbX9khWZOa12YijxDljSW%2FCmtncsFoUpordhVVg6xGtjJqF28mRbx3uqmjxmThyRoa6taDKYB1qtAdoTfEnkfVG2zvR%2BZ6jg3dE%3D'
+
+    assert_equal string, @client.sdk_execute(method: 'alipay.trade.page.pay', biz_content: { out_trade_no: '20160401000000', product_code: 'QUICK_MSECURITY_PAY', total_amount: '0.01', subject: 'test' }.to_json, timestamp: '2016-04-01 00:00:00')
+  end
+
   def test_page_execute_url_for_alipay_trade_page_pay
     url = 'https://openapi.alipaydev.com/gateway.do?app_id=2016000000000000&charset=utf-8&sign_type=RSA2&version=1.0&timestamp=2016-04-01+00%3A00%3A00&method=alipay.trade.page.pay&biz_content=%7B%22out_trade_no%22%3A%2220160401000000%22%2C%22product_code%22%3A%22FAST_INSTANT_TRADE_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%22test%22%7D&sign=Dyx7%2BjfeGF4qgBHjJt6i2mJ9brI6uamBeq%2BH6SLe44CjtphTpBq5HUeuvGI7Dhar%2FzgfMP0tzBCwEjb%2FKdwG3ZdcyB6jOWzwi5YX3fVjLx%2FsFY5qr%2Fng%2BCuEsuZ5QId%2FLGQnp04cT%2BefayR20qfMwmAjQVowBBy3KsKb7iYdn6k%3D'
 

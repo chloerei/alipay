@@ -11,6 +11,11 @@ module Alipay
       @sign_type = options['sign_type'] || 'RSA2'
     end
 
+    def sdk_execute(params)
+      params = prepare_params(params)
+      URI.encode_www_form(params)
+    end
+
     def page_execute_url(params)
       params = prepare_params(params)
       uri = URI(@url)
