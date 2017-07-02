@@ -131,7 +131,7 @@ module Alipay
 
     # Generate sign for params.
     def sign(params)
-      string = params.sort.map { |item| item.join('=') }.join('&')
+      string = params_to_string(params)
 
       case @sign_type
       when 'RSA'
@@ -154,33 +154,20 @@ module Alipay
     #   }
     #   alipay_client.verify?(params)
     #   # => true / false
-    #
-    # Please notice that framework params (like Rails) contains path params, use
-    # request.query_parameters for GET notify or request.request_parameters for
-    # POST notify:
-    #
-    #   def return_path
-    #     alipay_client.verify?(request.query_parameters)
-    #   end
-    #
-    #   def notify_path
-    #     alipay_client.verify?(request.request_parameters)
-    #   end
     def verify?(params)
       params = Utils.stringify_keys(params)
       return false if params['sign_type'] != @sign_type
 
       sign = params.delete('sign')
-      string = params.sort.map { |item| item.join('=') }.join('&')
+      string = params_to_string(params)
       case @sign_type
       when 'RSA'
-        ::Alipay::Sign::RSA.verify?(@app_private_key, string, sign)
+        ::Alipay::Sign::RSA.verify?(@alipay_public_key, string, sign)
       when 'RSA2'
-        ::Alipay::Sign::RSA2.verify?(@app_private_key, string, sign)
+        ::Alipay::Sign::RSA2.verify?(@alipay_public_key, string, sign)
       else
         raise "Unsupported sign_type: #{@sign_type}"
       end
-      Utils.secure_compare(sign(params), sign)
     end
 
     private
@@ -195,6 +182,10 @@ module Alipay
       }.merge(::Alipay::Utils.stringify_keys(params))
       params['sign'] = sign(params)
       params
+    end
+
+    def params_to_string(params)
+      params.sort.map { |item| item.join('=') }.join('&')
     end
   end
 end

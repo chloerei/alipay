@@ -89,9 +89,20 @@ class Alipay::ClientTest < Minitest::Test
   def test_verify
     params = {
       out_trade_no: '20160401000000',
-      trade_status: 'TRADE_SUCCESS'
+      trade_status: 'TRADE_SUCCESS',
+      sign_type: 'RSA2'
     }
     params[:sign] = @client.sign(params)
-    @client.verify?(params)
+    assert @client.verify?(params)
+  end
+
+  def test_verify_when_wrong
+    params = {
+      out_trade_no: '20160401000000',
+      trade_status: 'TRADE_SUCCESS',
+      sign_type: 'RSA2',
+      sign: Base64.strict_encode64('WrongSign')
+    }
+    assert !@client.verify?(params)
   end
 end
