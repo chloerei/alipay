@@ -150,6 +150,7 @@ module Alipay
     #   params = {
     #     out_trade_no: '20160401000000',
     #     trade_status: 'TRADE_SUCCESS'
+    #     sign_type: 'RSA2',
     #     sign: '...'
     #   }
     #   alipay_client.verify?(params)
