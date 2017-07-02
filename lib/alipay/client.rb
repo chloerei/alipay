@@ -11,28 +11,15 @@ module Alipay
       @sign_type = options['sign_type'] || 'RSA2'
     end
 
-    def default_params
-      {
-        app_id: @app_id,
-        charset: @charset,
-        sign_type: @sign_type,
-        version: '1.0',
-        timestamp: Time.now.localtime('+08:00').strftime("%Y-%m-%d %H:%M:%S")
-      }
-    end
-
     def request_url(params)
-      params = default_params.merge(params)
-      params[:sign] = generate_sign(params)
-
+      params = prepare_params(params)
       uri = URI(@url)
       uri.query = URI.encode_www_form(params)
       uri.to_s
     end
 
     def request_form(params)
-      params = default_params.merge(params)
-      params[:sign] = generate_sign(params)
+      params = prepare_params(params)
 
       html = %Q(<form id='alipaysubmit' name='alipaysubmit' action='#{@url}' method='POST'>)
       params.each do |key, value|
@@ -44,13 +31,12 @@ module Alipay
     end
 
     def execute(params)
-      params = default_params.merge(params)
-      params[:sign] = generate_sign(params)
+      params = prepare_params(params)
 
       Net::HTTP.post_form(URI(@url), params).body
     end
 
-    def generate_sign(params)
+    def sign(params)
       string = params.sort.map { |item| item.join('=') }.join('&')
 
       case @sign_type
@@ -61,6 +47,20 @@ module Alipay
       else
         raise "Unsupported sign_type: #{@sign_type}"
       end
+    end
+
+    private
+
+    def prepare_params(params)
+      params = {
+        'app_id' => @app_id,
+        'charset' => @charset,
+        'sign_type' => @sign_type,
+        'version' => '1.0',
+        'timestamp' => Time.now.localtime('+08:00').strftime("%Y-%m-%d %H:%M:%S")
+      }.merge(::Alipay::Utils.stringify_keys(params))
+      params['sign'] = sign(params)
+      params
     end
   end
 end
