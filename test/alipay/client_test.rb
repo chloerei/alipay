@@ -84,4 +84,14 @@ class Alipay::ClientTest < Minitest::Test
       }.to_json
     )
   end
+
+  # Use pair rsa key so we can test it
+  def test_verify
+    params = {
+      out_trade_no: '20160401000000',
+      trade_status: 'TRADE_SUCCESS'
+    }
+    params[:sign] = @client.sign(params)
+    @client.verify?(params)
+  end
 end

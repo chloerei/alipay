@@ -54,6 +54,23 @@ module Alipay
       end
     end
 
+    def verify?(params)
+      params = Utils.stringify_keys(params)
+      return false if params['sign_type'] != @sign_type
+
+      sign = params.delete('sign')
+      string = params.sort.map { |item| item.join('=') }.join('&')
+      case @sign_type
+      when 'RSA'
+        ::Alipay::Sign::RSA.verify?(@app_private_key, string, sign)
+      when 'RSA2'
+        ::Alipay::Sign::RSA2.verify?(@app_private_key, string, sign)
+      else
+        raise "Unsupported sign_type: #{@sign_type}"
+      end
+      Utils.secure_compare(sign(params), sign)
+    end
+
     private
 
     def prepare_params(params)
