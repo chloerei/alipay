@@ -41,7 +41,9 @@ alipay_client.page_execute_url(
 # => 'https://openapi.alipaydev.com/gateway.do?app_id=201600...'
 ```
 
-Read [Alipay::Client](lib/alipay/client.rb) for more detail.
+Read [Alipay::Client](lib/alipay/client.rb) for usage detail.
+
+Read [https://doc.open.alipay.com](https://doc.open.alipay.com) for Alipay API workflow and params.
 
 You can find legacy API document [here](doc/legacy_api.md).
 

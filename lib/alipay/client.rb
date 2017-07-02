@@ -1,28 +1,104 @@
 module Alipay
   class Client
+    # Create a client to manage all API request.
+    #
+    # Example:
+    #
+    #   alipay_client = Alipay::Client.new(
+    #     url: 'https://openapi.alipaydev.com/gateway.do',
+    #     app_id: '2016000000000000',
+    #     app_private_key: APP_PRIVATE_KEY,
+    #     alipay_public_key: ALIPAY_PUBLIC_KEY
+    #   )
+    #
+    # Options:
+    #
+    # [:url]  Alipay Open API gateway,
+    #         'https://openapi.alipaydev.com/gateway.do'(Sandbox) or
+    #         'https://openapi.alipay.com/gateway.do'(Production).
+    #
+    # [:app_id] Your APP ID.
+    #
+    # [:app_private_key] APP private key.
+    #
+    # [:alipay_public_key] Alipay public key.
+    #
+    # [:format] default is 'json', only support 'json'.
+    #
+    # [:charset] default is 'UTF-8', only support 'UTF-8'.
+    #
+    # [:sign_type] default is 'RSA2', support 'RSA2', 'RSA', 'RSA2' is recommended.
     def initialize(options)
       options = ::Alipay::Utils.stringify_keys(options)
       @url = options['url']
       @app_id = options['app_id']
       @app_private_key = options['app_private_key']
-      @format = options['format'] || 'json'
-      @charset = options['charset'] || 'utf-8'
       @alipay_public_key = options['alipay_public_key']
+      @format = options['format'] || 'json'
+      @charset = options['charset'] || 'UTF-8'
       @sign_type = options['sign_type'] || 'RSA2'
     end
 
+    # Generate a query string that use for APP SDK excute.
+    #
+    # Example:
+    #
+    #   alipay_client.sdk_execute(
+    #     method: 'alipay.trade.page.pay',
+    #     biz_content: {
+    #       out_trade_no: '20160401000000',
+    #       product_code: 'QUICK_MSECURITY_PAY',
+    #       total_amount: '0.01',
+    #       subject: 'test'
+    #     }.to_json,
+    #     timestamp: '2016-04-01 00:00:00'
+    #   )
+    #   # => 'app_id=2016000000000000&charset=utf-8&sig....'
     def sdk_execute(params)
       params = prepare_params(params)
+
       URI.encode_www_form(params)
     end
 
+    # Generate a url that use to redirect user to Alipay payment page.
+    #
+    # Example:
+    #
+    #   assert_equal url, @client.page_execute_url(
+    #     method: 'alipay.trade.page.pay',
+    #     biz_content: {
+    #       out_trade_no: '20160401000000',
+    #       product_code: 'FAST_INSTANT_TRADE_PAY',
+    #       total_amount: '0.01',
+    #       subject: 'test'
+    #     }.to_json,
+    #     timestamp: '2016-04-01 00:00:00'
+    #   )
+    #   # => 'https://openapi.alipaydev.com/gateway.do?app_id=2016...'
     def page_execute_url(params)
       params = prepare_params(params)
+
       uri = URI(@url)
       uri.query = URI.encode_www_form(params)
       uri.to_s
     end
 
+    # Generate a form string that use to render in view and auto POST to
+    # Alipay server.
+    #
+    # Example:
+    #
+    #   assert_equal url, @client.page_execute_form(
+    #     method: 'alipay.trade.page.pay',
+    #     biz_content: {
+    #       out_trade_no: '20160401000000',
+    #       product_code: 'FAST_INSTANT_TRADE_PAY',
+    #       total_amount: '0.01',
+    #       subject: 'test'
+    #     }.to_json,
+    #     timestamp: '2016-04-01 00:00:00'
+    #   )
+    #   # => '<form id='alipaysubmit' name='alipaysubmit' action=...'
     def page_execute_form(params)
       params = prepare_params(params)
 
@@ -35,12 +111,25 @@ module Alipay
       html
     end
 
+    # Immediately make a API request to Alipay and return response body.
+    #
+    # Example:
+    #
+    #   @client.execute(
+    #     method: 'alipay.data.dataservice.bill.downloadurl.query',
+    #     biz_content: {
+    #       bill_type: 'trade',
+    #       bill_date: '2016-04-01'
+    #     }.to_json
+    #   )
+    #   # => '{ "alipay_data_dataservice_bill_downloadurl_query_response":{...'
     def execute(params)
       params = prepare_params(params)
 
       Net::HTTP.post_form(URI(@url), params).body
     end
 
+    # Generate sign for params.
     def sign(params)
       string = params.sort.map { |item| item.join('=') }.join('&')
 
@@ -54,6 +143,29 @@ module Alipay
       end
     end
 
+    # Verify Alipay notification.
+    #
+    # Example:
+    #
+    #   params = {
+    #     out_trade_no: '20160401000000',
+    #     trade_status: 'TRADE_SUCCESS'
+    #     sign: '...'
+    #   }
+    #   alipay_client.verify?(params)
+    #   # => true / false
+    #
+    # Please notice that framework params (like Rails) contains path params, use
+    # request.query_parameters for GET notify or request.request_parameters for
+    # POST notify:
+    #
+    #   def return_path
+    #     alipay_client.verify?(request.query_parameters)
+    #   end
+    #
+    #   def notify_path
+    #     alipay_client.verify?(request.request_parameters)
+    #   end
     def verify?(params)
       params = Utils.stringify_keys(params)
       return false if params['sign_type'] != @sign_type
