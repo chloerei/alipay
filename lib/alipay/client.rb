@@ -160,6 +160,8 @@ module Alipay
       return false if params['sign_type'] != @sign_type
 
       sign = params.delete('sign')
+      # sign_type does not use in notify sign
+      params.delete('sign_type')
       string = params_to_string(params)
       case @sign_type
       when 'RSA'
