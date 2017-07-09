@@ -89,10 +89,10 @@ class Alipay::ClientTest < Minitest::Test
   def test_verify
     params = {
       out_trade_no: '20160401000000',
-      trade_status: 'TRADE_SUCCESS',
-      sign_type: 'RSA2'
+      trade_status: 'TRADE_SUCCESS'
     }
     params[:sign] = @client.sign(params)
+    params[:sign_type] = 'RSA2'
     assert @client.verify?(params)
   end
 
