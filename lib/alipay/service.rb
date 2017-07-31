@@ -217,12 +217,18 @@ module Alipay
     def self.create_merchant_qr_code(params, options = {})
       params = Utils.stringify_keys(params)
       check_required_params(params, CREATE_MERCHANT_QR_CODE_REQUIRED_PARAMS)
-      check_required_params(params['biz_data'], CREATE_MERCHANT_QR_CODE_REQUIRED_BIZ_DATA_PARAMS)
+      biz_data = nil
 
-      data = params.delete('biz_data')
-      biz_data = data.map do |key, value|
-        "\"#{key}\": \"#{value}\""
-      end.join(',')
+      if params['biz_data'].present?
+        params['biz_data'] = Utils.stringify_keys(params['biz_data'])
+        check_required_params(params['biz_data'], CREATE_MERCHANT_QR_CODE_REQUIRED_BIZ_DATA_PARAMS)
+
+        data = params.delete('biz_data')
+        biz_data = data.map do |key, value|
+          "\"#{key}\": \"#{value}\""
+        end.join(',')
+      end
+
       biz_data = "{#{biz_data}}"
 
       params = {
@@ -253,7 +259,7 @@ module Alipay
       return if !Alipay.debug_mode?
 
       names.each do |name|
-        warn("Alipay Warn: missing required option: #{name}") unless params.with_indifferent_access.has_key?(name)
+        warn("Alipay Warn: missing required option: #{name}") unless params.has_key?(name)
       end
     end
 
