@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Alipay
   module Open
     module Service
@@ -11,6 +13,68 @@ prwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUr
 CmZYI/FCEa3/cNMW0QIDAQAB
 -----END PUBLIC KEY-----
       EOF
+
+      def self.generate_authorize_url(redirect_uri, state = nil)
+        state ||= SecureRandom.hex 16
+        "https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=#{Alipay.app_id}&scope=auth_user&redirect_uri=#{CGI::escape redirect_uri}&state=#{state}"
+      end
+
+      ALIPAY_SYSTEM_OAUTH_TOKEN_REQUIRED_PARAMS = %w(code)
+      def self.alipay_system_oauth_token_url(params, options = {})
+        params = Utils.stringify_keys(params)
+        Alipay::Service.check_required_params(params, ALIPAY_SYSTEM_OAUTH_TOKEN_REQUIRED_PARAMS)
+
+        app_id = options[:app_id] || Alipay.app_id
+        key = options[:key] || Alipay.key
+        sign_type = (options[:sign_type] || :rsa2).to_s.upcase
+        grant_type = (options[:grant_type] || :authorization_code).to_s
+
+        params = {
+          "app_id"         => app_id,
+          'method'         => 'alipay.system.oauth.token',
+          'charset'        => 'utf-8',
+          'version'        => '1.0',
+          'timestamp'      => Time.now.utc.strftime('%Y-%m-%d %H:%M:%S').to_s,
+          'sign_type'      => sign_type,
+          'grant_type'     => grant_type,
+          'code'           => params[:code].to_s
+        }
+
+        signed_params = params.merge("sign" => get_sign_by_type(params, key, sign_type))
+
+        uri = URI(::Alipay::Open::Service::OPEN_GATEWAY_URL)
+        uri.query = URI.encode_www_form(signed_params)
+
+        Net::HTTP.get(uri)
+      end
+
+      ALIPAY_USER_INFO_SHARE_REQUIRED_PARAMS = %w(auth_token)
+      def self.alipay_user_info_share_url(params, options = {})
+        params = Utils.stringify_keys(params)
+        Alipay::Service.check_required_params(params, ALIPAY_USER_INFO_SHARE_REQUIRED_PARAMS)
+
+        app_id = options[:app_id] || Alipay.app_id
+        key = options[:key] || Alipay.key
+        sign_type = (options[:sign_type] || :rsa2).to_s.upcase
+
+        params = {
+          "app_id"         => app_id,
+          'method'         => 'alipay.user.info.share',
+          'charset'        => 'utf-8',
+          'version'        => '1.0',
+          'timestamp'      => Time.now.utc.strftime('%Y-%m-%d %H:%M:%S').to_s,
+          'sign_type'      => sign_type,
+          'auth_token'     => params[:auth_token].to_s,
+          'biz_content'    => ''
+        }
+
+        signed_params = params.merge("sign" => get_sign_by_type(params, key, sign_type))
+
+        uri = URI(::Alipay::Open::Service::OPEN_GATEWAY_URL)
+        uri.query = URI.encode_www_form(signed_params)
+
+        Net::HTTP.get(uri)
+      end
 
       FUND_TRANS_TOACCOUNT_TRANSFER_REQUIRED_PARAMS = %w( out_biz_no payee_type payee_account amount )
       def self.alipay_fund_trans_toaccount_transfer(params, options = {})
