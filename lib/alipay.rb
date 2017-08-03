@@ -17,8 +17,8 @@ require 'alipay/mobile/sign'
 require 'alipay/app/service'
 require 'alipay/app/sign'
 require 'alipay/open/service'
-require 'alipay/zhima/service'
-require 'alipay/zhima/configuration'
+# require 'alipay/zhima/service'
+# require 'alipay/zhima/configuration'
 
 module Alipay
   @debug_mode = true

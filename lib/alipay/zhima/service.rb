@@ -11,6 +11,65 @@ module Alipay
         }
       end
 
+      # 短信唤起支付宝客户端授权
+      # Configuration
+      # Alipay.zhima_mch_app_id = 'YOUR_ZHIMA_APP_ID'
+      # Alipay.zhima_mch_private_key = 'YOUR_PRIVATE_KEY'
+      # Alipay.zhima_publci_key = 'ZHIMA_PUBLIC_KEY'
+
+      # ZHIMA_AUTH_ENGINE_SMSAUTH_REQUIRED_PARAMS = %w(name certNo mobileNo channelType state)
+      # def self.zhima_auth_engine_smsauth(params, options = {})
+      #   params = Utils.stringify_keys(params)
+      #   Alipay::Service.check_required_params(params, ZHIMA_AUTH_ENGINE_SMSAUTH_REQUIRED_PARAMS)
+      #
+      #   zhima_mch_app_id = options[:zhima_mch_app_id] || Alipay.zhima_mch_app_id
+      #   zhima_mch_private_key = options[:zhima_mch_private_key] || Alipay.zhima_mch_private_key
+      #   zhima_public_key = options[:zhima_publci_key] || Alipay.zhima_publci_key
+      #
+      #
+      #   # params 商户需用芝麻信用的公钥对这一串数据进行RSA加密。
+      #   params = get_params_with_rsa(params, zhima_public_key)
+      #
+      #   real_params = {
+      #     'app_id' => appid,
+      #     'charset' => 'UTF-8',
+      #     'method' => 'zhima.auth.engine.smsauth',
+      #     'version' => '1.0',
+      #     'platform' => 'zmop',
+      #     'params' => params
+      #   }
+      #
+      #   signed_params = real_params.merge("sign" => get_sign_by_type(real_params, key, 'RSA'))
+      #
+      #   uri = URI(::Alipay::Zhima::Service::ZHIMA_GATEWAY)
+      #   uri.query = URI.encode_www_form(signed_params)
+      #
+      #   Net::HTTP.get(uri)
+      # end
+      #
+      # def self.get_params_with_rsa(params, key)
+      #   params = {
+      #       'identity_type' => 2,
+      #       'identity_param' => {
+      #         'name' => params[:name],
+      #         'certType' => 'IDENTITY_CARD',
+      #         'certNo' => params[:certNo],
+      #         'mobileNo' => params[:mobileNo]
+      #       },
+      #       'biz_params' => {
+      #         'auth_code' => 'M_SMS',
+      #         'channelType' => params[:channelType],
+      #         'state' => params[:state]
+      #       }
+      #   }
+      #
+      #   string = Alipay::App::Sign.params_to_sorted_string(params)
+      #
+      #   rsa = OpenSSL::PKey::RSA.new(key, string)
+      #
+      #   rsa
+      # end
+
       # 芝麻信用认证初始化
       ZHIMA_CUSTOMER_CERTIFICATION_INITIALIZE_REQUIRED_PARAMS = %w(transaction_id product_code biz_code identity_param)
       def self.zhima_customer_certification_initialize(params, options = {})
