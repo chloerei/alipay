@@ -16,7 +16,7 @@ CmZYI/FCEa3/cNMW0QIDAQAB
 
       def self.generate_authorize_url(redirect_uri, state = nil)
         state ||= SecureRandom.hex 16
-        "https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=#{Alipay.app_id}&scope=auth_user&redirect_uri=#{CGI::escape redirect_uri}&state=#{state}"
+        "https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=#{Alipay.app_service_id}&scope=auth_user&redirect_uri=#{CGI::escape redirect_uri}&state=#{state}"
       end
 
       ALIPAY_SYSTEM_OAUTH_TOKEN_REQUIRED_PARAMS = %w(code)
@@ -24,10 +24,9 @@ CmZYI/FCEa3/cNMW0QIDAQAB
         params = Utils.stringify_keys(params)
         Alipay::Service.check_required_params(params, ALIPAY_SYSTEM_OAUTH_TOKEN_REQUIRED_PARAMS)
 
-        app_id = options[:app_id] || Alipay.app_id
-        key = options[:key] || Alipay.key
+        app_id = options[:app_service_id] || Alipay.app_service_id
+        key = options[:service_key] || Alipay.service_key
         sign_type = (options[:sign_type] || :rsa2).to_s.upcase
-        grant_type = (options[:grant_type] || :authorization_code).to_s
 
         params = {
           "app_id"         => app_id,
@@ -36,8 +35,9 @@ CmZYI/FCEa3/cNMW0QIDAQAB
           'version'        => '1.0',
           'timestamp'      => Time.now.utc.strftime('%Y-%m-%d %H:%M:%S').to_s,
           'sign_type'      => sign_type,
-          'grant_type'     => grant_type,
-          'code'           => params[:code].to_s
+          'grant_type'     => 'authorization_code',
+          'code'           => params[:code].to_s,
+          'refresh_token'  => ''
         }
 
         signed_params = params.merge("sign" => get_sign_by_type(params, key, sign_type))
@@ -53,8 +53,8 @@ CmZYI/FCEa3/cNMW0QIDAQAB
         params = Utils.stringify_keys(params)
         Alipay::Service.check_required_params(params, ALIPAY_USER_INFO_SHARE_REQUIRED_PARAMS)
 
-        app_id = options[:app_id] || Alipay.app_id
-        key = options[:key] || Alipay.key
+        app_id = options[:app_service_id] || Alipay.app_service_id
+        key = options[:service_key] || Alipay.service_key
         sign_type = (options[:sign_type] || :rsa2).to_s.upcase
 
         params = {

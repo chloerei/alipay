@@ -23,7 +23,7 @@ class Alipay::Open::ServiceTest < Minitest::Test
       with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'openapi.alipay.com', 'User-Agent'=>'Ruby'}).
       to_return(status: 200, body: resp, headers: {})
 
-    ret = JSON.parse(Alipay::Open::Service.alipay_system_oauth_token_url(params, { sign_type: 'rsa', key: TEST_RSA_PRIVATE_KEY }))
+    ret = JSON.parse(Alipay::Open::Service.alipay_system_oauth_token_url(params, { sign_type: 'rsa', app_service_id: '10000000000000', service_key: TEST_RSA_PRIVATE_KEY }))
 
     assert ret["sign"]
   end
@@ -59,7 +59,7 @@ class Alipay::Open::ServiceTest < Minitest::Test
       with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'openapi.alipay.com', 'User-Agent'=>'Ruby'}).
       to_return(status: 200, body: resp, headers: {})
 
-    ret = JSON.parse(Alipay::Open::Service.alipay_user_info_share_url(params, { sign_type: 'rsa', key: TEST_RSA_PRIVATE_KEY }))
+    ret = JSON.parse(Alipay::Open::Service.alipay_user_info_share_url(params, { sign_type: 'rsa', app_service_id: '10000000000000', service_key: TEST_RSA_PRIVATE_KEY }))
 
     assert ret["sign"]
   end
