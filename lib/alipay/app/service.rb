@@ -30,6 +30,7 @@ module Alipay
 
         Alipay::App::Sign.params_to_encoded_string params.merge('sign' => sign)
       end
+
     end
   end
 end

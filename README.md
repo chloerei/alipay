@@ -1,9 +1,7 @@
 # Alipay
 
 A unofficial alipay ruby gem.
-
 Alipay official document: https://b.alipay.com/order/techService.htm .
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,6 +20,7 @@ $ bundle
 
 ```ruby
 Alipay.pid = 'YOUR_PID'
+Alipay.app_id = 'YOUR_APP_ID'
 Alipay.key = 'YOUR_KEY'
 
 #Alipay.sign_type = 'MD5' # Available values: MD5, RSA. Default is MD5
@@ -788,6 +787,145 @@ notify_params = params.except(*request.path_parameters.keys)
 
 Alipay::Wap::Notify.verify?(notify_params)
 ```
+
+## Open::Service
+
+### 单笔转账到支付宝账户接口
+
+#### Name
+
+```ruby
+alipay.fund.trans.toaccount.transfer
+```
+
+#### Definition
+
+```ruby
+Alipay::Open::Service.alipay_fund_trans_toaccount_transfer({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Open::Service.alipay_fund_trans_toaccount_transfer(
+  out_biz_no: '20170612000-0001',
+  payee_type: 'ALIPAY_LOGONID',
+  payee_account: 'hi@example.com',
+  amount: 10.00,
+  payer_show_name: 'payer show name',
+  payee_real_name: 'payee real name',
+  remark: 'remark'
+)
+# => JSON response 示例
+# {
+#     "sign":"ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE",
+#     "alipay_fund_trans_toaccount_transfer_response":{
+#         "pay_date":"2013-01-01 08:08:08",
+#         "code":"10000",
+#         "order_id":"20160627110070001502260006780837",
+#         "msg":"Success",
+#         "out_biz_no":"3142321423432"
+#     }
+# }
+```
+
+#### ARGUMENTS
+
+Please read official document: https://doc.open.alipay.com/docs/api.htm?apiId=1321&docType=4
+
+### 手机网站支付 - 外部商户创建订单并支付
+
+#### Name
+
+```ruby
+alipay.trade.wap.pay
+```
+
+#### Definition
+
+```ruby
+Alipay::Open::Service.alipay_trade_wap_pay_url({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Open::Service.alipay_trade_wap_pay_url(
+  subject: 'Order name',
+  out_trade_no: 'OUT_TRADE_NO',
+  total_amount: 10.0,
+  product_code: 'QUICK_WAP_PAY',
+  return_url: 'https://example.com/orders/20150401000-0001',
+  notify_url: 'https://example.com/orders/20150401000-0001/notify'
+)
+# => 返回示例
+# https://openapi.alipay.com/gateway.do?timestamp=2013-01-01 08:08:08&method=alipay.trade.wap.pay&app_id=1990&sign_type=RSA2&sign=ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE&version=1.0&biz_content=
+#   {
+#     "body":"对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。",
+#     "subject":"大乐透",
+#     "out_trade_no":"70501111111S001111119",
+#     "timeout_express":"90m",
+#     "total_amount":9.00,
+#     "product_code":"QUICK_WAP_PAY"
+#   }
+```
+
+#### ARGUMENTS
+
+Please read official document: https://doc.open.alipay.com/doc2/detail.htm?treeId=203&articleId=105463&docType=1
+
+
+### 统一收单交易退款
+
+#### Name
+
+```ruby
+alipay.trade.refund
+```
+
+#### Definition
+
+```ruby
+Alipay::Open::Service.alipay_trade_refund({ARGUMENTS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+Alipay::Open::Service.alipay_trade_refund(
+  trade_no: "Alipay trade no",
+  refund_amount: 10.00
+)
+# => 返回示例
+# {
+#     "sign":"ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE",
+#     "alipay_trade_refund_response":{
+#         "buyer_user_id":"2088101117955611",
+#         "gmt_refund_pay":"2014-11-27 15:45:57",
+#         "refund_fee":88.88,
+#         "trade_no":"支付宝交易号",
+#         "open_id":"2088102122524333",
+#         "refund_detail_item_list":[
+#             {
+#                 "amount":10,
+#                 "fund_type":"DEBIT_CARD",
+#                 "fund_channel":"ALIPAYACCOUNT",
+#                 "real_amount":11.21
+#             }
+#         ],
+#         "fund_change":"Y",
+#         "buyer_logon_id":"159****5620",
+#         "code":"10000",
+#         "out_trade_no":"6823789339978248",
+#         "store_name":"望湘园联洋店",
+#         "msg":"Success"
+#     }
+# }
+```
+
+#### ARGUMENTS
+
+Please read official document: https://doc.open.alipay.com/doc2/apiDetail.htm?apiId=759&docType=4
 
 ## Contributing
 
