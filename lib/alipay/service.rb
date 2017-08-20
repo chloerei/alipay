@@ -251,7 +251,6 @@ module Alipay
         'service'        => 'alipay.acquire.overseas.spot.refund',
         '_input_charset' => 'utf-8',
         'partner'        => options[:pid] || Alipay.pid,
-        'sign_type' => (options[:sign_type] || Alipay.sign_type),
       }.merge(params)
 
       request_uri(params, options).to_s
