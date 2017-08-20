@@ -537,6 +537,59 @@ notify_params = params.except(*request.path_parameters.keys)
 Alipay::Notify.verify?(notify_params, options = {})
 ```
 
+### QR Code 生成二维码
+
+#### Name
+
+```ruby
+alipay.commerce.qrcode.create
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.create_merchant_qr_code?({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+create_qr_code_params = {
+  biz_type: "OVERSEASHOPQRCODE",
+  biz_data: {
+    secondary_merchant_industry: "5812",
+    secondary_merchant_id: "51182918",
+    secondary_merchant_name: "OverSeas Store",
+    store_id: "21231",
+    store_name: "12818",
+    trans_currency: "USD",
+    currency: "USD"
+  }
+}
+
+Alipay::Service.create_merchant_qr_code(create_qr_code_params)
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| notify_url | optional | Alipay asyn notify url. |
+| biz_type | required | Business type that is defined by Alipay, this case is “OVERSEASHOPQRCODE” |
+| biz_data | required | Business data. Format：JSON |
+
+#### BIZ_DATA ARGUMENTS (required)
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| secondary_merchant_industry | required | Business sector, it is distribued by Alipay for distinguish the sectors. |
+| secondary_merchant_id | required | secondary_merchant_id, sub-merchant ID which is used for distinguish each specific sub merchants. The max length is 32. |
+| secondary_merchant_name | required | secondary_merchant_name: sub-merchant name which will be recorded in user’s statement. The max length is 32. |
+| trans_currency | required | The pricing currency |
+| currency | required | The currency to settle with the merchant. The default value is CNY. If the pricing currency is not CNY, then the settlement currency must be either CNY or the pricing currency. |
+
+This is not a complete list of arguments, please read official document: https://global.alipay.com/service/merchant_QR_Code/15
+
 ## Mobile::Service
 
 ### 移动支付接口
