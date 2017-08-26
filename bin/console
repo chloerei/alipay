@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'alipay'
+require 'yaml'
+require 'json'
+
+if File.exists?('config.yml')
+  $alipay_client = Alipay::Client.new(YAML.load_file('config.yml'))
+end
+
+require 'irb'
+
+IRB.start(__FILE__)
