@@ -1,5 +1,10 @@
 ## master
 
+## v0.15.0 (2017-08-27)
+
+- Add `Alipay::Client` for open API.
+- Stop adding new feature to Alipay::Service, Alipay::App::Service, Alipay::Wap::Service, Alipay::Mobile::Service.
+
 ## v0.14.0 (2016-12-28)
 
 - Add `Alipay::App::Service.create_forex_trade_wap_url` method, thanks @xiaohesong #61
