@@ -2,14 +2,16 @@
 
 Unofficial alipay ruby gem.
 
-*This branch is not stable, use it at your own risk*
+Note: Alipay::Client Api have not enough feedback in production yet, please fully test in your staging environment before production. You can find legacy API document [here](doc/legacy_api.md).
+
+You should read [https://doc.open.alipay.com](https://doc.open.alipay.com) before using this gem.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alipay', github: 'chloerei/alipay', branch: 'openapi'
+gem 'alipay', '~> 0.15.0'
 ```
 
 Then run:
@@ -42,10 +44,6 @@ alipay_client.page_execute_url(
 ```
 
 Read [Alipay::Client](lib/alipay/client.rb) for usage detail.
-
-Read [https://doc.open.alipay.com](https://doc.open.alipay.com) for Alipay API workflow and params.
-
-You can find legacy API document [here](doc/legacy_api.md).
 
 ## Contributing
 
