@@ -21,7 +21,7 @@ module Alipay
   @sign_type = 'MD5'
 
   class << self
-    attr_accessor :pid, :key, :sign_type, :debug_mode
+    attr_accessor :pid, :key, :sign_type, :debug_mode, :public_key
 
     def debug_mode?
       !!@debug_mode

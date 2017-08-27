@@ -39,7 +39,7 @@ NG9zpgmLCUYuLkxpLQIDAQAB
         key = options[:key] || Alipay.key
         MD5.verify?(key, string, sign)
       when 'RSA'
-        RSA.verify?(ALIPAY_RSA_PUBLIC_KEY, string, sign)
+        RSA.verify?(Alipay.public_key || ALIPAY_RSA_PUBLIC_KEY, string, sign)
       when 'DSA'
         DSA.verify?(string, sign)
       else
