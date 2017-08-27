@@ -64,7 +64,7 @@ module Alipay
     #
     # Example:
     #
-    #   assert_equal url, @client.page_execute_url(
+    #   alipay_client.page_execute_url(
     #     method: 'alipay.trade.page.pay',
     #     biz_content: {
     #       out_trade_no: '20160401000000',
@@ -88,7 +88,7 @@ module Alipay
     #
     # Example:
     #
-    #   assert_equal url, @client.page_execute_form(
+    #   alipay_client.page_execute_form(
     #     method: 'alipay.trade.page.pay',
     #     biz_content: {
     #       out_trade_no: '20160401000000',
@@ -115,7 +115,7 @@ module Alipay
     #
     # Example:
     #
-    #   @client.execute(
+    #   alipay_client.execute(
     #     method: 'alipay.data.dataservice.bill.downloadurl.query',
     #     biz_content: {
     #       bill_type: 'trade',
