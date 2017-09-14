@@ -242,6 +242,34 @@ module Alipay
       request_uri(params, options).to_s
     end
 
+    UPDATE_MERCHANT_QR_CODE_REQUIRED_PARAMS = %w( biz_type biz_data qr_code )
+    def self.update_merchant_qr_code(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, UPDATE_MERCHANT_QR_CODE_REQUIRED_PARAMS)
+      biz_data = nil
+
+      if params['biz_data'].present?
+        params['biz_data'] = Utils.stringify_keys(params['biz_data'])
+
+        data = params.delete('biz_data')
+        biz_data = data.map do |key, value|
+          "\"#{key}\": \"#{value}\""
+        end.join(',')
+      end
+
+      biz_data = "{#{biz_data}}"
+
+      params = {
+        'service'        => 'alipay.commerce.qrcode.modify',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+        'timestamp'      => Time.now.utc.strftime('%Y-%m-%d %H:%M:%S').to_s,
+        'biz_data'       => biz_data
+      }.merge(params)
+
+      request_uri(params, options).to_s
+    end
+
     ACQUIRER_OVERSEAS_SPOT_REFUND_REQUIRED_PARAMS = %w( partner_trans_id partner_refund_id refund_amount currency )
     def self.acquirer_overseas_spot_refund_url(params, options= {})
       params = Utils.stringify_keys(params)
