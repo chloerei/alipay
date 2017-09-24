@@ -2,12 +2,9 @@
 
 Unofficial Alipay ruby gem.
 
-Alipay::Client API does not have enough feedback in production yet,
-please fully test in your staging environment before production.
-You can find legacy API document [here](doc/legacy_api.md).
+Note: Alipay::Client API does not have enough feedback in production yet, please fully test in your staging environment before production. You can find legacy API document [here](doc/legacy_api.md).
 
-You should read [https://doc.open.alipay.com](https://doc.open.alipay.com)
-before using this gem.
+You should read [https://doc.open.alipay.com](https://doc.open.alipay.com) before using this gem.
 
 ## Installation
 
@@ -30,9 +27,7 @@ $ gem install alipay -v 0.15.0
 
 ## Getting Started
 
-This gem needs to be configured with your application's private key for Alipay
-and Alipay's public key. Here is a [quick guide](doc/rsa_key_en.md) on
-generating RSA key for use with this gem to get you started.
+This gem needs to be configured with your application's private key for Alipay and Alipay's public key. Here is a [quick guide](doc/rsa_key_en.md) on generating RSA key for use with this gem to get you started.
 
 ### Setup
 ```ruby
@@ -74,8 +69,7 @@ ALIPAY_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nTq43T5...OVUAQb3R\n-----END PUBLI
 # => 'https://openapi.alipaydev.com/gateway.do?app_id=201600...'
 ```
 
-Read [Alipay::Client](lib/alipay/client.rb) or
-the [Quick Start Guide](doc/quick_start_en.md) for usage detail.
+Read [Alipay::Client](lib/alipay/client.rb) or the [Quick Start Guide](doc/quick_start_en.md) for usage detail.
 
 ## Contributing
 
