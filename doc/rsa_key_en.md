@@ -1,5 +1,7 @@
 # RSA Key for Alipay
 
+[中文](rsa_key_cn.md)
+
 ## Table of Contents
 
 * [Generate Application Key](#generate-application-key)
@@ -19,6 +21,8 @@ require 'openssl'
 @app_key = OpenSSL::PKey::RSA.new(2048)
 ```
 #### Saving Key
+You can save your private and public key as any of two formats. As long as it can be loaded into the program.
+
 Saving Private Key to String
 ```ruby
 app_private_key = @app_key.to_s

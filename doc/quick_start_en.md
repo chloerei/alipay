@@ -1,8 +1,9 @@
-# Quick Start Guide
-
-Table of Contents
+Quick Start Guide
 =================
 
+### [中文](quick_start_cn.md)
+
+## Table of Contents
 * [Client Setup](#client-setup)
    * [Ruby](#ruby)
    * [Ruby on Rails](#ruby-on-rails)
@@ -118,7 +119,7 @@ payment. This is an *optional* parameter.
 * `out_trade_no` is a unique string set by you. It is expected to be in reference to a model ID
 in your application. Although it is not a strict requirement.
 * `total_amount` should be in decimal form with a maximum scale of 2. For example `5123.99` will
-be ￥,123.99 in text form. `5123.999` is not a valid parameter.
+be ￥5,123.99 in text form. `5123.999` is not a valid parameter.
 
 > For a complete list of the available parameters, please refer to the [API documentation](https://docs.open.alipay.com/270/alipay.trade.page.pay/).
 
@@ -324,7 +325,7 @@ result_status = JSON.parse(response)["alipay_trade_query_response"]["trade_statu
 ```
 
 Notable Parameters
-`trade_no` is the payment identification string provided by Alipay via callback after the payment is
+* `trade_no` is the payment identification string provided by Alipay via callback after the payment is
 created. If you do not have this on hand, you can provide the `out_trade_no` instead.
 
 > For a complete list of the available parameters, please refer to the
