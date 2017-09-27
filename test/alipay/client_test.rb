@@ -85,6 +85,22 @@ class Alipay::ClientTest < Minitest::Test
     )
   end
 
+  def test_execute_for_encoding_enforcement
+    stub_request(:post, "https://openapi.alipaydev.com/gateway.do").
+      with(body: hash_including({"app_id"=>"2016000000000000",
+        "biz_content"=>"{\"subject\":\"\xD6\xD0\xCE\xC4\xC3\xFB\xB3Ʋ\xE2\xCA\xD4\"}",
+        "charset"=>"gbk"})).
+      and_return(body: "OK")
+
+
+    assert_equal 'OK', @client.execute(
+      charset: 'gbk',
+      biz_content: {
+        subject: '中文名称测试'
+      }.to_json
+    )
+  end
+
   def test_prepare_params
     test_params = {
       method: 'alipay.trade.refund',
