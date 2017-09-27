@@ -173,6 +173,7 @@ Alipay::Client.execute
 # 创建支付订单并取得订单信息
 response = @client.execute(
   method: 'alipay.trade.precreate',
+  charset: 'GBK',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
   biz_content: {
     out_trade_no: '20160401000000',
@@ -186,6 +187,9 @@ response = @client.execute(
 qr_code = JSON.parse(response)["alipay_trade_precreate_response"]["qr_code"]
 # => 'https://qr.alipay.com/abcdefggfedcba'
 ```
+
+#### 值得注意的参数
+* `charset` 是你请求参数的编码格式. **截止至2017年9月，这个 API 接口会忽略你所提供的 `charset` 参数。即便你提供给支付宝的参数是 `UTF-8` 编码，提交后支付宝把你提供的参数当作 `GBK` 编码。从而导致付款页面乱码。如果你的参数带有中文，请设置 `charset: 'GBK'` 来避免乱码问题。**
 
 > 如需 API 接口的完整参数列表，请参考官方的 [API 文档](https://docs.open.alipay.com/api_1/alipay.trade.precreate).
 
