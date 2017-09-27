@@ -183,6 +183,7 @@ module Alipay
         'version' => '1.0',
         'timestamp' => Time.now.localtime('+08:00').strftime("%Y-%m-%d %H:%M:%S")
       }.merge(::Alipay::Utils.stringify_keys(params))
+      params['biz_content'].encode!(params['charset'])
       params['sign'] = sign(params)
       params
     end
