@@ -97,13 +97,26 @@ class Alipay::ClientTest < Minitest::Test
     prepared_params = @client.send(:prepare_params, test_params)
     prepared_biz_content = JSON.parse(prepared_params['biz_content'])
 
-    refute_predicate prepared_params['biz_content'], :empty?
-    refute_predicate prepared_params['timestamp'],   :empty?
-    refute_predicate prepared_params['sign'],        :empty?
+    refute_empty  prepared_params['biz_content']
+    refute_empty  prepared_params['timestamp']
+    refute_empty  prepared_params['sign']
     assert_equal 'alipay.trade.refund', prepared_params['method']
     assert_equal '20160401000000',      prepared_biz_content['out_trade_no']
     assert_equal '0.01',                prepared_biz_content['total_amount']
     assert_equal 'test',                prepared_biz_content['subject']
+  end
+
+  def test_prepare_params_enforce_encoding
+    test_params = {
+      charset: 'gbk',
+      biz_content: {
+        subject: '中文名称测试'
+      }.to_json
+    }
+    prepared_params = @client.send(:prepare_params, test_params)
+
+    assert_equal 'gbk', prepared_params['charset']
+    assert 'GBK', prepared_params['biz_content'].encoding.name
   end
 
   # Use pair rsa key so we can test it
