@@ -44,7 +44,7 @@ module Alipay
     # Example:
     #
     #   alipay_client.sdk_execute(
-    #     method: 'alipay.trade.page.pay',
+    #     method: 'alipay.trade.app.pay',
     #     biz_content: {
     #       out_trade_no: '20160401000000',
     #       product_code: 'QUICK_MSECURITY_PAY',
