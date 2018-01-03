@@ -71,11 +71,7 @@ formatting back, run the following script.
 
 ```ruby
 pub_key = "MIIBI...HpwIDAQAB"
-pub_key.tap do |key|
-  key.scan(/.{64}/).join("\n")
-  key.insert(0, "-----BEGIN PUBLIC KEY-----\n")
-  key.insert(-1, "\n-----END PUBLIC KEY-----\n")
-end
+pub_key.scan(/.{64}|.+$/).join("\n").insert(0, "-----BEGIN PUBLIC KEY-----\n").insert(-1, "\n-----END PUBLIC KEY-----\n")
 # => "-----BEGIN PUBLIC KEY-----\nMIIBI...\n-----END PUBLIC KEY-----\n"
 ```
 
