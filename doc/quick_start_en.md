@@ -176,6 +176,7 @@ Alipay::Client.execute
 # Create a QR code based payment
 response = @client.execute(
   method: 'alipay.trade.precreate',
+  charset: 'GBK',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
   biz_content: {
     out_trade_no: '20160401000000',
@@ -189,6 +190,8 @@ response = @client.execute(
 qr_code = JSON.parse(response)["alipay_trade_precreate_response"]["qr_code"]
 # => 'https://qr.alipay.com/abcdefggfedcba'
 ```
+#### Notebale Parameters
+* `charset` should match the encoding format you use for your request params. **As of September 2017. There is an issue with this API method. It ignores the charset you send in and will encode your params to the GBK format. It is recommended that you set `charset: 'GBK'` if your params include Chinese characters to avoid encoding issue.**
 
 > For a complete list of the available parameters, please refer to the [API documentation](https://docs.open.alipay.com/api_1/alipay.trade.precreate).
 
