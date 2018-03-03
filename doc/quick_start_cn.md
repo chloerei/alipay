@@ -108,7 +108,7 @@ Alipay::Client.page_execute_url
    product_code: 'FAST_INSTANT_TRADE_PAY',
    total_amount: '0.01',
    subject: 'Example #123'
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => 'https://openapi.alipaydev.com/gateway.do?app_id=2016...'
 ```
@@ -147,7 +147,7 @@ Alipay::Client.page_execute_url
    total_amount: '0.01',
    subject: 'Example: 456'
    quit_url: 'https://mystore.com/orders/20160401000000/'
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => 'https://openapi.alipaydev.com/gateway.do?app_id=2016...'
 ```
@@ -178,7 +178,7 @@ response = @client.execute(
     out_trade_no: '20160401000000',
     total_amount: '50.00',
     subject: 'QR Code Test'
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_trade_precreate_response\":{\"code\"...'
 
@@ -221,7 +221,7 @@ Alipay::Client.execute  (扫码支付)
      hb_fq_num: '6'',
      hb_fq_seller_percent: '0'
    }
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 ```
 情景：商城网站不提供分期选项，但允许客户在支付宝的支付过程中自行决定分期付款。
@@ -236,7 +236,7 @@ Alipay::Client.execute  (扫码支付)
    total_amount: '0.01',
    subject: 'Example #654',
    enable_pay_channels: 'balance,pcreditpayInstallment',
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 ```
 #### 值得注意的参数
@@ -301,7 +301,7 @@ response = @client.execute(
   method: 'alipay.trade.query',
   biz_content: {
     trade_no: '2013112611001004680073956707',
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_trade_query_response\":{\"code\"...'
 
@@ -335,7 +335,7 @@ response = @client.execute(
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
   biz_content: {
     trade_no: '2013112611001004680073956707',
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_trade_close_response\":{\"code\"...'
 
@@ -367,7 +367,7 @@ response = @client.execute(
   method: 'alipay.trade.cancel',
   biz_content: {
     out_trade_no: '20160401000000',
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_trade_cancel_response\":{\"code\"...'
 
@@ -404,7 +404,7 @@ response = @client.execute(
     out_trade_no: '6c50789a0610',
     out_request_no: '6c50789a0610-1',
     refund_amount: '10.12'
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_trade_refund_response\":{\"code\"...'
 
@@ -441,7 +441,7 @@ response = @client.execute(
   biz_content: {
     out_trade_no: '6c50789a0610',
     out_request_no: '6c50789a0610-1'
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_trade_fastpay_refund_query_response\":{\"code\"...'
 
@@ -478,7 +478,7 @@ response = @client.execute(
     payee_type: 'ALIPAY_LOGONID',
     payee_account: 'customer@example.com',
     amount: '12.23'
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_fund_trans_toaccount_transfer_response\":{\"code\"...'
 
@@ -513,7 +513,7 @@ response = @client.execute(
   method: 'alipay.fund.trans.order.query',
   biz_content: {
     out_biz_no: '3142321423432',
-  }.to_json
+  }.to_json(ascii_only: true)
 )
 # => '{\"alipay_fund_trans_order_query_response\":{\"code\"...'
 

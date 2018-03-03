@@ -27,7 +27,7 @@ class Alipay::ClientTest < Minitest::Test
         product_code: 'QUICK_MSECURITY_PAY',
         total_amount: '0.01',
         subject: 'test'
-      }.to_json,
+      }.to_json(ascii_only: true),
       timestamp: '2016-04-01 00:00:00'
     )
   end
@@ -42,7 +42,7 @@ class Alipay::ClientTest < Minitest::Test
         product_code: 'FAST_INSTANT_TRADE_PAY',
         total_amount: '0.01',
         subject: 'test'
-      }.to_json,
+      }.to_json(ascii_only: true),
       timestamp: '2016-04-01 00:00:00'
     )
   end
@@ -57,7 +57,7 @@ class Alipay::ClientTest < Minitest::Test
         product_code: 'FAST_INSTANT_TRADE_PAY',
         total_amount: '0.01',
         subject: 'test'
-      }.to_json,
+      }.to_json(ascii_only: true),
       timestamp: '2016-04-01 00:00:00'
     )
   end
@@ -81,7 +81,7 @@ class Alipay::ClientTest < Minitest::Test
       biz_content: {
         bill_type: 'trade',
         bill_date: '2016-04-01'
-      }.to_json
+      }.to_json(ascii_only: true)
     )
   end
 

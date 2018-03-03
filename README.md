@@ -61,7 +61,7 @@ ALIPAY_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nTq43T5...OVUAQb3R\n-----END PUBLI
     product_code: 'FAST_INSTANT_TRADE_PAY',
     total_amount: '0.01',
     subject: 'test'
-  }.to_json, # to_json is important!
+  }.to_json(ascii_only: true), # to_json(ascii_only: true) is important!
   timestamp: '2016-04-01 00:00:00'
 )
 

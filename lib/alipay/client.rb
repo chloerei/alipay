@@ -50,7 +50,7 @@ module Alipay
     #       product_code: 'QUICK_MSECURITY_PAY',
     #       total_amount: '0.01',
     #       subject: 'test'
-    #     }.to_json,
+    #     }.to_json(ascii_only: true),
     #     timestamp: '2016-04-01 00:00:00'
     #   )
     #   # => 'app_id=2016000000000000&charset=utf-8&sig....'
@@ -71,7 +71,7 @@ module Alipay
     #       product_code: 'FAST_INSTANT_TRADE_PAY',
     #       total_amount: '0.01',
     #       subject: 'test'
-    #     }.to_json,
+    #     }.to_json(ascii_only: true),
     #     timestamp: '2016-04-01 00:00:00'
     #   )
     #   # => 'https://openapi.alipaydev.com/gateway.do?app_id=2016...'
@@ -95,7 +95,7 @@ module Alipay
     #       product_code: 'FAST_INSTANT_TRADE_PAY',
     #       total_amount: '0.01',
     #       subject: 'test'
-    #     }.to_json,
+    #     }.to_json(ascii_only: true),
     #     timestamp: '2016-04-01 00:00:00'
     #   )
     #   # => '<form id='alipaysubmit' name='alipaysubmit' action=...'
@@ -120,7 +120,7 @@ module Alipay
     #     biz_content: {
     #       bill_type: 'trade',
     #       bill_date: '2016-04-01'
-    #     }.to_json
+    #     }.to_json(ascii_only: true)
     #   )
     #   # => '{ "alipay_data_dataservice_bill_downloadurl_query_response":{...'
     def execute(params)
