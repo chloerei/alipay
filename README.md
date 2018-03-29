@@ -46,7 +46,7 @@ ALIPAY_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nTq43T5...OVUAQb3R\n-----END PUBLI
 # initialize a client to communicate with the Alipay API
 @alipay_client = Alipay::Client.new(
   url: API_URL,
-  app_id: APP_ID
+  app_id: APP_ID,
   app_private_key: APP_PRIVATE_KEY,
   alipay_public_key: ALIPAY_PUBLIC_KEY
 )
