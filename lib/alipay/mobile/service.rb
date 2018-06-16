@@ -12,8 +12,8 @@ module Alipay
         params = {
           'service'        => 'mobile.securitypay.pay',
           '_input_charset' => 'utf-8',
-          'partner'        => options[:pid] || Alipay.pid,
-          'seller_id'      => options[:pid] || Alipay.pid,
+          'partner'        => options[:partner]   || options[:pid] || Alipay.pid,
+          'seller_id'      => options[:seller_id] || options[:pid] || Alipay.pid,
           'payment_type'   => '1'
         }.merge(params)
 

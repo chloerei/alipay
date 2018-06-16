@@ -10,8 +10,8 @@ module Alipay
       params = {
         'service'        => 'create_partner_trade_by_buyer',
         '_input_charset' => 'utf-8',
-        'partner'        => options[:pid] || Alipay.pid,
-        'seller_id'      => options[:pid] || Alipay.pid,
+        'partner'        => options[:partner]   || options[:pid] || Alipay.pid,
+        'seller_id'      => options[:seller_id] || options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -26,8 +26,8 @@ module Alipay
       params = {
         'service'        => 'trade_create_by_buyer',
         '_input_charset' => 'utf-8',
-        'partner'        => options[:pid] || Alipay.pid,
-        'seller_id'      => options[:pid] || Alipay.pid,
+        'partner'        => options[:partner]   || options[:pid] || Alipay.pid,
+        'seller_id'      => options[:seller_id] || options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -46,8 +46,8 @@ module Alipay
       params = {
         'service'        => 'create_direct_pay_by_user',
         '_input_charset' => 'utf-8',
-        'partner'        => options[:pid] || Alipay.pid,
-        'seller_id'      => options[:pid] || Alipay.pid,
+        'partner'        => options[:partner]   || options[:pid] || Alipay.pid,
+        'seller_id'      => options[:seller_id] || options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -62,8 +62,8 @@ module Alipay
       params = {
         'service'        => 'alipay.wap.create.direct.pay.by.user',
         '_input_charset' => 'utf-8',
-        'partner'        => options[:pid] || Alipay.pid,
-        'seller_id'      => options[:pid] || Alipay.pid,
+        'partner'        => options[:partner]   || options[:pid] || Alipay.pid,
+        'seller_id'      => options[:seller_id] || options[:pid] || Alipay.pid,
         'payment_type'   => '1'
       }.merge(params)
 
@@ -202,8 +202,8 @@ module Alipay
       params = {
         'service'        => 'create_forex_trade_wap',
         '_input_charset' => 'utf-8',
-        'partner'        => options[:pid] || Alipay.pid,
-        'seller_id'      => options[:pid] || Alipay.pid
+        'partner'        => options[:partner]   || options[:pid] || Alipay.pid,
+        'seller_id'      => options[:seller_id] || options[:pid] || Alipay.pid,
       }.merge(params)
 
       request_uri(params, options).to_s
