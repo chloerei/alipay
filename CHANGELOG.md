@@ -1,5 +1,9 @@
 ## master
 
+## v0.15.1 (2018-06-16)
+
+- Add `partner` and `seller_id` options for legacy API, thanks @KQyongzhang #83
+
 ## v0.15.0 (2017-08-27)
 
 - Add `Alipay::Client` for open API.
