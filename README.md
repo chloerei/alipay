@@ -56,12 +56,12 @@ ALIPAY_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nTq43T5...OVUAQb3R\n-----END PUBLI
 ```ruby
 @alipay_client.page_execute_url(
   method: 'alipay.trade.page.pay',
-  biz_content: {
+  biz_content: JSON.generate({
     out_trade_no: '20160401000000',
     product_code: 'FAST_INSTANT_TRADE_PAY',
     total_amount: '0.01',
     subject: 'test'
-  }.to_json(ascii_only: true), # to_json(ascii_only: true) is important!
+  }, ascii_only: true), # ascii_only is important!
   timestamp: '2016-04-01 00:00:00'
 )
 

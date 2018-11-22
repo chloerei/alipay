@@ -101,12 +101,12 @@ This client method will generate a payment URL for redirecting customers to.
   method: 'alipay.trade.page.pay',
   return_url: 'https://mystore.com/orders/20160401000000/return',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
-  biz_content: {
+  biz_content: JSON.generate({
    out_trade_no: '20160401000000',
    product_code: 'FAST_INSTANT_TRADE_PAY',
    total_amount: '0.01',
    subject: 'Example #123'
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => 'https://openapi.alipaydev.com/gateway.do?app_id=2016...'
 ```
@@ -143,13 +143,13 @@ This method will generate a payment URL for redirecting customers to.
   method: 'alipay.trade.wap.pay',
   return_url: 'https://mystore.com/orders/20160401000000/return',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
-  biz_content: {
+  biz_content: JSON.generate({
    out_trade_no: '20160401000000',
    product_code: 'QUICK_WAP_WAY',
    total_amount: '0.01',
    subject: 'Example: 456'
    quit_url: 'https://mystore.com/orders/20160401000000/'
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => 'https://openapi.alipaydev.com/gateway.do?app_id=2016...'
 ```
@@ -177,11 +177,11 @@ Alipay::Client.execute
 response = @client.execute(
   method: 'alipay.trade.precreate',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
-  biz_content: {
+  biz_content: JSON.generate({
     out_trade_no: '20160401000000',
     total_amount: '50.00',
     subject: 'QR Code Test'
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_trade_precreate_response\":{\"code\"...'
 
@@ -214,7 +214,7 @@ Scenario: Customer pre-select a six-installment payment plan before going throug
   method: 'alipay.trade.page.pay',
   return_url: 'https://mystore.com/orders/20160401000000/return',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
-  biz_content: {
+  biz_content: JSON.generate({
    out_trade_no: '20160401000000',
    product_code: 'FAST_INSTANT_TRADE_PAY',
    total_amount: '0.01',
@@ -224,7 +224,7 @@ Scenario: Customer pre-select a six-installment payment plan before going throug
      hb_fq_num: '6'',
      hb_fq_seller_percent: '0'
    }
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 ```
 Scenario: Customer select an installment plan or their choice at Alipay's payment page.
@@ -233,13 +233,13 @@ Scenario: Customer select an installment plan or their choice at Alipay's paymen
   method: 'alipay.trade.page.pay',
   return_url: 'https://mystore.com/orders/20160401000000/return',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
-  biz_content: {
+  biz_content: JSON.generate({
    out_trade_no: '20160401000000',
    product_code: 'FAST_INSTANT_TRADE_PAY',
    total_amount: '0.01',
    subject: 'Example #654',
    enable_pay_channels: 'balance,pcreditpayInstallment',
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 ```
 #### Notebale Parameters
@@ -313,9 +313,9 @@ Alipay::Client.execute
 ```ruby
 response = @client.execute(
   method: 'alipay.trade.query',
-  biz_content: {
+  biz_content: JSON.generate({
     trade_no: '2013112611001004680073956707',
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_trade_query_response\":{\"code\"...'
 
@@ -350,9 +350,9 @@ Alipay::Client.execute
 response = @client.execute(
   method: 'alipay.trade.close',
   notify_url: 'https://mystore.com/orders/20160401000000/notify',
-  biz_content: {
+  biz_content: JSON.generate({
     trade_no: '2013112611001004680073956707',
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_trade_close_response\":{\"code\"...'
 
@@ -388,9 +388,9 @@ Alipay::Client.execute
 ```ruby
 response = @client.execute(
   method: 'alipay.trade.cancel',
-  biz_content: {
+  biz_content: JSON.generate({
     out_trade_no: '20160401000000',
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_trade_cancel_response\":{\"code\"...'
 
@@ -425,11 +425,11 @@ Secenario: Customer request refund on a ￥10.12 item on a ￥210.85 order(payme
 ```ruby
 response = @client.execute(
   method: 'alipay.trade.refund',
-  biz_content: {
+  biz_content: JSON.generate({
     out_trade_no: '6c50789a0610',
     out_request_no: '6c50789a0610-1',
     refund_amount: '10.12'
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_trade_refund_response\":{\"code\"...'
 
@@ -468,10 +468,10 @@ Alipay::Client.execute
 ```ruby
 response = @client.execute(
   method: 'alipay.trade.fastpay.refund.query',
-  biz_content: {
+  biz_content: JSON.generate({
     out_trade_no: '6c50789a0610',
     out_request_no: '6c50789a0610-1'
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_trade_fastpay_refund_query_response\":{\"code\"...'
 
@@ -506,12 +506,12 @@ Alipay::Client.execute
 ```ruby
 response = @client.execute(
   method: 'alipay.fund.trans.toaccount.transfer',
-  biz_content: {
+  biz_content: JSON.generate({
     out_biz_no: '3142321423432',
     payee_type: 'ALIPAY_LOGONID',
     payee_account: 'customer@example.com',
     amount: '12.23'
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_fund_trans_toaccount_transfer_response\":{\"code\"...'
 
@@ -548,9 +548,9 @@ Alipay::Client.execute
 ```ruby
 response = @client.execute(
   method: 'alipay.fund.trans.order.query',
-  biz_content: {
+  biz_content: JSON.generate({
     out_biz_no: '3142321423432',
-  }.to_json(ascii_only: true)
+  }, ascii_only: true)
 )
 # => '{\"alipay_fund_trans_order_query_response\":{\"code\"...'
 
