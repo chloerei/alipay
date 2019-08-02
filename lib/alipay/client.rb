@@ -102,7 +102,7 @@ module Alipay
     def page_execute_form(params)
       params = prepare_params(params)
 
-      html = %Q(<form id='alipaysubmit' name='alipaysubmit' action='#{@url}' method='POST'>)
+      html = %Q(<form id='alipaysubmit' name='alipaysubmit' action='#{@url}?charset=#{@charset}' method='POST'>)
       params.each do |key, value|
         html << %Q(<input type='hidden' name='#{key}' value='#{value.gsub("'", "&apos;")}'/>)
       end
