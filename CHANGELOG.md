@@ -1,5 +1,9 @@
 ## master
 
+## v0.15.2 (2019-08-02)
+
+- page_execute_form invalid-signature charset, thanks @lingceng #90
+
 ## v0.15.1 (2018-06-16)
 
 - Add `partner` and `seller_id` options for legacy API, thanks @KQyongzhang #83
