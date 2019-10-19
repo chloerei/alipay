@@ -6,6 +6,7 @@
 * [生成应用密钥](#生成应用密钥)
 * [验证参数](#验证参数)
 * [补充格式到支付宝公钥](#补充格式到支付宝公钥)
+* [使用证书签名方式](#使用证书签名方式)
 
 ### 生成应用密钥
 #### 在 Ruby 下生成 RSA2 密钥
@@ -62,3 +63,43 @@ pub_key.scan(/.{64}|.+$/).join("\n").insert(0, "-----BEGIN PUBLIC KEY-----\n").i
 # => "-----BEGIN PUBLIC KEY-----\nMIIBI...\n-----END PUBLIC KEY-----\n"
 ```
 
+# 使用证书签名方式
+
+## 应用证书配置
+按照官方文档进行新建应用配置证书签名 https://docs.open.alipay.com/291/twngcd/
+
+配置完成后，可以得到 `xxx.com_私钥.txt  alipayCertPublicKey_RSA2.crt  appCertPublicKey_2019082600000001.crt  alipayRootCert.crt` 四个文件。
+
+### 应用私钥补充格式
+```ruby
+app_private_key = File.read('xxx.com_私钥.txt')
+app_private_key = app_private_key.scan(/.{64}|.+$/).join("\n").insert(0, "-----BEGIN RSA PRIVATE KEY-----\n").insert(-1, "\n-----END RSA PRIVATE KEY-----\n")
+```
+### 处理应用阿里云公钥
+```ruby
+alipay_public_key = File.read('alipayCertPublicKey_RSA2.crt')
+alipay_public_key = OpenSSL::X509::Certificate.new(alipay_public_key).public_key.to_s
+```
+### 得到应用公钥证书sn
+```ruby
+app_cert = File.read('appCertPublicKey_2019082600000001.crt')
+app_cert_sn = Alipay::Utils.get_cert_sn(app_cert)
+# => "28d1147972121b91734da59aa10f3c16"
+```
+### 得到支付宝根证书sn
+```ruby
+alipay_root_cert = File.read('alipayRootCert.crt')
+alipay_root_cert_sn = Alipay::Utils.get_root_cert_sn(alipay_root_cert)
+# => "28d1147972121b91734da59aa10f3c16_28d1147972121b91734da59aa10f3c16"
+```
+### 使用
+```ruby
+@alipay_client = Alipay::Client.new(
+  url: API_URL,
+  app_id: APP_ID,
+  app_private_key: app_private_key,
+  alipay_public_key: alipay_public_key,
+  app_cert_sn: app_cert_sn,
+  alipay_root_cert_sn: alipay_root_cert_sn
+)
+```

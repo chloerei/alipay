@@ -15,5 +15,36 @@ module Alipay
       batch_no = t.strftime('%Y%m%d%H%M%S') + t.nsec.to_s
       batch_no.ljust(24, rand(10).to_s)
     end
+
+    # get app_cert_sn
+    def self.get_cert_sn(str, match_algo = false)
+      return nil if str.nil?
+      certificate = OpenSSL::X509::Certificate.new(str)
+      if match_algo
+        begin
+          return unless certificate.public_key.is_a?(OpenSSL::PKey::RSA)
+        rescue => exception
+          return
+        end
+      end
+      issuer_arr = OpenSSL::X509::Name.new(certificate.issuer).to_a
+      issuer = issuer_arr.reverse.map { |item| item[0..1].join('=') }.join(',')
+      serial = OpenSSL::BN.new(certificate.serial).to_s
+      OpenSSL::Digest::MD5.hexdigest(issuer + serial)
+    end
+
+    # get alipay_root_cert_sn
+    def self.get_root_cert_sn(str)
+      return nil if str.nil?
+      arr = str.scan(/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/)
+      arr_sn = []
+      arr.each do |item|
+        sn = get_cert_sn(item, true)
+        unless sn.nil?
+          arr_sn.push(sn)
+        end
+      end
+      arr_sn.join('_')
+    end
   end
 end
