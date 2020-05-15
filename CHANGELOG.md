@@ -1,5 +1,9 @@
 ## master
 
+## v0.16.0 (2020-05-15)
+
+- Support certificate signature, thanks @moohao #92
+
 ## v0.15.2 (2019-08-02)
 
 - page_execute_form invalid-signature charset, thanks @lingceng #90
