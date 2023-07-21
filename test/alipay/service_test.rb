@@ -262,4 +262,27 @@ class Alipay::ServiceTest < Minitest::Test
 
     assert_equal 'https://mapi.alipay.com/gateway.do?service=batch_trans_notify&_input_charset=utf-8&partner=1000000000000000&pay_date=20080107&notify_url=https%3A%2F%2Fexample.com%2Forders%2F20150401000-0001%2Fnotify&account_name=%E6%AF%9B%E6%AF%9B&detail_data=0315006%5Etestture0002%40126.com%5E%E5%B8%B8%E7%82%9C%E4%B9%B0%E5%AE%B6%5E1000.00%5Ehello&batch_no=20080107001&batch_num=1&batch_fee=1000.0&email=biz_932%40alitest.com&sign_type=MD5&sign=59c611607daafd1337e96b22404bd521', Alipay::Service.batch_trans_notify_url(options)
   end
+
+  def test_create_merchant_qr_code
+    params = {
+      biz_type: "OVERSEASHOPQRCODE",
+      biz_data: {
+        address: "No.278, Road YinCheng, Shanghai, China",
+        country_code: "CN",
+        currency: "USD",
+        secondary_merchant_id: "xxx001",
+        secondary_merchant_industry: "7011",
+        secondary_merchant_name: "xxx Store",
+        store_id: "0001",
+        store_name: "Apple store",
+        trans_currency: "USD"
+      }
+    }
+
+    current_time = Time.new(2023, 12, 12, 1, 1, 1)
+    Time.stub :now, current_time do
+      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.create&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-11+17%3A01%3A01&biz_data=%7B%22address%22%3A+%22No.278%2C+Road+YinCheng%2C+Shanghai%2C+China%22%2C%22country_code%22%3A+%22CN%22%2C%22currency%22%3A+%22USD%22%2C%22secondary_merchant_id%22%3A+%22xxx001%22%2C%22secondary_merchant_industry%22%3A+%227011%22%2C%22secondary_merchant_name%22%3A+%22xxx+Store%22%2C%22store_id%22%3A+%220001%22%2C%22store_name%22%3A+%22Apple+store%22%2C%22trans_currency%22%3A+%22USD%22%7D&biz_type=OVERSEASHOPQRCODE&sign_type=MD5&sign=fbfcc8c9316cc209c385eefcbceb2105', Alipay::Service.create_merchant_qr_code(params)
+    end
+  end
+
 end

@@ -539,6 +539,66 @@ notify_params = params.except(*request.path_parameters.keys)
 Alipay::Notify.verify?(notify_params, options = {})
 ```
 
+### QR Code 生成二维码
+
+#### Name
+
+```ruby
+alipay.commerce.qrcode.create
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.create_merchant_qr_code({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+create_qr_code_params = {
+  biz_type: "OVERSEASHOPQRCODE",
+  biz_data: {
+    address: "No.278, Road YinCheng, Shanghai, China",
+    country_code: "CN",
+    currency: "USD",
+    secondary_merchant_id: "xxx001",
+    secondary_merchant_industry: "7011",
+    secondary_merchant_name: "xxx Store",
+    store_id: "0001",
+    store_name: "Apple store",
+    trans_currency: "USD"
+  }
+}
+
+Alipay::Service.create_merchant_qr_code(create_qr_code_params)
+# => 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.create...'
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| notify_url | optional | Alipay asyn notify url. |
+| biz_type | required | Business type that is defined by Alipay, this case is “OVERSEASHOPQRCODE” |
+| biz_data | required | Business data. Format：JSON |
+
+#### BIZ_DATA ARGUMENTS (required)
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| secondary_merchant_industry | required | Business category code of the secondary merchant. |
+| secondary_merchant_id | required | The unique ID assigned by the partner to identify a secondary merchant. |
+| secondary_merchant_name | required | Registration legal name of the secondary merchant, shown in the Alipay Wallet and the reconciliation file to identify a secondary merchant. |
+| store_id | required | The unique ID that is assigned by the partner to identify a store of a merchant. |
+| store_name | required | The name of the store. |
+| trans_currency | required | The pricing currency |
+| currency | required | The currency to settle with the merchant. The default value is CNY. If the pricing currency is not CNY, then the settlement currency must be either CNY or the pricing currency. |
+| country_code | required | The country code that consists of two letters (alpha-2 code) |
+| address | required | The address of the store where the code is created. |
+
+This is not a complete list of arguments, please read official document: https://global.alipay.com/docs/ac/global/qrcode_create#biz_data
+
 ## Mobile::Service
 
 ### 移动支付接口
