@@ -308,4 +308,12 @@ class Alipay::ServiceTest < Minitest::Test
     end
   end
 
+  def test_acquirer_overseas_query
+    params = {
+      partner_trans_id: "2010121000000002"
+    }
+
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.acquire.overseas.query&_input_charset=utf-8&partner=1000000000000000&partner_trans_id=2010121000000002&sign_type=MD5&sign=2a7f598bbb13d02f7de819ae689f80ba', Alipay::Service.acquirer_overseas_query(params)
+  end
+
 end

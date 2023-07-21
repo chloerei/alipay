@@ -267,6 +267,20 @@ module Alipay
       request_uri(params, options).to_s
     end
 
+    ACQUIRER_OVERSEAS_QUERY_REQUIRED_PARAMS = %w(partner_trans_id)
+    def self.acquirer_overseas_query(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, ACQUIRER_OVERSEAS_QUERY_REQUIRED_PARAMS)
+
+      params = {
+        'service'        => 'alipay.acquire.overseas.query',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+      }.merge(params)
+
+      request_uri(params, options).to_s
+    end
+
     def self.request_uri(params, options = {})
       uri = URI(GATEWAY_URL)
       uri.query = URI.encode_www_form(sign_params(params, options))

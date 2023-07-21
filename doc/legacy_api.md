@@ -661,6 +661,40 @@ Alipay::Service.update_merchant_qr_code(update_qr_code_params)
 
 This is not a complete list of arguments, please read official document: https://global.alipay.com/docs/ac/global/qrcode_modify#Qb0Hc
 
+### 境外线下交易查询接口
+
+#### Name
+
+```ruby
+alipay.acquire.overseas.query
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.acquirer_overseas_query({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+acquirer_overseas_query_params = {
+  partner_trans_id: "2010121000000002"
+}
+
+Alipay::Service.acquirer_overseas_query(acquirer_overseas_query_params)
+# => 'https://mapi.alipay.com/gateway.do?service=alipay.acquire.overseas.query...'
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| partner_trans_id | required | The original partner transaction ID given in the payment request |
+| alipay_trans_id | optional | The transaction ID assigned by Alipay for the partner's payment request, which follows a mapping relation with the partner field plus the partner_trans_id field. When both of the fields are specified, alipay_trans_id will be verified first. |
+
+Document: https://global.alipay.com/docs/ac/global/overseas_query
+
 ## Mobile::Service
 
 ### 移动支付接口
