@@ -285,4 +285,27 @@ class Alipay::ServiceTest < Minitest::Test
     end
   end
 
+  def test_update_merchant_qr_code
+    params = {
+      biz_type: "OVERSEASHOPQRCODE",
+      qr_code: "https://qr.alipay.com/baxxxxx",
+      biz_data: {
+        address: "No.278, Road YinCheng, Shanghai, China",
+        country_code: "CN",
+        currency: "USD",
+        secondary_merchant_id: "xxx001",
+        secondary_merchant_industry: "7011",
+        secondary_merchant_name: "xxx Store",
+        store_id: "0001",
+        store_name: "Apple store",
+        trans_currency: "USD"
+      }
+    }
+
+    current_time = Time.new(2023, 12, 12, 1, 1, 1)
+    Time.stub :now, current_time do
+      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.modify&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-11+17%3A01%3A01&biz_data=%7B%22address%22%3A+%22No.278%2C+Road+YinCheng%2C+Shanghai%2C+China%22%2C%22country_code%22%3A+%22CN%22%2C%22currency%22%3A+%22USD%22%2C%22secondary_merchant_id%22%3A+%22xxx001%22%2C%22secondary_merchant_industry%22%3A+%227011%22%2C%22secondary_merchant_name%22%3A+%22xxx+Store%22%2C%22store_id%22%3A+%220001%22%2C%22store_name%22%3A+%22Apple+store%22%2C%22trans_currency%22%3A+%22USD%22%7D&biz_type=OVERSEASHOPQRCODE&qr_code=https%3A%2F%2Fqr.alipay.com%2Fbaxxxxx&sign_type=MD5&sign=5a72863d023163147f2909e74b741e52', Alipay::Service.update_merchant_qr_code(params)
+    end
+  end
+
 end
