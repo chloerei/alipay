@@ -695,6 +695,46 @@ Alipay::Service.acquirer_overseas_query(acquirer_overseas_query_params)
 
 Document: https://global.alipay.com/docs/ac/global/overseas_query
 
+### 境外线下单笔退款接口
+
+#### Name
+
+```ruby
+alipay.acquire.overseas.spot.refund
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.acquirer_overseas_spot_refund_url({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+acquirer_overseas_spot_refund_params = {
+  partner_trans_id: "2010121000000002",
+  partner_refund_id: "301012133000002",
+  currency: "USD",
+  refund_amount: "0.01"
+}
+
+Alipay::Service.acquirer_overseas_spot_refund_url(acquirer_overseas_spot_refund_params)
+# => 'https://mapi.alipay.com/gateway.do?service=alipay.acquire.overseas.spot.refund...'
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| partner_trans_id | required | The original partner transaction ID given in the payment request |
+| partner_refund_id | required | The refund order ID in the partner system. The value of partner_refund_id cannot be the same as that of partner_trans_id. The partner_refund_id field plus the partner field identifies a refund transaction. |
+| currency | required | The currency of the refund amount. |
+| refund_amount | required | Refund amount, which must be less than or equal to the original transaction amount or the left transaction amount if ever refunded. |
+| is_sync | optional | Indicates that the refund request is processed synchronously or asynchronously with a value of Y or N. The default value is N, which means an asynchronous notification from Alipay is returned to the merchant if the merchant has set the value of the notify_url field when sending the refund request. If the value is set as Y, it means only a synchronous response is returned to the merchant. |
+
+This is not a complete list of arguments, please read official document: https://global.alipay.com/docs/ac/global/spot_refund#92fa0c95
+
 ## Mobile::Service
 
 ### 移动支付接口

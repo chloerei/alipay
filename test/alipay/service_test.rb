@@ -316,4 +316,15 @@ class Alipay::ServiceTest < Minitest::Test
     assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.acquire.overseas.query&_input_charset=utf-8&partner=1000000000000000&partner_trans_id=2010121000000002&sign_type=MD5&sign=2a7f598bbb13d02f7de819ae689f80ba', Alipay::Service.acquirer_overseas_query(params)
   end
 
+  def test_acquirer_overseas_spot_refund_url
+    params = {
+      partner_trans_id: "2010121000000002",
+      partner_refund_id: "301012133000002",
+      currency: "USD",
+      refund_amount: "0.01",
+      is_sync: "Y"
+    }
+
+    assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.acquire.overseas.spot.refund&_input_charset=utf-8&partner=1000000000000000&partner_trans_id=2010121000000002&partner_refund_id=301012133000002&currency=USD&refund_amount=0.01&is_sync=Y&sign_type=MD5&sign=397685a0c6b2d71d0d1f374ddba331a0', Alipay::Service.acquirer_overseas_spot_refund_url(params)
+  end
 end
