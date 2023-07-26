@@ -12,7 +12,7 @@ To install using [Bundler](http://bundler.io/). Add this line to your
 application's Gemfile:
 
 ```ruby
-gem 'alipay', '~> 0.15.1'
+gem 'alipay'
 ```
 
 Then run:
@@ -22,7 +22,7 @@ $ bundle
 
 Or you can manually install using [RubyGems](http://rubygems.org/):
 ```bash
-$ gem install alipay -v 0.15.1
+$ gem install alipay
 ```
 
 ## Getting Started

@@ -1,5 +1,7 @@
 ## master
 
+Newer release changelog, see https://github.com/chloerei/alipay/releases
+
 ## v0.16.0 (2020-05-15)
 
 - Support certificate signature, thanks @moohao #92
