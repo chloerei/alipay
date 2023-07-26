@@ -209,9 +209,6 @@ module Alipay
       request_uri(params, options).to_s
     end
 
-    # Alipay Commerce
-    # alipay doc: https://global.alipay.com/service/merchant_QR_Code/15
-
     CREATE_MERCHANT_QR_CODE_REQUIRED_PARAMS = %w( biz_type biz_data )
     CREATE_MERCHANT_QR_CODE_REQUIRED_BIZ_DATA_PARAMS = %w( secondary_merchant_industry secondary_merchant_id secondary_merchant_name trans_currency currency )
     def self.create_merchant_qr_code(params, options = {})
@@ -219,7 +216,7 @@ module Alipay
       check_required_params(params, CREATE_MERCHANT_QR_CODE_REQUIRED_PARAMS)
       biz_data = nil
 
-      if params['biz_data'].present?
+      if params['biz_data']
         params['biz_data'] = Utils.stringify_keys(params['biz_data'])
         check_required_params(params['biz_data'], CREATE_MERCHANT_QR_CODE_REQUIRED_BIZ_DATA_PARAMS)
 
@@ -248,7 +245,7 @@ module Alipay
       check_required_params(params, UPDATE_MERCHANT_QR_CODE_REQUIRED_PARAMS)
       biz_data = nil
 
-      if params['biz_data'].present?
+      if params['biz_data']
         params['biz_data'] = Utils.stringify_keys(params['biz_data'])
 
         data = params.delete('biz_data')
