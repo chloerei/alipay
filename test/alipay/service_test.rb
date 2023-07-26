@@ -279,9 +279,9 @@ class Alipay::ServiceTest < Minitest::Test
       }
     }
 
-    current_time = Time.new(2023, 12, 12, 1, 1, 1)
+    current_time = Time.utc(2023, 12, 12, 1, 1, 1)
     Time.stub :now, current_time do
-      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.create&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-11+17%3A01%3A01&biz_data=%7B%22address%22%3A+%22No.278%2C+Road+YinCheng%2C+Shanghai%2C+China%22%2C%22country_code%22%3A+%22CN%22%2C%22currency%22%3A+%22USD%22%2C%22secondary_merchant_id%22%3A+%22xxx001%22%2C%22secondary_merchant_industry%22%3A+%227011%22%2C%22secondary_merchant_name%22%3A+%22xxx+Store%22%2C%22store_id%22%3A+%220001%22%2C%22store_name%22%3A+%22Apple+store%22%2C%22trans_currency%22%3A+%22USD%22%7D&biz_type=OVERSEASHOPQRCODE&sign_type=MD5&sign=fbfcc8c9316cc209c385eefcbceb2105', Alipay::Service.create_merchant_qr_code(params)
+      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.create&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-12+01%3A01%3A01&biz_data=%7B%22address%22%3A+%22No.278%2C+Road+YinCheng%2C+Shanghai%2C+China%22%2C%22country_code%22%3A+%22CN%22%2C%22currency%22%3A+%22USD%22%2C%22secondary_merchant_id%22%3A+%22xxx001%22%2C%22secondary_merchant_industry%22%3A+%227011%22%2C%22secondary_merchant_name%22%3A+%22xxx+Store%22%2C%22store_id%22%3A+%220001%22%2C%22store_name%22%3A+%22Apple+store%22%2C%22trans_currency%22%3A+%22USD%22%7D&biz_type=OVERSEASHOPQRCODE&sign_type=MD5&sign=1c8881161f5895d0e7bbc8f4f5cad06c', Alipay::Service.create_merchant_qr_code(params)
     end
   end
 
@@ -302,9 +302,9 @@ class Alipay::ServiceTest < Minitest::Test
       }
     }
 
-    current_time = Time.new(2023, 12, 12, 1, 1, 1)
+    current_time = Time.utc(2023, 12, 12, 1, 1, 1)
     Time.stub :now, current_time do
-      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.modify&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-11+17%3A01%3A01&biz_data=%7B%22address%22%3A+%22No.278%2C+Road+YinCheng%2C+Shanghai%2C+China%22%2C%22country_code%22%3A+%22CN%22%2C%22currency%22%3A+%22USD%22%2C%22secondary_merchant_id%22%3A+%22xxx001%22%2C%22secondary_merchant_industry%22%3A+%227011%22%2C%22secondary_merchant_name%22%3A+%22xxx+Store%22%2C%22store_id%22%3A+%220001%22%2C%22store_name%22%3A+%22Apple+store%22%2C%22trans_currency%22%3A+%22USD%22%7D&biz_type=OVERSEASHOPQRCODE&qr_code=https%3A%2F%2Fqr.alipay.com%2Fbaxxxxx&sign_type=MD5&sign=5a72863d023163147f2909e74b741e52', Alipay::Service.update_merchant_qr_code(params)
+      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.commerce.qrcode.modify&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-12+01%3A01%3A01&biz_data=%7B%22address%22%3A+%22No.278%2C+Road+YinCheng%2C+Shanghai%2C+China%22%2C%22country_code%22%3A+%22CN%22%2C%22currency%22%3A+%22USD%22%2C%22secondary_merchant_id%22%3A+%22xxx001%22%2C%22secondary_merchant_industry%22%3A+%227011%22%2C%22secondary_merchant_name%22%3A+%22xxx+Store%22%2C%22store_id%22%3A+%220001%22%2C%22store_name%22%3A+%22Apple+store%22%2C%22trans_currency%22%3A+%22USD%22%7D&biz_type=OVERSEASHOPQRCODE&qr_code=https%3A%2F%2Fqr.alipay.com%2Fbaxxxxx&sign_type=MD5&sign=4d43f06b3d60cfc96750876287ef66ca', Alipay::Service.update_merchant_qr_code(params)
     end
   end
 
