@@ -539,7 +539,71 @@ notify_params = params.except(*request.path_parameters.keys)
 Alipay::Notify.verify?(notify_params, options = {})
 ```
 
-### QR Code 生成二维码
+### QR Code 生成支付二维码
+
+#### Name
+
+```ruby
+alipay.acquire.precreate
+```
+
+#### Definition
+
+```ruby
+Alipay::Service.create_preorder_qr_code({PARAMS}, {OPTIONS})
+```
+
+#### Example
+
+```ruby
+create_qr_code_params = {
+  out_trade_no: 'out_trade_no_20190904_163941',
+  subject: "Mika's coffee shop",
+  product_code: 'OVERSEAS_MBARCODE_PAY',
+  currency: 'USD',
+  trans_currency: 'USD',
+  total_fee: '0.01',
+  extend_params: {
+    secondary_merchant_id: '1314520',
+    secondary_merchant_name: "Mika's coffee shop",
+    secondary_merchant_industry: '5499',
+    store_name: "Mika's coffee shop",
+    store_id: '1993'
+  }
+}
+
+Alipay::Service.create_preorder_qr_code(create_qr_code_params)
+# => 'https://api-sea-global.alipayplus.com/gateway.do?service=alipay.acquire.precreate...'
+```
+
+#### ARGUMENTS
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_trade_no | required | Unique order number in merchant's system. |
+| subject | required | Title or subject of the order. |
+| product_code | required | Product code assigned by Alipay; for QR code payment use "OVERSEAS_MBARCODE_PAY". |
+| currency | required | Settlement currency, e.g., "USD". |
+| trans_currency | optional | Transaction currency, e.g., "USD". Required if settlement currency differs from transaction currency. |
+| total_fee | required | Total order amount, e.g., "0.01". |
+| extend_params | required | Additional business parameters in JSON format. Contains secondary merchant and store details for international merchants. |
+| timestamp | optional | Order creation time. If not set, defaults to current time. Format: "yyyy-MM-dd HH:mm:ss" (24-hour) UTC. |
+
+#### EXTEND_PARAMS ARGUMENTS (required)
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| secondary_merchant_id | required | Sub-merchant identifier. |
+| secondary_merchant_name | required | Sub-merchant's name. |
+| secondary_merchant_industry | required | MCC (Merchant Category Code) of sub-merchant, e.g., "5499". |
+| store_name | required | Store name of sub-merchant. |
+| store_id | required | Store ID of sub-merchant. |
+
+This is not a complete list of arguments, please read official document:
+https://global.alipay.com/docs/ac/global/precreate_transaction
+
+
+### Merchant QR Code 生成商户二维码
 
 #### Name
 
@@ -599,7 +663,7 @@ Alipay::Service.create_merchant_qr_code(create_qr_code_params)
 
 This is not a complete list of arguments, please read official document: https://global.alipay.com/docs/ac/global/qrcode_create#biz_data
 
-### QR Code 修改二维码
+### QR Code 修改商户二维码
 
 #### Name
 

@@ -209,6 +209,36 @@ module Alipay
       request_uri(params, options).to_s
     end
 
+    CREATE_PREORDER_QR_CODE_REQUIRED_PARAMS = %w( out_trade_no subject product_code total_fee currency trans_currency extend_params )
+    CREATE_PREORDER_QR_CODE_REQUIRED_EXTEND_PARAMS = %w( secondary_merchant_id secondary_merchant_name secondary_merchant_industry store_name store_id )
+    def self.create_preorder_qr_code(params, options = {})
+      params = Utils.stringify_keys(params)
+      check_required_params(params, CREATE_PREORDER_QR_CODE_REQUIRED_PARAMS)
+      extend_params = nil
+
+      if params['extend_params']
+        params['extend_params'] = Utils.stringify_keys(params['extend_params'])
+        check_required_params(params['extend_params'], CREATE_PREORDER_QR_CODE_REQUIRED_EXTEND_PARAMS)
+
+        data = params.delete('extend_params')
+        extend_params = data.map do |key, value|
+          "\"#{key}\": \"#{value}\""
+        end.join(',')
+      end
+
+      extend_params = "{#{extend_params}}"
+
+      params = {
+        'service'        => 'alipay.acquire.precreate',
+        '_input_charset' => 'utf-8',
+        'partner'        => options[:pid] || Alipay.pid,
+        'timestamp'      => Time.now.utc.strftime('%Y-%m-%d %H:%M:%S').to_s,
+        'extend_params'  => extend_params
+      }.merge(params)
+
+      request_uri(params, options).to_s
+    end
+
     CREATE_MERCHANT_QR_CODE_REQUIRED_PARAMS = %w( biz_type biz_data )
     CREATE_MERCHANT_QR_CODE_REQUIRED_BIZ_DATA_PARAMS = %w( secondary_merchant_industry secondary_merchant_id secondary_merchant_name trans_currency currency )
     def self.create_merchant_qr_code(params, options = {})
