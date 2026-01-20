@@ -23,7 +23,7 @@ module Alipay
       if match_algo
         begin
           return unless certificate.public_key.is_a?(OpenSSL::PKey::RSA)
-        rescue => exception
+        rescue
           return
         end
       end
