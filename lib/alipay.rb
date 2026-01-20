@@ -1,5 +1,9 @@
 require 'net/http'
-require 'cgi/escape'
+if RUBY_VERSION >= '4.0'
+  require 'cgi/escape'
+else
+  require 'cgi'
+end
 require 'alipay/version'
 require 'alipay/utils'
 require 'alipay/sign'
