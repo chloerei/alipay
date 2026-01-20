@@ -5,7 +5,7 @@ require 'alipay'
 require 'yaml'
 require 'json'
 
-if File.exists?('config.yml')
+if File.exist?('config.yml')
   $alipay_client = Alipay::Client.new(YAML.load_file('config.yml'))
 end
 
