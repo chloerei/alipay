@@ -1,7 +1,5 @@
 module Alipay
   module Service
-    GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
-
     CREATE_PARTNER_TRADE_BY_BUYER_REQUIRED_PARAMS = %w( out_trade_no subject logistics_type logistics_fee logistics_payment price quantity )
     def self.create_partner_trade_by_buyer_url(params, options = {})
       params = Utils.stringify_keys(params)
@@ -296,7 +294,7 @@ module Alipay
     end
 
     def self.request_uri(params, options = {})
-      uri = URI(GATEWAY_URL)
+      uri = URI("#{Alipay.gateway_url}/gateway.do")
       uri.query = URI.encode_www_form(sign_params(params, options))
       uri
     end
