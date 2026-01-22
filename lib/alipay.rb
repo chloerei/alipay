@@ -21,11 +21,14 @@ require 'alipay/mobile/sign'
 require 'alipay/client'
 
 module Alipay
+  DEFAULT_GATEWAY_URL = 'https://mapi.alipay.com'
+
   @debug_mode = true
   @sign_type = 'MD5'
+  @gateway_url = DEFAULT_GATEWAY_URL
 
   class << self
-    attr_accessor :pid, :key, :sign_type, :debug_mode
+    attr_accessor :pid, :key, :gateway_url, :sign_type, :debug_mode
 
     def debug_mode?
       !!@debug_mode
