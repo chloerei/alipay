@@ -25,7 +25,7 @@ $ bundle
 ```ruby
 Alipay.pid = 'YOUR_PID'
 Alipay.key = 'YOUR_KEY'
-Alipay.gateway_url = 'ALIPAY_GATEWAY_URL_FOR_YOUR_REGION' # Default is https://mapi.alipay.com
+Alipay.gateway_url = 'ALIPAY_GATEWAY_URL_FOR_YOUR_REGION' # Default is https://mapi.alipay.com/gateway.do
 
 #Alipay.sign_type = 'MD5' # Available values: MD5, RSA. Default is MD5
 #Alipay.debug_mode = true # Enable parameter check. Default is true.

@@ -294,7 +294,7 @@ module Alipay
     end
 
     def self.request_uri(params, options = {})
-      uri = URI("#{Alipay.gateway_url}/gateway.do")
+      uri = URI(Alipay.gateway_url)
       uri.query = URI.encode_www_form(sign_params(params, options))
       uri
     end

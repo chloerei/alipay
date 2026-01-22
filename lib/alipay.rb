@@ -21,7 +21,7 @@ require 'alipay/mobile/sign'
 require 'alipay/client'
 
 module Alipay
-  DEFAULT_GATEWAY_URL = 'https://mapi.alipay.com'
+  DEFAULT_GATEWAY_URL = 'https://mapi.alipay.com/gateway.do'
 
   @debug_mode = true
   @sign_type = 'MD5'
