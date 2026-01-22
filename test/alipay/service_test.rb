@@ -263,6 +263,31 @@ class Alipay::ServiceTest < Minitest::Test
     assert_equal 'https://mapi.alipay.com/gateway.do?service=batch_trans_notify&_input_charset=utf-8&partner=1000000000000000&pay_date=20080107&notify_url=https%3A%2F%2Fexample.com%2Forders%2F20150401000-0001%2Fnotify&account_name=%E6%AF%9B%E6%AF%9B&detail_data=0315006%5Etestture0002%40126.com%5E%E5%B8%B8%E7%82%9C%E4%B9%B0%E5%AE%B6%5E1000.00%5Ehello&batch_no=20080107001&batch_num=1&batch_fee=1000.0&email=biz_932%40alitest.com&sign_type=MD5&sign=59c611607daafd1337e96b22404bd521', Alipay::Service.batch_trans_notify_url(options)
   end
 
+  def test_create_preorder_qr_code
+    subject = "Mika's coffee shop"
+    params = {
+      out_trade_no: 'out_trade_no_20190904_163941',
+      subject: subject,
+      product_code: 'OVERSEAS_MBARCODE_PAY',
+      currency: 'USD',
+      trans_currency: 'USD',
+      total_fee: '0.01',
+      seller_id: '2088021966388155',
+      extend_params: {
+        secondary_merchant_id: '1314520',
+        secondary_merchant_name: subject,
+        secondary_merchant_industry: '5499',
+        store_name: subject,
+        store_id: '1993'
+      }
+    }
+
+    current_time = Time.utc(2023, 12, 12, 1, 1, 1)
+    Time.stub :now, current_time do
+      assert_equal 'https://mapi.alipay.com/gateway.do?service=alipay.acquire.precreate&_input_charset=utf-8&partner=1000000000000000&timestamp=2023-12-12+01%3A01%3A01&extend_params=%7B%22secondary_merchant_id%22%3A+%221314520%22%2C%22secondary_merchant_name%22%3A+%22Mika%27s+coffee+shop%22%2C%22secondary_merchant_industry%22%3A+%225499%22%2C%22store_name%22%3A+%22Mika%27s+coffee+shop%22%2C%22store_id%22%3A+%221993%22%7D&out_trade_no=out_trade_no_20190904_163941&subject=Mika%27s+coffee+shop&product_code=OVERSEAS_MBARCODE_PAY&currency=USD&trans_currency=USD&total_fee=0.01&seller_id=2088021966388155&sign_type=MD5&sign=3d459c194700ce414e4865ea64ef0fbd', Alipay::Service.create_preorder_qr_code(params)
+    end
+  end
+
   def test_create_merchant_qr_code
     params = {
       biz_type: "OVERSEASHOPQRCODE",
